@@ -222,6 +222,7 @@ async def test_node_diagnostics(
     # create a mock NodeDiagnostics
     mock_diagnostics = NodeDiagnostics(
         node_id=1,
+        node_serial="123456789",
         network_type=NetworkType.WIFI,
         node_type=NodeType.END_DEVICE,
         network_name="SuperCoolWiFi",
