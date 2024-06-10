@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from chip.clusters import Objects as clusters
 from chip.clusters.Types import Nullable, NullValue
 from matter_server.common.custom_clusters import EveCluster
+from matter_server.client.models.clusters import WeatherStationCluster
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -29,6 +30,11 @@ from homeassistant.const import (
     UnitOfPressure,
     UnitOfTemperature,
     UnitOfVolumeFlowRate,
+)
+from homeassistant.const import (
+    UnitOfPrecipitationDepth,
+    UnitOfSpeed,
+    DEGREE,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -363,5 +369,44 @@ DISCOVERY_SCHEMAS = [
         required_attributes=(
             clusters.ActivatedCarbonFilterMonitoring.Attributes.Condition,
         ),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="WeatherStationWindSpeed",
+            device_class=SensorDeviceClass.WIND_SPEED,
+            native_unit_of_measurement=UnitOfSpeed.KILOMETERS_PER_HOUR,
+            suggested_display_precision=2,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(WeatherStationCluster.Attributes.WindSpeed,),
+        should_poll=True,
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="WeatherStationWindDirection",
+            name="Wind Direction",
+            native_unit_of_measurement=DEGREE,
+            suggested_display_precision=0,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(WeatherStationCluster.Attributes.WindDirection,),
+        should_poll=True,
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="WeatherStationRainfall",
+            device_class=SensorDeviceClass.PRECIPITATION,
+            native_unit_of_measurement=UnitOfPrecipitationDepth.MILLIMETERS,
+            suggested_display_precision=2,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(WeatherStationCluster.Attributes.Rainfall,),
+        should_poll=True,
     ),
 ]
