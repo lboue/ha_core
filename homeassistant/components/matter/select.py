@@ -31,6 +31,9 @@ type SelectCluster = (
     | clusters.DeviceEnergyManagementMode
 )
 
+type OperationalCluster = (
+    clusters.OperationalState
+)
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -74,6 +77,45 @@ class MatterSelectEntity(MatterEntity, SelectEntity):
         if TYPE_CHECKING:
             assert value_convert is not None
         self._attr_current_option = value_convert(value)
+
+
+class MatterOperationalStateEntity(MatterSelectEntity):
+    """Representation of a select entity from Matter (OperationalState) Cluster attribute(s)."""
+
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected mode."""
+        cluster: SelectCluster = self._endpoint.get_cluster(
+            self._entity_info.primary_attribute.cluster_id
+        )
+        # select the mode ID from the label string
+        for state in cluster.OperationalStateList:
+            if state.label != option:
+                continue
+            await self.matter_client.send_device_command(
+                node_id=self._endpoint.node.node_id,
+                endpoint_id=self._endpoint.endpoint_id,
+                # 0x00 Pause client ⇒ server OperationalCommandResponse
+                # 0x01 Stop client ⇒ server OperationalCommandResponse
+                # 0x02 Start client ⇒ server OperationalCommandResponse
+                # 0x03 Resume client ⇒ server OperationalCommandResponse
+                command=cluster.Commands.ChangeToMode(newState=state.state),
+            )
+            break
+
+    @callback
+    def _update_from_device(self) -> None:
+        """Update from device."""
+        # NOTE: cluster can be ModeSelect or a variant of that,
+        # such as DishwasherMode. They all have the same characteristics.
+        cluster: SelectCluster = self._endpoint.get_cluster(
+            self._entity_info.primary_attribute.cluster_id
+        )
+        modes = {mode.mode: mode.label for mode in cluster.OperationalStateList}
+        self._attr_options = list(modes.values())
+        self._attr_current_option = modes[cluster.OperationalState]
+        # handle optional Description attribute as descriptive name for the mode
+        if desc := getattr(cluster, "description", None):
+            self._attr_name = desc
 
 
 class MatterModeSelectEntity(MatterSelectEntity):
@@ -244,5 +286,17 @@ DISCOVERY_SCHEMAS = [
         ),
         entity_class=MatterSelectEntity,
         required_attributes=(clusters.OnOff.Attributes.StartUpOnOff,),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SELECT,
+        entity_description=MatterSelectEntityDescription(
+            key="MatterOperationalState",
+            translation_key="mode",
+        ),
+        entity_class=OperationalCluster,
+        required_attributes=(
+            clusters.OperationalState.Attributes.OperationalState,
+            clusters.OperationalState.Attributes.OperationalStateList,
+        ),
     ),
 ]
