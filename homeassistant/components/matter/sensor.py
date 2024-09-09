@@ -558,4 +558,28 @@ DISCOVERY_SCHEMAS = [
             clusters.ElectricalEnergyMeasurement.Attributes.CumulativeEnergyImported,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="SmokeCoAlarmSmokeState",
+            native_unit_of_measurement=None,
+            # device_class=SensorDeviceClass.CARBON_DIOXIDE,
+            state_class=SensorStateClass.MEASUREMENT,
+            icon="mdi:smoke-detector",
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(clusters.SmokeCoAlarm.Attributes.SmokeState,),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="SmokeCoAlarmCOState",
+            native_unit_of_measurement=None,
+            # device_class=SensorDeviceClass.CARBON_MONOXIDE,
+            state_class=SensorStateClass.MEASUREMENT,
+            icon="mdi:molecule-co",
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(clusters.SmokeCoAlarm.Attributes.COState,),
+    ),
 ]
