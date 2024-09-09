@@ -545,4 +545,16 @@ DISCOVERY_SCHEMAS = [
             clusters.ElectricalEnergyMeasurement.Attributes.CumulativeEnergyImported,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="DishwasherAlarm_State",
+            native_unit_of_measurement=None,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=None,
+            icon="mdi:alarm-light",
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(clusters.DishwasherAlarm.Attributes.State,),
+    ),
 ]
