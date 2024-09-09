@@ -563,7 +563,7 @@ DISCOVERY_SCHEMAS = [
         entity_description=MatterSensorEntityDescription(
             key="SmokeCoAlarmSmokeState",
             native_unit_of_measurement=None,
-            # device_class=SensorDeviceClass.CARBON_DIOXIDE,
+            device_class=SensorDeviceClass.CO2,
             state_class=SensorStateClass.MEASUREMENT,
             icon="mdi:smoke-detector",
         ),
@@ -575,7 +575,7 @@ DISCOVERY_SCHEMAS = [
         entity_description=MatterSensorEntityDescription(
             key="SmokeCoAlarmCOState",
             native_unit_of_measurement=None,
-            # device_class=SensorDeviceClass.CARBON_MONOXIDE,
+            device_class=SensorDeviceClass.CO,
             state_class=SensorStateClass.MEASUREMENT,
             icon="mdi:molecule-co",
         ),
