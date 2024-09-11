@@ -247,8 +247,7 @@ DISCOVERY_SCHEMAS = [
             state_class=SensorStateClass.MEASUREMENT,
         ),
         entity_class=MatterSensor,
-        required_attributes=(EveCluster.Attributes.ValvePosition,
-        ),
+        required_attributes=(EveCluster.Attributes.ValvePosition,),
     ),
     MatterDiscoverySchema(
         platform=Platform.SENSOR,
