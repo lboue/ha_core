@@ -567,4 +567,18 @@ DISCOVERY_SCHEMAS = [
             clusters.ElectricalEnergyMeasurement.Attributes.CumulativeEnergyImported,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="ThreadRoutingRoutingRole",
+            device_class=None,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            icon="mdi:router",
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.ThreadNetworkDiagnostics.Attributes.RoutingRole,
+        ),
+    ),
 ]
