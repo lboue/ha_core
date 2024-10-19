@@ -660,4 +660,16 @@ DISCOVERY_SCHEMAS = [
             clusters.OperationalState.Attributes.OperationalStateList,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="NumberOfRinses",
+            device_class=SensorDeviceClass.ENUM,
+        ),
+        entity_class=MatterLaundryWasherControls,
+        required_attributes=(
+            clusters.LaundryWasherControls.Attributes.NumberOfRinses,
+            clusters.LaundryWasherControls.Attributes.SupportedRinses,
+        ),
+    ),
 ]
