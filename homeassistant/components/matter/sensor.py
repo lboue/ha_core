@@ -721,4 +721,17 @@ DISCOVERY_SCHEMAS = [
             clusters.DeviceEnergyManagement.Attributes.ESAType,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="DeviceEnergyManagementESACanGenerate",
+            native_unit_of_measurement=None,
+            device_class=None,
+            entity_category=EntityCategory.DIAGNOSTIC,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.DeviceEnergyManagement.Attributes.ESACanGenerate,
+        ),
+    ),
 ]
