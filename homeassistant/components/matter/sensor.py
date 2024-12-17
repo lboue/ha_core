@@ -304,6 +304,38 @@ DISCOVERY_SCHEMAS = [
     MatterDiscoverySchema(
         platform=Platform.SENSOR,
         entity_description=MatterSensorEntityDescription(
+            key="DeviceEnergyManagementAbsMinPower",
+            device_class=SensorDeviceClass.POWER,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            native_unit_of_measurement=UnitOfPower.WATT,
+            suggested_display_precision=2,
+            state_class=SensorStateClass.MEASUREMENT,
+            measurement_to_ha=lambda x: x / 1000,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.DeviceEnergyManagement.Attributes.AbsMinPower,
+        ),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="DeviceEnergyManagementAbsMaxPower",
+            device_class=SensorDeviceClass.POWER,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            native_unit_of_measurement=UnitOfPower.WATT,
+            suggested_display_precision=2,
+            state_class=SensorStateClass.MEASUREMENT,
+            measurement_to_ha=lambda x: x / 1000,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.DeviceEnergyManagement.Attributes.AbsMaxPower,
+        ),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
             key="EveThermoValvePosition",
             translation_key="valve_position",
             native_unit_of_measurement=PERCENTAGE,
