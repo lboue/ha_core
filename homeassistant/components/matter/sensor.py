@@ -72,6 +72,26 @@ OPERATIONAL_STATE_MAP = {
 }
 
 
+ESA_TYPE_MAP = {
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kEvse: "Evse",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kSpaceHeating: "SpaceHeating",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kWaterHeating: "WaterHeating",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kSpaceCooling: "SpaceCooling",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kSpaceHeatingCooling: "SpaceHeatingCooling",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kBatteryStorage: "BatteryStorage",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kSolarPV: "SolarPV",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kFridgeFreezer: "FridgeFreezer",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kWashingMachine: "WashingMachine",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kDishwasher: "Dishwasher",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kCooking: "Cooking",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kHomeWaterPump: "HomeWaterPump",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kIrrigationWaterPump: "IrrigationWaterPump",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kPoolPump: "PoolPump",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kOther: "Other",
+    clusters.DeviceEnergyManagement.Enums.ESATypeEnum.kUnknownEnumValue: None,
+}
+
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigEntry,
