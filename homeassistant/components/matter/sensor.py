@@ -707,4 +707,18 @@ DISCOVERY_SCHEMAS = [
             clusters.OperationalState.Attributes.OperationalStateList,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="DeviceEnergyManagementESAType",
+            native_unit_of_measurement=None,
+            device_class=SensorDeviceClass.ENUM,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            translation_key="esa_type",
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.DeviceEnergyManagement.Attributes.ESAType,
+        ),
+    ),
 ]
