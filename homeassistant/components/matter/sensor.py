@@ -731,10 +731,12 @@ DISCOVERY_SCHEMAS = [
         platform=Platform.SENSOR,
         entity_description=MatterSensorEntityDescription(
             key="DeviceEnergyManagementESAType",
+            translation_key="esa_type",
             native_unit_of_measurement=None,
             device_class=SensorDeviceClass.ENUM,
             entity_category=EntityCategory.DIAGNOSTIC,
-            translation_key="esa_type",
+            options=list(ESA_TYPE_MAP.values()),
+            measurement_to_ha=ESA_TYPE_MAP.get,
         ),
         entity_class=MatterSensor,
         required_attributes=(
