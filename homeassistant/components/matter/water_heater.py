@@ -1,4 +1,4 @@
-"""Matter climate platform."""
+"""Matter water heater platform."""
 
 from __future__ import annotations
 
