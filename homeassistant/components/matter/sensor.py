@@ -1042,4 +1042,17 @@ DISCOVERY_SCHEMAS = [
             clusters.WaterHeaterManagement.Attributes.EstimatedHeatRequired,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="TagList",
+            # device_class=SensorDeviceClass.
+            entity_category=EntityCategory.DIAGNOSTIC,
+            # state_class=SensorStateClass.TOTAL_INCREASING,
+            # id 0 of the EnergyMeasurementStruct is the cumulative energy (in mWh)
+            # measurement_to_ha=lambda x: x.energy,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(clusters.Descriptor.Attributes.TagList,),
+    ),
 ]
