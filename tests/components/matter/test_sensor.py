@@ -103,6 +103,25 @@ async def test_light_sensor(
     assert state.state == "2.0"
 
 
+@pytest.mark.parametrize("node_fixture", ["soil_sensor"])
+async def soil_sensor(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test soil sensor."""
+    state = hass.states.get("sensor.soil_sensor_soil_moisture")
+    assert state
+    assert state.state == "60.0"
+
+    set_node_attribute(matter_node, 1, 1072, 1, 55)
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get("sensor.soil_sensor_soil_moisture")
+    assert state
+    assert state.state == "55.0"
+
+
 @pytest.mark.parametrize("node_fixture", ["temperature_sensor"])
 async def test_temperature_sensor(
     hass: HomeAssistant,
