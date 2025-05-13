@@ -299,6 +299,19 @@ DISCOVERY_SCHEMAS = [
     MatterDiscoverySchema(
         platform=Platform.SENSOR,
         entity_description=MatterSensorEntityDescription(
+            key="SoilSensor",
+            native_unit_of_measurement=PERCENTAGE,
+            device_class=SensorDeviceClass.MOISTURE,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.SoilMeasurement.Attributes.SoilMoistureMeasuredValue,
+        ),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
             key="LightSensor",
             native_unit_of_measurement=LIGHT_LUX,
             device_class=SensorDeviceClass.ILLUMINANCE,
@@ -1061,21 +1074,4 @@ DISCOVERY_SCHEMAS = [
             clusters.WaterHeaterManagement.Attributes.EstimatedHeatRequired,
         ),
     ),
-    """
-    # https://github.com/project-chip/connectedhomeip/blob/master/data_model/master/clusters/SoilMeasurement.xml
-    # 1072": "Soil Measurement"
-    MatterDiscoverySchema(
-        platform=Platform.SENSOR,
-        entity_description=MatterSensorEntityDescription(
-            key="SoilSensor",
-            native_unit_of_measurement=PERCENTAGE,
-            device_class=SensorDeviceClass.MOISTURE,
-            state_class=SensorStateClass.MEASUREMENT,
-        ),
-        entity_class=MatterSensor,
-        required_attributes=(
-            clusters.SoilMeasurement.Attributes.SoilMoistureMeasuredValue,
-        ),
-    ),
-    """,
 ]
