@@ -341,6 +341,9 @@
       },
       "evse_user_max_charge_current": {
         "name": "User max charge current"
+      },
+      "soil_moisture": {
+        "name": "Soil moisture"
       }
     },
     "switch": {

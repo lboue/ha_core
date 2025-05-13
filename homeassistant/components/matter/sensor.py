@@ -300,6 +300,7 @@ DISCOVERY_SCHEMAS = [
         platform=Platform.SENSOR,
         entity_description=MatterSensorEntityDescription(
             key="SoilSensor",
+            translation_key="soil_moisture",
             native_unit_of_measurement=PERCENTAGE,
             device_class=SensorDeviceClass.MOISTURE,
             state_class=SensorStateClass.MEASUREMENT,
