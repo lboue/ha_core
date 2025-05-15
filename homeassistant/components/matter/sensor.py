@@ -1061,4 +1061,19 @@ DISCOVERY_SCHEMAS = [
             clusters.WaterHeaterManagement.Attributes.EstimatedHeatRequired,
         ),
     ),
+    # BridgedDeviceBasicInformation --> DeviceLocation
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="BridgedDeviceBasicInformationDeviceLocation",
+            translation_key="device_location",
+            native_unit_of_measurement=None,
+            device_class=None,
+            entity_category=EntityCategory.DIAGNOSTIC,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(clusters.BridgedDeviceBasicInformation.Attributes.DeviceLocation,),
+    ),
+
+    
 ]
