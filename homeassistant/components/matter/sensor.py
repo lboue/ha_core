@@ -1135,4 +1135,18 @@ DISCOVERY_SCHEMAS = [
         entity_class=MatterSensor,
         required_attributes=(clusters.PumpConfigurationAndControl.Attributes.Speed,),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="DescriptorTagList",
+            translation_key="tagList",
+            native_unit_of_measurement=None,
+            device_class=None,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            # id 0 is Common Number Semantic Tag (7)
+            measurement_to_ha=lambda x: x[0].tag,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(clusters.Descriptor.Attributes.TagList,),
+    ),
 ]
