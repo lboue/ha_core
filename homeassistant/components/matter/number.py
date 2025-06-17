@@ -213,4 +213,20 @@ DISCOVERY_SCHEMAS = [
         entity_class=MatterNumber,
         required_attributes=(clusters.DoorLock.Attributes.AutoRelockTime,),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.NUMBER,
+        entity_description=MatterNumberEntityDescription(
+            key="ValveConfigurationAndControlDefaultOpenDuration",
+            entity_category=EntityCategory.CONFIG,
+            translation_key="valve_default_open_duration",
+            native_max_value=65534,
+            native_min_value=0,
+            native_unit_of_measurement=UnitOfTime.SECONDS,
+            mode=NumberMode.BOX,
+        ),
+        entity_class=MatterNumber,
+        required_attributes=(
+            clusters.ValveConfigurationAndControl.Attributes.DefaultOpenDuration,
+        ),
+    ),
 ]

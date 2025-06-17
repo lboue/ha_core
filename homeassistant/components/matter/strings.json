@@ -390,6 +390,9 @@
       "evse_user_max_charge_current": {
         "name": "User max charge current"
       },
+      "valve_open_duration": {
+        "name": "Open duration"
+      },
       "window_covering_target_position": {
         "name": "Target opening position"
       }

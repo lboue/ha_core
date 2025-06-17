@@ -38,6 +38,7 @@ from homeassistant.const import (
     UnitOfPower,
     UnitOfPressure,
     UnitOfTemperature,
+    UnitOfTime,
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
@@ -1140,13 +1141,13 @@ DISCOVERY_SCHEMAS = [
         entity_description=MatterSensorEntityDescription(
             key="ValveConfigurationAndControlOpenDuration",
             translation_key="valve_open_duration",
-            native_unit_of_measurement=None,
+            native_unit_of_measurement=UnitOfTime.SECONDS,
             device_class=None,
             # entity_category=EntityCategory.DIAGNOSTIC,
         ),
         entity_class=MatterSensor,
         required_attributes=(
-            clusters.ValveConfigurationAndControl .Attributes.OpenDuration,
+            clusters.ValveConfigurationAndControl.Attributes.OpenDuration,
         ),
     ),
 ]
