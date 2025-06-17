@@ -1135,4 +1135,18 @@ DISCOVERY_SCHEMAS = [
         entity_class=MatterSensor,
         required_attributes=(clusters.PumpConfigurationAndControl.Attributes.Speed,),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="ValveConfigurationAndControlOpenDuration",
+            translation_key="valve_open_duration",
+            native_unit_of_measurement=None,
+            device_class=None,
+            # entity_category=EntityCategory.DIAGNOSTIC,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.ValveConfigurationAndControl .Attributes.OpenDuration,
+        ),
+    ),
 ]
