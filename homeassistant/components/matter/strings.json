@@ -182,6 +182,9 @@
       },
       "auto_relock_timer": {
         "name": "Automatic relock timer"
+      },
+      "valve_default_open_duration": {
+        "name": "Default open duration"
       }
     },
     "light": {

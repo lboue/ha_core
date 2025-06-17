@@ -98,6 +98,9 @@
       },
       "pump_status": {
         "default": "mdi:pump"
+      },
+      "valve_open_duration": {
+        "default": "mdi:timer"
       }
     },
     "switch": {
