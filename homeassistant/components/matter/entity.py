@@ -36,6 +36,8 @@ if TYPE_CHECKING:
 
 LOGGER = logging.getLogger(__name__)
 
+POSTION_MAP = {0: "Left", 1: "Right", 2: "Top", 3: "Bottom", 4: "Middle"}
+
 
 def catch_matter_error[_R, **P](
     func: Callable[Concatenate[MatterEntity, P], Coroutine[Any, Any, _R]],
@@ -118,17 +120,27 @@ class MatterEntity(Entity):
             if not (tag_attr := self.get_matter_attribute_value(tag_attr)):
                 continue
             i = 1
-            for tag in tag_attr:
-                # The tags contained in this namespace MAY be used in to indicate an association
-                # with a certain numeric feature of a device (e.g. a numeric input button).
-                # if tag.namespace == clusters.Descriptor.TagNamespace.kCommon:
-                if tag[1] == 7:  # Common Number Semantic Tag (7)
-                    namespace = 7
-                else:
-                    namespace = 0
-
-                self._name_postfix = "NumberTag" + str(namespace) + "-" + str(i)
-                i = i + 1
+            entity_name = ""
+            tagList = cast(
+                # cast to the generic SemanticTagStruct type just to help typing
+                list[clusters.Descriptor.Structs.SemanticTagStruct],
+                tag_attr,
+            )
+            for tag in tagList:
+                if tag.namespaceID == 7:  # Common Number Semantic Tag (7)
+                    # namespace = tag.namespaceID
+                    number = tag.tag
+                    entity_name = str(number)
+                    self._name_postfix = str(number)
+                    # self._name_postfix = "NumberTag" + str(namespace) + "-" + str(i)
+                    # self._attr_name = "Button " + str(namespace) + "-" + str(number)
+                    i = i + 1
+                elif tag.namespaceID == 8:  # Common String Semantic Tag (8)
+                    # Common String Semantic Tag (8) is not used for buttons, so we skip it
+                    pos = POSTION_MAP.get(tag.tag)
+                    entity_name = entity_name + " " + pos if pos else ""
+                    # self._name_postfix = "StringTag" + str
+                self._attr_name = entity_name
 
         # prefer the label attribute for the entity name
         # Matter has a way for users and/or vendors to specify a name for an endpoint
@@ -149,7 +161,7 @@ class MatterEntity(Entity):
                     self._name_postfix = label_value
                 else:
                     self._attr_name = label_value
-                break
+                # break
 
         # make sure to update the attributes once
         self._update_from_device()
