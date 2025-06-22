@@ -119,7 +119,7 @@ class MatterEntity(Entity):
         for tag_attr in (clusters.Descriptor.Attributes.TagList,):
             if not (tag_attr := self.get_matter_attribute_value(tag_attr)):
                 continue
-            i = 1
+
             entity_name = ""
             tagList = cast(
                 # cast to the generic SemanticTagStruct type just to help typing
@@ -128,19 +128,14 @@ class MatterEntity(Entity):
             )
             for tag in tagList:
                 if tag.namespaceID == 7:  # Common Number Semantic Tag (7)
-                    # namespace = tag.namespaceID
                     number = tag.tag
                     entity_name = str(number)
                     self._name_postfix = str(number)
-                    # self._name_postfix = "NumberTag" + str(namespace) + "-" + str(i)
-                    # self._attr_name = "Button " + str(namespace) + "-" + str(number)
-                    i = i + 1
+
                 elif tag.namespaceID == 8:  # Common String Semantic Tag (8)
-                    # Common String Semantic Tag (8) is not used for buttons, so we skip it
                     pos = POSTION_MAP.get(tag.tag)
                     entity_name = entity_name + " " + pos if pos else ""
-                    # self._name_postfix = "StringTag" + str
-                self._attr_name = entity_name
+            self._attr_name = entity_name
 
         # prefer the label attribute for the entity name
         # Matter has a way for users and/or vendors to specify a name for an endpoint
