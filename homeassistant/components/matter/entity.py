@@ -135,6 +135,15 @@ class MatterEntity(Entity):
                 elif tag.namespaceID == 8:  # Common String Semantic Tag (8)
                     pos = POSTION_MAP.get(tag.tag)
                     entity_name = entity_name + " " + pos if pos else ""
+
+                elif tag.namespaceID == 65:
+                    if tag.tag == 0:  # Common Appliance Semantic Tag (65)
+                        entity_name = "Refrigerator"
+                    elif tag.tag == 1:
+                        entity_name = "Freezer"
+                else:
+                    break  # no other namespaces are supported
+
             self._attr_name = entity_name
 
         # prefer the label attribute for the entity name
