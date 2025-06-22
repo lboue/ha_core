@@ -112,6 +112,24 @@ class MatterEntity(Entity):
             if self._platform_translation_key and not self.translation_key:
                 self._attr_translation_key = self._platform_translation_key
 
+        # Common Number Semantic Tag (7)
+        # prefer tag attribute and namespaces to generate entity name
+        for tag_attr in (clusters.Descriptor.Attributes.TagList,):
+            if not (tag_attr := self.get_matter_attribute_value(tag_attr)):
+                continue
+            i = 1
+            for tag in tag_attr:
+                # The tags contained in this namespace MAY be used in to indicate an association
+                # with a certain numeric feature of a device (e.g. a numeric input button).
+                # if tag.namespace == clusters.Descriptor.TagNamespace.kCommon:
+                if tag[1] == 7:  # Common Number Semantic Tag (7)
+                    namespace = 7
+                else:
+                    namespace = 0
+
+                self._name_postfix = "NumberTag" + str(namespace) + "-" + str(i)
+                i = i + 1
+
         # prefer the label attribute for the entity name
         # Matter has a way for users and/or vendors to specify a name for an endpoint
         # which is always preferred over a standard HA (generated) name
