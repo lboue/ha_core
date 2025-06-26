@@ -15,6 +15,7 @@ from matter_server.common.custom_clusters import (
     EveCluster,
     NeoCluster,
     ThirdRealityMeteringCluster,
+    WeatherStationCluster,
 )
 
 from homeassistant.components.sensor import (
@@ -27,6 +28,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
     CONCENTRATION_PARTS_PER_MILLION,
+    DEGREE,
     LIGHT_LUX,
     PERCENTAGE,
     REVOLUTIONS_PER_MINUTE,
@@ -36,7 +38,9 @@ from homeassistant.const import (
     UnitOfElectricPotential,
     UnitOfEnergy,
     UnitOfPower,
+    UnitOfPrecipitationDepth,
     UnitOfPressure,
+    UnitOfSpeed,
     UnitOfTemperature,
     UnitOfTime,
     UnitOfVolume,
@@ -1190,6 +1194,42 @@ DISCOVERY_SCHEMAS = [
         ),
         entity_class=MatterSensor,
         required_attributes=(clusters.DeviceEnergyManagement.Attributes.OptOutState,),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="WeatherStationWindSpeed",
+            device_class=SensorDeviceClass.WIND_SPEED,
+            native_unit_of_measurement=UnitOfSpeed.KILOMETERS_PER_HOUR,
+            suggested_display_precision=2,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(WeatherStationCluster.Attributes.WindSpeed,),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="WeatherStationWindDirection",
+            name="Wind Direction",
+            native_unit_of_measurement=DEGREE,
+            suggested_display_precision=0,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(WeatherStationCluster.Attributes.WindDirection,),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="WeatherStationRainfall",
+            device_class=SensorDeviceClass.PRECIPITATION,
+            native_unit_of_measurement=UnitOfPrecipitationDepth.MILLIMETERS,
+            suggested_display_precision=2,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(WeatherStationCluster.Attributes.Rainfall,),
     ),
     MatterDiscoverySchema(
         platform=Platform.SENSOR,
