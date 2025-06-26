@@ -6719,7 +6719,7 @@
     }),
     'area_id': None,
     'capabilities': dict({
-      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'state_class': <SensorStateClass.MEASUREMENT_ANGLE: 'measurement_angle'>,
     }),
     'config_entry_id': <ANY>,
     'config_subentry_id': <ANY>,
@@ -6737,13 +6737,10 @@
     }),
     'name': None,
     'options': dict({
-      'sensor': dict({
-        'suggested_display_precision': 0,
-      }),
     }),
-    'original_device_class': None,
+    'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
     'original_icon': None,
-    'original_name': 'Wind Direction',
+    'original_name': 'Wind direction',
     'platform': 'matter',
     'previous_unique_id': None,
     'suggested_object_id': None,
@@ -6756,8 +6753,9 @@
 # name: test_sensors[weather_station][sensor.weather_station_wind_direction-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': 'Weather Station Wind Direction',
-      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'device_class': 'wind_direction',
+      'friendly_name': 'Weather Station Wind direction',
+      'state_class': <SensorStateClass.MEASUREMENT_ANGLE: 'measurement_angle'>,
       'unit_of_measurement': '°',
     }),
     'context': <ANY>,

@@ -1211,10 +1211,10 @@ DISCOVERY_SCHEMAS = [
         platform=Platform.SENSOR,
         entity_description=MatterSensorEntityDescription(
             key="WeatherStationWindDirection",
-            translation_key="wind_direction",
+            device_class=SensorDeviceClass.WIND_DIRECTION,
             native_unit_of_measurement=DEGREE,
             suggested_display_precision=0,
-            state_class=SensorStateClass.MEASUREMENT,
+            state_class=SensorStateClass.MEASUREMENT_ANGLE,
         ),
         entity_class=MatterSensor,
         required_attributes=(WeatherStationCluster.Attributes.WindDirection,),
