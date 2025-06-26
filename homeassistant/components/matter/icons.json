@@ -105,6 +105,9 @@
       "evse_fault_state": {
         "default": "mdi:ev-station"
       },
+      "wind_direction": {
+        "default": "mdi:windsock"
+      },
       "pump_control_mode": {
         "default": "mdi:pipe-wrench"
       },

@@ -422,6 +422,9 @@
       "evse_user_max_charge_current": {
         "name": "User max charge current"
       },
+      "wind_direction": {
+        "name": "Wind direction"
+      },
       "window_covering_target_position": {
         "name": "Target opening position"
       }
