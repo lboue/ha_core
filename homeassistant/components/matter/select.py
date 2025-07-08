@@ -444,6 +444,24 @@ DISCOVERY_SCHEMAS = [
         secondary_value_is_not=[],
     ),
     MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterListSelectEntityDescription(
+            key="MicrowaveOvenControlSelectedWattIndex",
+            translation_key="power_level",
+            command=lambda selected_index: clusters.MicrowaveOvenControl.Commands.SetCookingParameters(
+                wattSettingIndex=selected_index
+            ),
+            list_attribute=clusters.MicrowaveOvenControl.Attributes.SupportedWatts,
+        ),
+        entity_class=MatterListSelectEntity,
+        required_attributes=(
+            clusters.MicrowaveOvenControl.Attributes.SelectedWattIndex,
+            clusters.MicrowaveOvenControl.Attributes.SupportedWatts,
+        ),
+        # don't discover this entry if the supported state list is empty
+        secondary_value_is_not=[],
+    ),
+    MatterDiscoverySchema(
         platform=Platform.SELECT,
         entity_description=MatterSelectEntityDescription(
             key="DoorLockSoundVolume",
