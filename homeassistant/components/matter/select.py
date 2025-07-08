@@ -444,7 +444,7 @@ DISCOVERY_SCHEMAS = [
         secondary_value_is_not=[],
     ),
     MatterDiscoverySchema(
-        platform=Platform.SENSOR,
+        platform=Platform.SELECT,
         entity_description=MatterListSelectEntityDescription(
             key="MicrowaveOvenControlSelectedWattIndex",
             translation_key="power_level",
