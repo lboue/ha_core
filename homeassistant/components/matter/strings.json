@@ -419,6 +419,19 @@
       "pump_speed": {
         "name": "Rotation speed"
       },
+      "service_area_current_area": {
+        "name": "Current area",
+        "state": {
+          "7": "Living room",
+          "10050": "Kitchen",
+          "1234567": "Bedroom",
+          "2290649224": "Bathroom",
+          "office": "Office",
+          "garage": "Garage",
+          "garden": "Garden",
+          "balcony": "Balcony"
+        }
+      },
       "evse_circuit_capacity": {
         "name": "Circuit capacity"
       },
