@@ -1237,14 +1237,81 @@ DISCOVERY_SCHEMAS = [
     MatterDiscoverySchema(
         platform=Platform.SENSOR,
         entity_description=MatterSensorEntityDescription(
+            key="ServiceAreaSupportedAreas",
+            translation_key="service_area_supported_area",
+            native_unit_of_measurement=None,
+            device_class=None,
+            # device_to_ha=lambda x: x[0].areaID,  # get the areas from the list of AreaStruct
+            # Get the locationName for the first entry
+            device_to_ha=lambda x: x[0].areaInfo.locationInfo.locationName,
+            # [
+            #     ServiceArea.Structs.AreaStruct(
+            #         areaID=7,
+            #         mapID=3,
+            #         areaInfo=ServiceArea.Structs.AreaInfoStruct(
+            #             locationInfo=Globals.Structs.LocationDescriptorStruct(
+            #                 locationName='My Location A',
+            #                 floorNumber=4,
+            #                 areaType=Null
+            #             ),
+            #             landmarkInfo=Null
+            #         )
+            #     ),
+            #     ServiceArea.Structs.AreaStruct(
+            #         areaID=1234567,
+            #         mapID=3,
+            #         areaInfo=ServiceArea.Structs.AreaInfoStruct(
+            #             locationInfo=Globals.Structs.LocationDescriptorStruct(
+            #                 locationName='My Location B',
+            #                 floorNumber=Null,
+            #                 areaType=Null
+            #             ),
+            #             landmarkInfo=Null
+            #         )
+            #     )
+            # ]
+            # areaID=7, mapID=3, areaInfo=ServiceArea.Structs.AreaInfoStruct(locationInfo=Globals.Structs.LocationDescriptorStruct(locationName='My Location A', floorNumber=4, areaType=Null), landmarkInfo=Null)), ServiceArea.Structs.AreaStruct(areaID=1234567, mapID=3, areaInfo=ServiceArea.Structs.AreaInfoStruct(locationInfo=Globals.Structs.LocationDescriptorStruct(locationName='My Location B', floorNumber=Null, areaType=Null), landmarkInfo=Null)), ServiceArea.Structs.AreaStruct(areaID=10050, mapID=245, areaInfo=ServiceArea.Structs.AreaInfoStruct(locationInfo=Globals.Structs.LocationDescriptorStruct(locationName='', floorNumber=-1, areaType=<AreaTypeTag.kPlayRoom: 65>), landmarkInfo=ServiceArea.Structs.LandmarkInfoStruct(landmarkTag=<LandmarkTag.kBackDoor: 2>, relativePositionTag=<RelativePositionTag.kNextTo: 1>))), ServiceArea.Structs.AreaStruct(areaID=2290649224, mapID=245, areaInfo=ServiceArea.Structs.AreaInfoStruct(locationInfo=Globals.Structs.LocationDescriptorStruct(locationName='My Location D', floorNumber=Null, areaType=Null), landmarkInfo=ServiceArea.Structs.LandmarkInfoStruct(landmarkTag=<LandmarkTag.kCouch: 13>, relativePositionTag=<RelativePositionTag.kNextTo: 1>)))]
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.ServiceArea.Attributes.SupportedAreas,
+        ),  # List[ServiceArea.Structs.AreaStruct]
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
             key="ServiceAreaCurrentArea",
             translation_key="service_area_current_area",
             native_unit_of_measurement=None,
             device_class=None,
-            # entity_category=EntityCategory.DIAGNOSTIC,
         ),
         entity_class=MatterSensor,
         required_attributes=(clusters.ServiceArea.Attributes.CurrentArea,),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="ServiceAreaProgress",
+            translation_key="service_area_progress",
+            native_unit_of_measurement=None,
+            device_class=None,
+            # id 0 of the ProgressStruct is the areaID
+            # id 1 of the ProgressStruct is the status (ServiceArea.Enums.OperationalStatusEnum)
+            # device_to_ha=lambda x: x[0].status, # get item 0 from the list
+            # [
+            #   ServiceArea.Structs.ProgressStruct(
+            #       areaID=7,
+            #       status=<OperationalStatusEnum.kOperating: 1>,
+            #       totalOperationalTime=None,
+            #       estimatedTime=None
+            #  )
+            # ]
+            device_to_ha=lambda x: x,  # get item 0 from the list
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.ServiceArea.Attributes.Progress,
+        ),  # List[ServiceArea.Structs.ProgressStruct]
     ),
     MatterDiscoverySchema(
         platform=Platform.SENSOR,

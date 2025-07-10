@@ -432,6 +432,18 @@
           "balcony": "Balcony"
         }
       },
+      "service_area_progress": {
+        "name": "Progress",
+        "state": {
+          "0": "Pending",
+          "1": "Operating",
+          "2": "Skipped",
+          "3": "Completed"
+        }
+      },
+      "service_area_supported_area": {
+        "name": "Supported areas"
+      },
       "evse_circuit_capacity": {
         "name": "Circuit capacity"
       },
