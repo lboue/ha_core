@@ -110,7 +110,7 @@ class MatterLock(MatterEntity, LockEntity):
                 operationType=clusters.DoorLock.Enums.DataOperationTypeEnum.kAdd,
                 userIndex=2,
                 userName="LBO",
-                userUniqueID="2",
+                userUniqueID=2,
                 userType=clusters.DoorLock.Enums.UserTypeEnum.kUnrestrictedUser,
                 userStatus=clusters.DoorLock.Enums.UserStatusEnum.kAvailable,
                 credentialRule=clusters.DoorLock.Enums.CredentialRuleEnum.kSingle,
