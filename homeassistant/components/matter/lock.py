@@ -6,6 +6,7 @@ import asyncio
 from typing import Any
 
 from chip.clusters import Objects as clusters
+from chip.clusters.Objects import ClusterCommand
 
 from homeassistant.components.lock import (
     LockEntity,
@@ -41,6 +42,25 @@ class MatterLock(MatterEntity, LockEntity):
     _feature_map: int | None = None
     _optimistic_timer: asyncio.TimerHandle | None = None
     _platform_translation_key = "lock"
+
+
+    async def send_device_command(
+        self,
+        command: ClusterCommand,
+        command_timeout: int | None = None,
+        response_type: Any | None = None,
+        timed_request_timeout_ms: ClusterCommand | None = None,
+        **kwargs: Any,
+    ) -> None:
+        """Send device command on the primary attribute's endpoint."""
+        await self.matter_client.send_device_command(
+            node_id=self._endpoint.node.node_id,
+            endpoint_id=self._endpoint.endpoint_id,
+            command=command,
+            timed_request_timeout_ms=timed_request_timeout_ms,
+            response_type=response_type,
+            **kwargs,
+        )
 
     @property
     def code_format(self) -> str | None:
@@ -78,6 +98,16 @@ class MatterLock(MatterEntity, LockEntity):
         await self.send_device_command(
             command=clusters.DoorLock.Commands.LockDoor(code_bytes),
             timed_request_timeout_ms=1000,
+        )
+        result = await self.send_device_command(
+            command=clusters.DoorLock.Commands.GetUser(userIndex=1),
+            response_type=clusters.DoorLock.Commands.GetUserResponse,
+            timed_request_timeout_ms=1000,
+        )
+        LOGGER.debug(
+            "Received response from GetUser command: %s for %s",
+            result,
+            self.entity_id,
         )
 
     async def async_unlock(self, **kwargs: Any) -> None:
