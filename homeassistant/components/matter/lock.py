@@ -99,10 +99,22 @@ class MatterLock(MatterEntity, LockEntity):
             command=clusters.DoorLock.Commands.LockDoor(code_bytes),
             timed_request_timeout_ms=1000,
         )
+        # response_type not working (may need some matter server adjustments)
         result = await self.send_device_command(
             command=clusters.DoorLock.Commands.GetUser(userIndex=1),
             response_type=clusters.DoorLock.Commands.GetUserResponse,
             timed_request_timeout_ms=1000,
+        )
+        result = await self.send_device_command(
+            command=clusters.DoorLock.Commands.SetUser(
+                operationType=clusters.DoorLock.Enums.DataOperationTypeEnum.kAdd,
+                userIndex=2,
+                userName="LBO",
+                userUniqueID="2",
+                userType=clusters.DoorLock.Enums.UserTypeEnum.kUnrestrictedUser,
+                userStatus=clusters.DoorLock.Enums.UserStatusEnum.kAvailable,
+                credentialRule=clusters.DoorLock.Enums.CredentialRuleEnum.kSingle,
+            ),
         )
         LOGGER.debug(
             "Received response from GetUser command: %s for %s",
