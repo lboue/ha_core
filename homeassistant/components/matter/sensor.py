@@ -1237,6 +1237,46 @@ DISCOVERY_SCHEMAS = [
     MatterDiscoverySchema(
         platform=Platform.SENSOR,
         entity_description=MatterSensorEntityDescription(
+            key="ServiceAreaProgress",
+            translation_key="service_area_progress",
+            native_unit_of_measurement=None,
+            device_class=None,
+            # id 0 of the ProgressStruct is the areaID
+            # id 1 of the ProgressStruct is the status (ServiceArea.Enums.OperationalStatusEnum)
+            # device_to_ha=lambda x: x[0].status, # get item 0 from the list
+            # [
+            #   ServiceArea.Structs.ProgressStruct(
+            #       areaID=7,
+            #       status=<OperationalStatusEnum.kOperating: 1>,
+            #       totalOperationalTime=None,
+            #       estimatedTime=None
+            #  )
+            # ]
+            device_to_ha=lambda x: x,  # get item 0 from the list
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.ServiceArea.Attributes.Progress,
+        ),  # List[ServiceArea.Structs.ProgressStruct]
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="PumpSpeed",
+            translation_key="pump_speed",
+            native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
+            state_class=SensorStateClass.MEASUREMENT,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(clusters.PumpConfigurationAndControl.Attributes.Speed,),
+    ),
+]
+
+"""
+
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
             key="ServiceAreaSupportedAreas",
             translation_key="service_area_supported_area",
             native_unit_of_measurement=None,
@@ -1288,40 +1328,4 @@ DISCOVERY_SCHEMAS = [
         entity_class=MatterSensor,
         required_attributes=(clusters.ServiceArea.Attributes.CurrentArea,),
     ),
-    MatterDiscoverySchema(
-        platform=Platform.SENSOR,
-        entity_description=MatterSensorEntityDescription(
-            key="ServiceAreaProgress",
-            translation_key="service_area_progress",
-            native_unit_of_measurement=None,
-            device_class=None,
-            # id 0 of the ProgressStruct is the areaID
-            # id 1 of the ProgressStruct is the status (ServiceArea.Enums.OperationalStatusEnum)
-            # device_to_ha=lambda x: x[0].status, # get item 0 from the list
-            # [
-            #   ServiceArea.Structs.ProgressStruct(
-            #       areaID=7,
-            #       status=<OperationalStatusEnum.kOperating: 1>,
-            #       totalOperationalTime=None,
-            #       estimatedTime=None
-            #  )
-            # ]
-            device_to_ha=lambda x: x,  # get item 0 from the list
-        ),
-        entity_class=MatterSensor,
-        required_attributes=(
-            clusters.ServiceArea.Attributes.Progress,
-        ),  # List[ServiceArea.Structs.ProgressStruct]
-    ),
-    MatterDiscoverySchema(
-        platform=Platform.SENSOR,
-        entity_description=MatterSensorEntityDescription(
-            key="PumpSpeed",
-            translation_key="pump_speed",
-            native_unit_of_measurement=REVOLUTIONS_PER_MINUTE,
-            state_class=SensorStateClass.MEASUREMENT,
-        ),
-        entity_class=MatterSensor,
-        required_attributes=(clusters.PumpConfigurationAndControl.Attributes.Speed,),
-    ),
-]
+"""
