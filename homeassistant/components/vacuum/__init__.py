@@ -71,6 +71,8 @@ SERVICE_START_PAUSE = "start_pause"
 SERVICE_START = "start"
 SERVICE_PAUSE = "pause"
 SERVICE_STOP = "stop"
+SERVICE_GET_AREAS = "get_areas"
+SERVICE_CLEAN_AREA = "clean_area"
 
 DEFAULT_NAME = "Vacuum cleaner robot"
 
@@ -97,6 +99,7 @@ class VacuumEntityFeature(IntFlag):
     MAP = 2048
     STATE = 4096  # Must be set by vacuum platforms derived from StateVacuumEntity
     START = 8192
+    AREAS = 16384
 
 
 # These SUPPORT_* constants are deprecated as of Home Assistant 2022.5.
@@ -192,6 +195,18 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         {vol.Required(ATTR_FAN_SPEED): cv.string},
         "async_set_fan_speed",
         [VacuumEntityFeature.FAN_SPEED],
+    )
+    component.async_register_entity_service(
+        SERVICE_GET_AREAS,
+        None,
+        "async_get_areas",
+        [VacuumEntityFeature.AREAS],
+    )
+    component.async_register_entity_service(
+        SERVICE_CLEAN_AREA,
+        None,
+        "async_clean_area",
+        [VacuumEntityFeature.AREAS],
     )
     component.async_register_entity_service(
         SERVICE_SEND_COMMAND,
