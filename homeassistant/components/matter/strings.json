@@ -123,6 +123,9 @@
       },
       "self_test_request": {
         "name": "Self-test"
+      },
+      "skip_area": {
+          "name": "Skip area"
       }
     },
     "climate": {
