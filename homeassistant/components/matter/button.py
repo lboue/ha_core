@@ -155,4 +155,15 @@ DISCOVERY_SCHEMAS = [
         required_attributes=(clusters.SmokeCoAlarm.Attributes.AcceptedCommandList,),
         value_contains=clusters.SmokeCoAlarm.Commands.SelfTestRequest.command_id,
     ),
+    MatterDiscoverySchema(
+        platform=Platform.BUTTON,
+        entity_description=MatterButtonEntityDescription(
+            key="ServiceAreaSkipArea",
+            translation_key="skip_area",
+            command=clusters.ServiceArea.Commands.SkipArea,
+        ),
+        entity_class=MatterCommandButton,
+        required_attributes=(clusters.ServiceArea.Attributes.AcceptedCommandList,),
+        value_contains=clusters.ServiceArea.Commands.SkipArea.command_id,
+    ),
 ]
