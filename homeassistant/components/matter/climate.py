@@ -26,6 +26,12 @@ from homeassistant.const import ATTR_TEMPERATURE, Platform, UnitOfTemperature
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from .const import (
+    ATTR_UNOCCUPIED_COOLING_TEMPERATURE,
+    ATTR_UNOCCUPIED_HEATING_TEMPERATURE,
+    ATTR_UNOCCUPIED_HVAC_MODE,
+    ATTR_UNOCCUPIED_TEMPERATURE,
+)
 from .entity import MatterEntity
 from .helpers import get_matter
 from .models import MatterDiscoverySchema
@@ -186,6 +192,7 @@ class MatterClimate(MatterEntity, ClimateEntity):
 
     _attr_temperature_unit: str = UnitOfTemperature.CELSIUS
     _attr_hvac_mode: HVACMode = HVACMode.OFF
+    _attr_unoccupied_target_hvac_mode: HVACMode = HVACMode.OFF
     _feature_map: int | None = None
 
     _platform_translation_key = "thermostat"
@@ -232,6 +239,67 @@ class MatterClimate(MatterEntity, ClimateEntity):
                 await self.write_attribute(
                     value=int(target_temperature_high * TEMPERATURE_SCALING_FACTOR),
                     matter_attribute=clusters.Thermostat.Attributes.OccupiedCoolingSetpoint,
+                )
+
+    async def async_set_unoccupied_temperature(self, **kwargs: Any) -> None:
+        """Set new unoccupied target temperature."""
+        unoccupied_target_hvac_mode: HVACMode | None = kwargs.get(
+            ATTR_UNOCCUPIED_HVAC_MODE
+        )
+        unoccupied_target_temperature: float | None = kwargs.get(
+            ATTR_UNOCCUPIED_TEMPERATURE
+        )
+        unoccupied_target_temperature_low: float | None = kwargs.get(
+            ATTR_UNOCCUPIED_COOLING_TEMPERATURE
+        )
+        unoccupied_target_temperature_high: float | None = kwargs.get(
+            ATTR_UNOCCUPIED_HEATING_TEMPERATURE
+        )
+
+        if unoccupied_target_hvac_mode is not None:
+            await self.async_set_unoccupied_hvac_mode(unoccupied_target_hvac_mode)
+        unoccupied_mode = unoccupied_target_hvac_mode
+
+        if unoccupied_target_temperature is not None:
+            # single setpoint control
+            if self.unoccupied_target_temperature != unoccupied_target_temperature:
+                if unoccupied_mode == HVACMode.COOL:
+                    matter_attribute = (
+                        clusters.Thermostat.Attributes.UnoccupiedCoolingSetpoint
+                    )
+                else:
+                    matter_attribute = (
+                        clusters.Thermostat.Attributes.UnoccupiedHeatingSetpoint
+                    )
+                await self.write_attribute(
+                    value=int(
+                        unoccupied_target_temperature * TEMPERATURE_SCALING_FACTOR
+                    ),
+                    matter_attribute=matter_attribute,
+                )
+            return
+
+        if unoccupied_target_temperature_low is not None:
+            # multi setpoint control - low setpoint (heat)
+            if (
+                self.unoccupied_target_temperature_low
+                != unoccupied_target_temperature_low
+            ):
+                await self.write_attribute(
+                    value=int(
+                        unoccupied_target_temperature_low * TEMPERATURE_SCALING_FACTOR
+                    ),
+                    matter_attribute=clusters.Thermostat.Attributes.UnoccupiedHeatingSetpoint,
+                )
+
+        if unoccupied_target_temperature_high is not None:
+            # multi setpoint control - high setpoint (cool)
+            if self.target_temperature_high != unoccupied_target_temperature_high:
+                await self.write_attribute(
+                    value=int(
+                        unoccupied_target_temperature_high * TEMPERATURE_SCALING_FACTOR
+                    ),
+                    matter_attribute=clusters.Thermostat.Attributes.UnoccupiedCoolingSetpoint,
                 )
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
