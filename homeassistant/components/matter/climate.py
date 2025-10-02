@@ -192,7 +192,10 @@ class MatterClimate(MatterEntity, ClimateEntity):
 
     _attr_temperature_unit: str = UnitOfTemperature.CELSIUS
     _attr_hvac_mode: HVACMode = HVACMode.OFF
-    _attr_unoccupied_hvac_mode: HVACMode = HVACMode.OFF
+    unoccupied_hvac_mode: HVACMode = HVACMode.OFF
+    unoccupied_temperature: float | None = None
+    unoccupied_target_temperature_high: float | None = None
+    unoccupied_target_temperature_low: float | None = None
     _feature_map: int | None = None
 
     _platform_translation_key = "thermostat"
@@ -411,33 +414,25 @@ class MatterClimate(MatterEntity, ClimateEntity):
             self._attr_supported_features
             & ClimateEntityFeature.TARGET_TEMPERATURE_RANGE
         )
-        if supports_range and self._attr_unoccupied_hvac_mode == HVACMode.HEAT_COOL:
-            self._attr_unoccupied_target_temperature = None
-            self._attr_unoccupied_target_temperature_high = (
-                self._get_temperature_in_degrees(
-                    clusters.Thermostat.Attributes.UnoccupiedCoolingSetpoint
-                )
+        if supports_range and self.unoccupied_hvac_mode == HVACMode.HEAT_COOL:
+            self.unoccupied_target_temperature = None
+            self._unoccupied_target_temperature_high = self._get_temperature_in_degrees(
+                clusters.Thermostat.Attributes.UnoccupiedCoolingSetpoint
             )
-            self._attr_unoccupied_target_temperature_low = (
-                self._get_temperature_in_degrees(
-                    clusters.Thermostat.Attributes.UnoccupiedHeatingSetpoint
-                )
+            self.unoccupied_target_temperature_low = self._get_temperature_in_degrees(
+                clusters.Thermostat.Attributes.UnoccupiedHeatingSetpoint
             )
         else:
-            self._attr_unoccupied_target_temperature_high = None
-            self._attr_unoccupied_target_temperature_low = None
+            self._unoccupied_target_temperature_high = None
+            self.unoccupied_target_temperature_low = None
             # update Unoccupied_target_temperature
-            if self._attr_unoccupied_hvac_mode == HVACMode.COOL:
-                self._attr_unoccupied_target_temperature = (
-                    self._get_temperature_in_degrees(
-                        clusters.Thermostat.Attributes.OccupiedCoolingSetpoint
-                    )
+            if self.unoccupied_hvac_mode == HVACMode.COOL:
+                self.unoccupied_target_temperature = self._get_temperature_in_degrees(
+                    clusters.Thermostat.Attributes.OccupiedCoolingSetpoint
                 )
             else:
-                self._attr_unoccupied_target_temperature = (
-                    self._get_temperature_in_degrees(
-                        clusters.Thermostat.Attributes.OccupiedHeatingSetpoint
-                    )
+                self.unoccupied_target_temperature = self._get_temperature_in_degrees(
+                    clusters.Thermostat.Attributes.OccupiedHeatingSetpoint
                 )
 
         # update min_temp
