@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any
 
 from chip.clusters import Objects as clusters
 from matter_server.client.models import device_types
+from matter_server.common.models import EventType, MatterNodeEvent
 
 from homeassistant.components.vacuum import (
     StateVacuumEntity,
@@ -20,6 +21,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
+from .const import LOGGER
 from .entity import MatterEntity
 from .helpers import get_matter
 from .models import MatterDiscoverySchema
@@ -57,6 +59,18 @@ async def async_setup_entry(
     matter = get_matter(hass)
     matter.register_platform_handler(Platform.VACUUM, async_add_entities)
 
+    async def async_added_to_hass(self) -> None:
+        """Subscribe to events."""
+        await super().async_added_to_hass()
+        # subscribe to NodeEvent events
+        self._unsubscribes.append(
+            self.matter_client.subscribe_events(
+                callback=self._on_matter_node_event,
+                event_filter=EventType.NODE_EVENT,
+                node_filter=self._endpoint.node.node_id,
+            )
+        )
+
 
 class MatterVacuum(MatterEntity, StateVacuumEntity):
     """Representation of a Matter Vacuum cleaner entity."""
@@ -67,6 +81,42 @@ class MatterVacuum(MatterEntity, StateVacuumEntity):
     ) = None
     entity_description: StateVacuumEntityDescription
     _platform_translation_key = "vacuum"
+
+    @callback
+    def _on_matter_node_event(
+        self,
+        event: EventType,
+        node_event: MatterNodeEvent,
+    ) -> None:
+        """Call on NodeEvent."""
+        if (node_event.endpoint_id != self._endpoint.endpoint_id) or (
+            node_event.cluster_id != clusters.DoorLock.id
+        ):
+            return
+
+        LOGGER.debug(
+            "Received node_event: event type %s, event id %s for %s with data %s",
+            event,
+            node_event.event_id,
+            self.entity_id,
+            node_event.data,
+        )
+
+        # handle the OperationalState events
+        node_event_data: dict[str, int] = node_event.data or {}
+        match node_event.event_id:
+            case (
+                clusters.OperationalState.Events.OperationalError.event_id
+            ):  # OperationalState cluster event 1
+                error_state: clusters.OperationalState.Structs.ErrorStateStruct = (
+                    node_event_data.get("errorState", -1)
+                )
+                # map errorState to VacuumActivity.ERROR
+                # Read errorStateLabel
+                if error_state.errorStateLabel:
+                    self._attr_activity = VacuumActivity.ERROR
+                    self.async_write_ha_state()
+                    return
 
     def _get_run_mode_by_tag(
         self, tag: ModeTag
