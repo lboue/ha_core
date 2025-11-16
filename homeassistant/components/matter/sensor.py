@@ -1488,4 +1488,18 @@ DISCOVERY_SCHEMAS = [
         entity_class=MatterSensor,
         required_attributes=(clusters.ServiceArea.Attributes.EstimatedEndTime,),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="SetpointChangeSourceTimestamp",
+            translation_key="setpoint_change_source_timestamp",
+            device_class=SensorDeviceClass.TIMESTAMP,
+            state_class=None,
+            device_to_ha=(lambda x: dt_util.utc_from_timestamp(x) if x > 0 else None),
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.Thermostat.Attributes.SetpointChangeSourceTimestamp,
+        ),
+    )
 ]
