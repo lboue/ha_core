@@ -43,6 +43,26 @@ TYPE_MAP = {
 }
 
 
+def _extract_struct_field(value: Any, index: int, attr_name: str) -> Any:
+    """Extract a field from a Matter struct value.
+
+    Matter server can expose cluster struct attributes either as objects or
+    simple dictionaries keyed by the TLV field index. We normalize access by
+    first checking dict keys and falling back to attribute lookup.
+    """
+
+    if value is None:
+        return None
+
+    if isinstance(value, dict):
+        if index in value:
+            return value[index]
+        if (index_str := str(index)) in value:
+            return value[index_str]
+
+    return getattr(value, attr_name, None)
+
+
 class OperationalStatus(IntEnum):
     """Currently ongoing operations enumeration for coverings, as defined in the Matter spec."""
 
@@ -200,6 +220,105 @@ class MatterCover(MatterEntity, CoverEntity):
         self._attr_supported_features = supported_features
 
 
+def _map_position_to_percentage(
+    position: clusters.ClosureControl.Enums.CurrentPositionEnum | None,
+) -> int | None:
+    """Map ClosureControl position enum to a coarse percentage."""
+
+    match position:
+        case clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed:
+            return 0
+        case clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyOpened:
+            return 100
+        case clusters.ClosureControl.Enums.CurrentPositionEnum.kPartiallyOpened:
+            return 50
+        case _:
+            return None
+
+
+class MatterClosureCover(MatterEntity, CoverEntity):
+    """Representation of a Matter Closure (garage door) cover."""
+
+    _attr_device_class = CoverDeviceClass.GARAGE
+    _attr_supported_features = (
+        CoverEntityFeature.OPEN | CoverEntityFeature.CLOSE | CoverEntityFeature.STOP
+    )
+
+    async def async_open_cover(self, **kwargs: Any) -> None:
+        """Open the closure."""
+
+        await self.send_device_command(
+            clusters.ClosureControl.Commands.MoveTo(
+                position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen,
+            )
+        )
+
+    async def async_close_cover(self, **kwargs: Any) -> None:
+        """Close the closure."""
+
+        await self.send_device_command(
+            clusters.ClosureControl.Commands.MoveTo(
+                position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed,
+            )
+        )
+
+    async def async_stop_cover(self, **kwargs: Any) -> None:
+        """Stop movement."""
+
+        await self.send_device_command(clusters.ClosureControl.Commands.Stop())
+
+    @callback
+    def _update_from_device(self) -> None:
+        """Update the entity from ClosureControl attributes."""
+
+        overall_current_state = self.get_matter_attribute_value(
+            clusters.ClosureControl.Attributes.OverallCurrentState
+        )
+        main_state = self.get_matter_attribute_value(
+            clusters.ClosureControl.Attributes.MainState
+        )
+        overall_target_state = self.get_matter_attribute_value(
+            clusters.ClosureControl.Attributes.OverallTargetState
+        )
+
+        position = _extract_struct_field(overall_current_state, 0, "position")
+        target_position = _extract_struct_field(overall_target_state, 0, "position")
+
+        if isinstance(position, int):
+            position = clusters.ClosureControl.Enums.CurrentPositionEnum(position)
+        if isinstance(target_position, int):
+            target_position = clusters.ClosureControl.Enums.TargetPositionEnum(
+                target_position
+            )
+        if isinstance(main_state, int):
+            main_state = clusters.ClosureControl.Enums.MainStateEnum(main_state)
+
+        if position is None:
+            self._attr_is_closed = None
+            self._attr_current_cover_position = None
+        else:
+            self._attr_is_closed = (
+                position
+                == clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed
+            )
+            self._attr_current_cover_position = _map_position_to_percentage(position)
+
+        self._attr_is_opening = False
+        self._attr_is_closing = False
+
+        if main_state == clusters.ClosureControl.Enums.MainStateEnum.kMoving:
+            if (
+                target_position
+                == clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen
+            ):
+                self._attr_is_opening = True
+            elif (
+                target_position
+                == clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
+            ):
+                self._attr_is_closing = True
+
+
 # Discovery schema(s) to map Matter Attributes to HA entities
 DISCOVERY_SCHEMAS = [
     MatterDiscoverySchema(
@@ -260,5 +379,19 @@ DISCOVERY_SCHEMAS = [
             clusters.WindowCovering.Attributes.CurrentPositionLiftPercent100ths,
             clusters.WindowCovering.Attributes.CurrentPositionTiltPercent100ths,
         ),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.COVER,
+        entity_description=MatterCoverEntityDescription(
+            key="MatterClosureCover",
+            name=None,
+        ),
+        entity_class=MatterClosureCover,
+        required_attributes=(clusters.ClosureControl.Attributes.OverallCurrentState,),
+        optional_attributes=(
+            clusters.ClosureControl.Attributes.MainState,
+            clusters.ClosureControl.Attributes.OverallTargetState,
+        ),
+        allow_none_value=True,
     ),
 ]
