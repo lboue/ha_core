@@ -8,7 +8,11 @@ from matter_server.client.models.node import MatterNode
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from homeassistant.components.cover import CoverEntityFeature, CoverState
+from homeassistant.components.cover import (
+    CoverDeviceClass,
+    CoverEntityFeature,
+    CoverState,
+)
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
@@ -445,3 +449,102 @@ async def test_cover_full_features(
     state = hass.states.get(entity_id)
     assert state
     assert state.state == "unknown"
+
+
+@pytest.mark.parametrize("node_fixture", ["closure_garage_door"])
+async def test_closure_cover(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test ClosureControl-based covers (garage door)."""
+
+    cover_states = hass.states.async_all(Platform.COVER)
+    assert len(cover_states) == 1
+
+    entity_id = cover_states[0].entity_id
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == CoverState.OPEN
+    assert state.attributes["device_class"] == CoverDeviceClass.GARAGE
+
+    supported_mask = (
+        CoverEntityFeature.OPEN | CoverEntityFeature.CLOSE | CoverEntityFeature.STOP
+    )
+    assert state.attributes["supported_features"] & supported_mask == supported_mask
+
+    close_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
+    close_command = clusters.ClosureControl.Commands.MoveTo(position=close_position)
+
+    await hass.services.async_call(
+        "cover",
+        "close_cover",
+        {
+            "entity_id": entity_id,
+        },
+        blocking=True,
+    )
+
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=close_command,
+    )
+    matter_client.send_device_command.reset_mock()
+
+    open_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen
+    open_command = clusters.ClosureControl.Commands.MoveTo(position=open_position)
+
+    await hass.services.async_call(
+        "cover",
+        "open_cover",
+        {
+            "entity_id": entity_id,
+        },
+        blocking=True,
+    )
+
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=open_command,
+    )
+    matter_client.send_device_command.reset_mock()
+
+    await hass.services.async_call(
+        "cover",
+        "stop_cover",
+        {
+            "entity_id": entity_id,
+        },
+        blocking=True,
+    )
+
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.ClosureControl.Commands.Stop(),
+    )
+    matter_client.send_device_command.reset_mock()
+
+    set_node_attribute(
+        matter_node,
+        1,
+        clusters.ClosureControl.id,
+        clusters.ClosureControl.Attributes.MainState.attribute_id,
+        clusters.ClosureControl.Enums.MainStateEnum.kMoving.value,
+    )
+    set_node_attribute(
+        matter_node,
+        1,
+        clusters.ClosureControl.id,
+        clusters.ClosureControl.Attributes.OverallTargetState.attribute_id,
+        {
+            0: clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed.value,
+        },
+    )
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == CoverState.CLOSING

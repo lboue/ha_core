@@ -250,7 +250,8 @@ class MatterClosureCover(MatterEntity, CoverEntity):
         await self.send_device_command(
             clusters.ClosureControl.Commands.MoveTo(
                 position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen,
-            )
+            ),
+            timed_request_timeout_ms=1000,
         )
 
     async def async_close_cover(self, **kwargs: Any) -> None:
@@ -259,13 +260,17 @@ class MatterClosureCover(MatterEntity, CoverEntity):
         await self.send_device_command(
             clusters.ClosureControl.Commands.MoveTo(
                 position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed,
-            )
+            ),
+            timed_request_timeout_ms=1000,
         )
 
     async def async_stop_cover(self, **kwargs: Any) -> None:
         """Stop movement."""
 
-        await self.send_device_command(clusters.ClosureControl.Commands.Stop())
+        await self.send_device_command(
+            clusters.ClosureControl.Commands.Stop(),
+            timed_request_timeout_ms=1000,
+        )
 
     @callback
     def _update_from_device(self) -> None:
