@@ -250,6 +250,7 @@ class MatterClosureCover(MatterEntity, CoverEntity):
         await self.send_device_command(
             clusters.ClosureControl.Commands.MoveTo(
                 position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen,
+                latch=False,
             ),
             timed_request_timeout_ms=1000,
         )
