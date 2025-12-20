@@ -220,20 +220,8 @@ class MatterCover(MatterEntity, CoverEntity):
         self._attr_supported_features = supported_features
 
 
-def _map_position_to_percentage(
-    position: clusters.ClosureControl.Enums.CurrentPositionEnum | None,
-) -> int | None:
-    """Map ClosureControl position enum to a coarse percentage."""
-
-    match position:
-        case clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed:
-            return 0
-        case clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyOpened:
-            return 100
-        case clusters.ClosureControl.Enums.CurrentPositionEnum.kPartiallyOpened:
-            return 50
-        case _:
-            return None
+# Closure devices (garage doors) do not support position control; avoid exposing
+# a synthetic current_position attribute from coarse states.
 
 
 class MatterClosure(MatterEntity, CoverEntity):
@@ -307,7 +295,9 @@ class MatterClosure(MatterEntity, CoverEntity):
                 position
                 == clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed
             )
-            self._attr_current_cover_position = _map_position_to_percentage(position)
+            # Garage/closure devices do not support position control; do not expose
+            # a synthetic current_position based on coarse states
+            self._attr_current_cover_position = None
 
         self._attr_is_opening = False
         self._attr_is_closing = False
