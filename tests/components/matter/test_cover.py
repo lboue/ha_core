@@ -564,6 +564,7 @@ async def test_closure_cover(
 @pytest.mark.parametrize("node_fixture", ["mock_closure_venetian_blinds"])
 async def test_closure_cover_venetian_blinds(
     hass: HomeAssistant,
+    matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
     """Test ClosureControl-based covers with Venetian blinds (semantic tags)."""
@@ -578,6 +579,47 @@ async def test_closure_cover_venetian_blinds(
     assert state.state == CoverState.CLOSED
     # Should be BLIND because of the "Covering.Venetian" tag
     assert state.attributes["device_class"] == CoverDeviceClass.BLIND
+
+    close_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
+    close_command = clusters.ClosureControl.Commands.MoveTo(
+        position=close_position,
+        latch=False,
+    )
+
+    await hass.services.async_call(
+        "cover",
+        "close_cover",
+        {"entity_id": entity_id},
+        blocking=True,
+    )
+
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=close_command,
+        timed_request_timeout_ms=1000,
+    )
+    matter_client.send_device_command.reset_mock()
+
+    open_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen
+    open_command = clusters.ClosureControl.Commands.MoveTo(
+        position=open_position,
+        latch=False,
+    )
+
+    await hass.services.async_call(
+        "cover",
+        "open_cover",
+        {"entity_id": entity_id},
+        blocking=True,
+    )
+
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=open_command,
+        timed_request_timeout_ms=1000,
+    )
 
 
 @pytest.mark.parametrize("node_fixture", ["closure_garage_door"])
@@ -599,7 +641,9 @@ async def test_closure_cover_garage_door(
 
     # Validate close command
     close_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
-    close_command = clusters.ClosureControl.Commands.MoveTo(position=close_position)
+    close_command = clusters.ClosureControl.Commands.MoveTo(
+        position=close_position, latch=False
+    )
 
     await hass.services.async_call(
         "cover",
@@ -617,7 +661,9 @@ async def test_closure_cover_garage_door(
 
     # Validate open command
     open_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen
-    open_command = clusters.ClosureControl.Commands.MoveTo(position=open_position)
+    open_command = clusters.ClosureControl.Commands.MoveTo(
+        position=open_position, latch=False
+    )
 
     await hass.services.async_call(
         "cover",
