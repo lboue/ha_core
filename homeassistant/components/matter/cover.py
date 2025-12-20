@@ -63,6 +63,75 @@ def _extract_struct_field(value: Any, index: int, attr_name: str) -> Any:
     return getattr(value, attr_name, None)
 
 
+def _get_closure_device_class(tag_list: Any) -> CoverDeviceClass:
+    """Get device class for a closure device from TagList.
+
+    TagList (Descriptor attribute 4) contains semantic tags that identify the
+    device type. Returns the appropriate CoverDeviceClass based on the tags
+    found. Prioritizes more specific Covering.* tags over generic Closure.* tags.
+    """
+    if not isinstance(tag_list, list):
+        return CoverDeviceClass.GARAGE  # Default for closures
+
+    # Map covering tags to device classes
+    # Check Covering.* tags first (more specific), then Closure.* tags (more generic)
+    tag_mapping_priority = [
+        {
+            "Covering.Blind": CoverDeviceClass.BLIND,
+            "Covering.Awning": CoverDeviceClass.AWNING,
+            "Covering.Shutter": CoverDeviceClass.SHUTTER,
+            "Covering.Venetian": CoverDeviceClass.BLIND,
+            "Covering.Curtain": CoverDeviceClass.CURTAIN,
+        },
+        {
+            "Closure.GarageDoor": CoverDeviceClass.GARAGE,
+        },
+    ]
+
+    for tag_mapping in tag_mapping_priority:
+        for tag in tag_list:
+            tag_value_obj: Any | None = None
+            if isinstance(tag, dict):
+                tag_value_obj = tag.get("3")
+            elif isinstance(tag, str):
+                tag_value_obj = tag
+            else:
+                # Handle semantic tag structs (objects with a 'label' attribute)
+                tag_value_obj = getattr(tag, "label", None)
+
+            tag_value = str(tag_value_obj) if tag_value_obj is not None else None
+
+            if tag_value and tag_value in tag_mapping:
+                return tag_mapping[tag_value]
+
+            # Fallback: if label isn't matched, try namespace/tag numeric values
+            # Covering.Venetian is commonly namespaceID=70, tag=3
+            namespace_id = _extract_struct_field(tag, 1, "namespaceID")
+            tag_id = _extract_struct_field(tag, 2, "tag")
+            if namespace_id == 70 and tag_id == 3:
+                return CoverDeviceClass.BLIND
+
+    return CoverDeviceClass.GARAGE
+
+
+def _map_position_to_percentage(
+    position: clusters.ClosureControl.Enums.CurrentPositionEnum | None,
+) -> int | None:
+    """Map ClosureControl position enum to a coarse percentage when Positioning is supported.
+
+    Used only when the device advertises Positioning feature support.
+    """
+    match position:
+        case clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed:
+            return 0
+        case clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyOpened:
+            return 100
+        case clusters.ClosureControl.Enums.CurrentPositionEnum.kPartiallyOpened:
+            return 50
+        case _:
+            return None
+
+
 class OperationalStatus(IntEnum):
     """Currently ongoing operations enumeration for coverings, as defined in the Matter spec."""
 
@@ -220,17 +289,59 @@ class MatterCover(MatterEntity, CoverEntity):
         self._attr_supported_features = supported_features
 
 
-# Closure devices (garage doors) do not support position control; avoid exposing
-# a synthetic current_position attribute from coarse states.
+# Closure devices support only discrete open/close/stop commands, not arbitrary positioning.
+# Even with the Positioning feature, it only guarantees fully open (0%) and fully closed (100%)
+# states, not arbitrary position control. Do not expose current_position or SET_POSITION.
 
 
 class MatterClosure(MatterEntity, CoverEntity):
-    """Representation of a Matter Closure (garage door) cover."""
+    """Representation of a Matter Closure (garage door, shade, etc.) cover.
 
-    _attr_device_class = CoverDeviceClass.GARAGE
+    Closure devices only support OPEN, CLOSE, and STOP commands, with discrete
+    position states (fully open or fully closed). They do not support arbitrary
+    position control, so position attributes and SET_POSITION feature are not exposed.
+    """
+
     _attr_supported_features = (
         CoverEntityFeature.OPEN | CoverEntityFeature.CLOSE | CoverEntityFeature.STOP
     )
+
+    def __init__(
+        self,
+        matter_client: Any,
+        endpoint: Any,
+        entity_info: Any,
+    ) -> None:
+        """Initialize the Matter Closure.
+
+        Determine device class from Descriptor.TagList before base init so the
+        initial state includes the correct device_class.
+        """
+        # Precompute device class from TagList on the endpoint's Descriptor cluster
+        # Attribute ID 4 in the Descriptor cluster (ID 29) is the TagList containing semantic tags.
+        # Access it directly via node.attributes.
+        pre_tag_list: Any | None = None
+        # Prefer reading via endpoint API (Descriptor.TagList is attribute 4)
+        try:
+            pre_tag_list = endpoint.get_attribute_value(
+                None, clusters.Descriptor.Attributes.TagList
+            )
+        except (AttributeError, LookupError, TypeError, ValueError):
+            pre_tag_list = None
+
+        # Fallback to raw node attribute store if API doesn't surface TagList
+        if (
+            pre_tag_list is None
+            and hasattr(endpoint, "node")
+            and hasattr(endpoint.node, "attributes")
+        ):
+            cluster_key = f"{endpoint.endpoint_id}/29/4"
+            pre_tag_list = endpoint.node.attributes.get(cluster_key)
+
+        self._attr_device_class = _get_closure_device_class(pre_tag_list)
+
+        # Continue with base initialization
+        super().__init__(matter_client, endpoint, entity_info)
 
     async def async_open_cover(self, **kwargs: Any) -> None:
         """Open the closure."""
@@ -238,7 +349,6 @@ class MatterClosure(MatterEntity, CoverEntity):
         await self.send_device_command(
             clusters.ClosureControl.Commands.MoveTo(
                 position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen,
-                latch=False,
             ),
             timed_request_timeout_ms=1000,
         )
@@ -295,8 +405,9 @@ class MatterClosure(MatterEntity, CoverEntity):
                 position
                 == clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed
             )
-            # Garage/closure devices do not support position control; do not expose
-            # a synthetic current_position based on coarse states
+            # Closure devices with Positioning feature only support discrete positions
+            # (fully open at 0% and fully closed at 100%), not arbitrary positioning.
+            # Do not expose current_position or enable SET_POSITION.
             self._attr_current_cover_position = None
 
         self._attr_is_opening = False
@@ -389,6 +500,5 @@ DISCOVERY_SCHEMAS = [
             clusters.ClosureControl.Attributes.OverallTargetState,
         ),
         allow_none_value=True,
-        featuremap_contains=(clusters.ClosureControl.Bitmaps.Feature.kPositioning),
     ),
 ]
