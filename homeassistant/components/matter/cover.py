@@ -346,20 +346,30 @@ class MatterClosure(MatterEntity, CoverEntity):
     async def async_open_cover(self, **kwargs: Any) -> None:
         """Open the closure."""
 
+        command_kwargs = {
+            "position": clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen,
+        }
+
+        if self._motion_latching_supported():
+            command_kwargs["latch"] = False
+
         await self.send_device_command(
-            clusters.ClosureControl.Commands.MoveTo(
-                position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen,
-            ),
+            clusters.ClosureControl.Commands.MoveTo(**command_kwargs),
             timed_request_timeout_ms=1000,
         )
 
     async def async_close_cover(self, **kwargs: Any) -> None:
         """Close the closure."""
 
+        command_kwargs = {
+            "position": clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed,
+        }
+
+        if self._motion_latching_supported():
+            command_kwargs["latch"] = False
+
         await self.send_device_command(
-            clusters.ClosureControl.Commands.MoveTo(
-                position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed,
-            ),
+            clusters.ClosureControl.Commands.MoveTo(**command_kwargs),
             timed_request_timeout_ms=1000,
         )
 
@@ -424,6 +434,20 @@ class MatterClosure(MatterEntity, CoverEntity):
                 == clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
             ):
                 self._attr_is_closing = True
+
+    def _motion_latching_supported(self) -> bool:
+        """Return True if MotionLatching feature is supported."""
+
+        feature_map = self.get_matter_attribute_value(
+            clusters.ClosureControl.Attributes.FeatureMap
+        )
+
+        if not isinstance(feature_map, int):
+            return False
+
+        return bool(
+            feature_map & clusters.ClosureControl.Bitmaps.Feature.kMotionLatching
+        )
 
 
 # Discovery schema(s) to map Matter Attributes to HA entities
@@ -500,5 +524,20 @@ DISCOVERY_SCHEMAS = [
             clusters.ClosureControl.Attributes.OverallTargetState,
         ),
         allow_none_value=True,
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.COVER,
+        entity_description=MatterCoverEntityDescription(
+            key="MatterClosureMotionLatching",
+            name=None,
+        ),
+        entity_class=MatterClosure,
+        required_attributes=(clusters.ClosureControl.Attributes.OverallCurrentState,),
+        optional_attributes=(
+            clusters.ClosureControl.Attributes.MainState,
+            clusters.ClosureControl.Attributes.OverallTargetState,
+        ),
+        allow_none_value=True,
+        featuremap_contains=clusters.ClosureControl.Bitmaps.Feature.kMotionLatching,
     ),
 ]
