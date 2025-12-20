@@ -489,6 +489,7 @@ async def test_closure_cover(
         node_id=matter_node.node_id,
         endpoint_id=1,
         command=close_command,
+        timed_request_timeout_ms=1000,
     )
     matter_client.send_device_command.reset_mock()
 
@@ -508,6 +509,7 @@ async def test_closure_cover(
         node_id=matter_node.node_id,
         endpoint_id=1,
         command=open_command,
+        timed_request_timeout_ms=1000,
     )
     matter_client.send_device_command.reset_mock()
 
@@ -524,6 +526,7 @@ async def test_closure_cover(
         node_id=matter_node.node_id,
         endpoint_id=1,
         command=clusters.ClosureControl.Commands.Stop(),
+        timed_request_timeout_ms=1000,
     )
     matter_client.send_device_command.reset_mock()
 
