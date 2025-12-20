@@ -50,6 +50,106 @@
     'state': 'open',
   })
 # ---
+# name: test_covers[mock_closure_venetian_blinds][cover.mock_venetian_blinds-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': set({
+    }),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
+    'device_class': None,
+    'device_id': <ANY>,
+    'disabled_by': None,
+    'domain': 'cover',
+    'entity_category': None,
+    'entity_id': 'cover.mock_venetian_blinds',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'options': dict({
+    }),
+    'original_device_class': <CoverDeviceClass.BLIND: 'blind'>,
+    'original_icon': None,
+    'original_name': None,
+    'platform': 'matter',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': <CoverEntityFeature: 11>,
+    'translation_key': None,
+    'unique_id': '00000000000004D2-0000000000000077-MatterNodeDevice-1-MatterClosure-260-3',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_covers[mock_closure_venetian_blinds][cover.mock_venetian_blinds-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'blind',
+      'friendly_name': 'Mock venetian blinds',
+      'supported_features': <CoverEntityFeature: 11>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'cover.mock_venetian_blinds',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'closed',
+  })
+# ---
+# name: test_covers[nrf_closure_garage_door][cover.matter_closure-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': set({
+    }),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
+    'device_class': None,
+    'device_id': <ANY>,
+    'disabled_by': None,
+    'domain': 'cover',
+    'entity_category': None,
+    'entity_id': 'cover.matter_closure',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'options': dict({
+    }),
+    'original_device_class': <CoverDeviceClass.GARAGE: 'garage'>,
+    'original_icon': None,
+    'original_name': None,
+    'platform': 'matter',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': <CoverEntityFeature: 11>,
+    'translation_key': None,
+    'unique_id': '00000000000004D2-0000000000000075-MatterNodeDevice-1-MatterClosure-260-3',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_covers[nrf_closure_garage_door][cover.matter_closure-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'garage',
+      'friendly_name': 'Matter Closure',
+      'supported_features': <CoverEntityFeature: 11>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'cover.matter_closure',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'closed',
+  })
+# ---
 # name: test_covers[window_covering_full][cover.mock_full_window_covering-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
