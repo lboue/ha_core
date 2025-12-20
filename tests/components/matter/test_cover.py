@@ -451,13 +451,20 @@ async def test_cover_full_features(
     assert state.state == "unknown"
 
 
-@pytest.mark.parametrize("node_fixture", ["closure_garage_door"])
+@pytest.mark.parametrize(
+    ("node_fixture", "expected_initial_state"),
+    [
+        ("closure_garage_door", CoverState.OPEN),
+        ("nrf_closure_garage_door", CoverState.CLOSED),
+    ],
+)
 async def test_closure_cover(
     hass: HomeAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
+    expected_initial_state: CoverState,
 ) -> None:
-    """Test ClosureControl-based covers (garage door)."""
+    """Test ClosureControl-based covers (garage door) across fixtures."""
 
     cover_states = hass.states.async_all(Platform.COVER)
     assert len(cover_states) == 1
@@ -465,7 +472,8 @@ async def test_closure_cover(
     entity_id = cover_states[0].entity_id
     state = hass.states.get(entity_id)
     assert state
-    assert state.state == CoverState.OPEN
+    # Assert initial state according to fixture data
+    assert state.state == expected_initial_state
     assert state.attributes["device_class"] == CoverDeviceClass.GARAGE
 
     supported_mask = (
@@ -551,3 +559,90 @@ async def test_closure_cover(
     state = hass.states.get(entity_id)
     assert state
     assert state.state == CoverState.CLOSING
+
+
+@pytest.mark.parametrize("node_fixture", ["mock_closure_venetian_blinds"])
+async def test_closure_cover_venetian_blinds(
+    hass: HomeAssistant,
+    matter_node: MatterNode,
+) -> None:
+    """Test ClosureControl-based covers with Venetian blinds (semantic tags)."""
+
+    cover_states = hass.states.async_all(Platform.COVER)
+    assert len(cover_states) == 1
+
+    entity_id = cover_states[0].entity_id
+    state = hass.states.get(entity_id)
+    assert state
+    # Initial fixture state is fully closed (OverallCurrentState = 0)
+    assert state.state == CoverState.CLOSED
+    # Should be BLIND because of the "Covering.Venetian" tag
+    assert state.attributes["device_class"] == CoverDeviceClass.BLIND
+
+
+@pytest.mark.parametrize("node_fixture", ["closure_garage_door"])
+async def test_closure_cover_garage_door(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test ClosureControl garage door: device class and command mappings."""
+
+    cover_states = hass.states.async_all(Platform.COVER)
+    assert len(cover_states) == 1
+
+    entity_id = cover_states[0].entity_id
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == CoverState.OPEN
+    assert state.attributes["device_class"] == CoverDeviceClass.GARAGE
+
+    # Validate close command
+    close_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
+    close_command = clusters.ClosureControl.Commands.MoveTo(position=close_position)
+
+    await hass.services.async_call(
+        "cover",
+        "close_cover",
+        {"entity_id": entity_id},
+        blocking=True,
+    )
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=close_command,
+        timed_request_timeout_ms=1000,
+    )
+    matter_client.send_device_command.reset_mock()
+
+    # Validate open command
+    open_position = clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen
+    open_command = clusters.ClosureControl.Commands.MoveTo(position=open_position)
+
+    await hass.services.async_call(
+        "cover",
+        "open_cover",
+        {"entity_id": entity_id},
+        blocking=True,
+    )
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=open_command,
+        timed_request_timeout_ms=1000,
+    )
+    matter_client.send_device_command.reset_mock()
+
+    # Validate stop command
+    await hass.services.async_call(
+        "cover",
+        "stop_cover",
+        {"entity_id": entity_id},
+        blocking=True,
+    )
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.ClosureControl.Commands.Stop(),
+        timed_request_timeout_ms=1000,
+    )
