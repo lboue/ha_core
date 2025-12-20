@@ -120,6 +120,7 @@ async def integration_fixture(
         "mock_thermostat",
         "mounted_dimmable_load_control_fixture",
         "multi_endpoint_light",
+        "nrf_closure_garage_door",
         "occupancy_sensor",
         "on_off_plugin_unit",
         "onoff_light",
