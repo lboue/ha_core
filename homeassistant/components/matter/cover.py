@@ -389,5 +389,6 @@ DISCOVERY_SCHEMAS = [
             clusters.ClosureControl.Attributes.OverallTargetState,
         ),
         allow_none_value=True,
+        featuremap_contains=(clusters.ClosureControl.Bitmaps.Feature.kPositioning),
     ),
 ]
