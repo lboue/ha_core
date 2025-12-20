@@ -236,7 +236,7 @@ def _map_position_to_percentage(
             return None
 
 
-class MatterClosureCover(MatterEntity, CoverEntity):
+class MatterClosure(MatterEntity, CoverEntity):
     """Representation of a Matter Closure (garage door) cover."""
 
     _attr_device_class = CoverDeviceClass.GARAGE
@@ -389,10 +389,10 @@ DISCOVERY_SCHEMAS = [
     MatterDiscoverySchema(
         platform=Platform.COVER,
         entity_description=MatterCoverEntityDescription(
-            key="MatterClosureCover",
+            key="MatterClosure",
             name=None,
         ),
-        entity_class=MatterClosureCover,
+        entity_class=MatterClosure,
         required_attributes=(clusters.ClosureControl.Attributes.OverallCurrentState,),
         optional_attributes=(
             clusters.ClosureControl.Attributes.MainState,
