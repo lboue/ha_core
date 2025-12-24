@@ -625,9 +625,9 @@
     "clear_lock_usercode": {
       "description": "Clears a user code from a Matter lock device.",
       "fields": {
-        "code_id": {
-          "description": "The ID of the user code slot to clear the code from.",
-          "name": "Code ID"
+        "code_slot": {
+          "description": "The slot number to clear the code from (1-255).",
+          "name": "Code slot"
         }
       },
       "name": "Clear lock user code"
