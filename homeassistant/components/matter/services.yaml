@@ -25,39 +25,6 @@ water_heater_boost:
           step: 1
           mode: slider
       default: 65
-get_lock_usercode:
-  target:
-    entity:
-      domain: lock
-      integration: matter
-  fields:
-    code_slot:
-      required: true
-      example: 1
-      selector:
-        number:
-          min: 1
-          max: 5 # Common max user codes
-          mode: box
-set_lock_usercode:
-  target:
-    entity:
-      domain: lock
-      integration: matter
-  fields:
-    code_slot:
-      required: true
-      example: 1
-      selector:
-        number:
-          min: 1
-          max: 255 # Common max user codes
-          mode: box
-    usercode:
-      required: true
-      example: "1234"
-      selector:
-        text:
 
 clear_lock_usercode:
   target:
@@ -88,3 +55,23 @@ clear_lock_user:
           min: 1
           max: 255
           mode: box
+
+set_lock_usercode:
+  target:
+    entity:
+      domain: lock
+      integration: matter
+  fields:
+    code_slot:
+      required: true
+      example: 1
+      selector:
+        number:
+          min: 1
+          max: 255 # Common max user codes
+          mode: box
+    usercode:
+      required: true
+      example: "1234"
+      selector:
+        text:
