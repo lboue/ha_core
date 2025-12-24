@@ -174,11 +174,11 @@
     }
   },
   "services": {
-    "clear_lock_usercode": {
-      "service": "mdi:key-remove"
-    },
     "clear_lock_user": {
       "service": "mdi:account-remove"
+    },
+    "clear_lock_usercode": {
+      "service": "mdi:key-remove"
     },
     "set_lock_usercode": {
       "service": "mdi:key-plus"
