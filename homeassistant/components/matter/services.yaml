@@ -74,17 +74,17 @@ clear_lock_usercode:
           max: 255
           mode: box
 
-  clear_lock_user:
-    target:
-      entity:
-        domain: lock
-        integration: matter
-    fields:
-      code_slot:
-        required: true
-        example: 1
-        selector:
-          number:
-            min: 1
-            max: 255
-            mode: box
+clear_lock_user:
+  target:
+    entity:
+      domain: lock
+      integration: matter
+  fields:
+    code_slot:
+      required: true
+      example: 1
+      selector:
+        number:
+          min: 1
+          max: 255
+          mode: box
