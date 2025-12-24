@@ -193,6 +193,90 @@ class MatterLock(MatterEntity, LockEntity):
             timed_request_timeout_ms=1000,
         )
 
+    async def async_set_usercode(self, code_slot: int, usercode: str) -> None:
+        """Set a usercode on the lock."""
+        # First, create/update the user
+        await self.send_device_command(
+            command=clusters.DoorLock.Commands.SetUser(
+                operationType=clusters.DoorLock.Enums.DataOperationTypeEnum.kAdd,
+                userIndex=code_slot,  # 1-based indexing
+                userName=None,  # Optional, can be null
+                userUniqueID=None,  # Optional, can be null
+                userStatus=clusters.DoorLock.Enums.UserStatusEnum.kOccupiedEnabled,
+                userType=clusters.DoorLock.Enums.UserTypeEnum.kUnrestrictedUser,
+                credentialRule=clusters.DoorLock.Enums.CredentialRuleEnum.kSingle,
+            ),
+            timed_request_timeout_ms=1000,
+        )
+        # Then, set the credential for that user
+        await self.send_device_command(
+            command=clusters.DoorLock.Commands.SetCredential(
+                operationType=clusters.DoorLock.Enums.DataOperationTypeEnum.kAdd,
+                credential=clusters.DoorLock.Structs.CredentialStruct(
+                    credentialType=clusters.DoorLock.Enums.CredentialTypeEnum.kPin,
+                    credentialIndex=code_slot,  # 1-based indexing
+                ),
+                credentialData=usercode.encode(),
+                userIndex=code_slot,  # Associate with the user we just created
+                userStatus=None,  # Already set in SetUser
+                userType=None,  # Already set in SetUser
+            ),
+            timed_request_timeout_ms=1000,
+        )
+
+    async def async_clear_usercode(self, code_slot: int) -> None:
+        """Clear a usercode on the lock.
+
+        This removes only the PIN credential while keeping the user record intact.
+        """
+        await self.send_device_command(
+            command=clusters.DoorLock.Commands.ClearCredential(
+                credential=clusters.DoorLock.Structs.CredentialStruct(
+                    credentialType=clusters.DoorLock.Enums.CredentialTypeEnum.kPin,
+                    credentialIndex=code_slot,  # 1-based indexing
+                ),
+            ),
+            timed_request_timeout_ms=1000,
+        )
+
+    async def async_clear_user(self, code_slot: int) -> None:
+        """Clear a user on the lock.
+
+        This removes the user and all associated credentials (including PIN).
+        Use this for complete cleanup when removing a user from the lock.
+        """
+        await self.send_device_command(
+            command=clusters.DoorLock.Commands.ClearUser(
+                userIndex=code_slot,  # 1-based indexing
+            ),
+            timed_request_timeout_ms=1000,
+        )
+
+    async def async_get_usercode(self, code_slot: int) -> str | None:
+        """Check if a usercode exists on the lock.
+
+        Note: For security reasons, Matter locks do not allow reading back
+        the actual PIN code. This method only verifies if a credential exists.
+        Returns a placeholder string if the credential exists, None otherwise.
+        """
+        response = await self.matter_client.send_device_command(
+            node_id=self._endpoint.node.node_id,
+            endpoint_id=self._endpoint.endpoint_id,
+            command=clusters.DoorLock.Commands.GetCredentialStatus(
+                credential=clusters.DoorLock.Structs.CredentialStruct(
+                    credentialType=clusters.DoorLock.Enums.CredentialTypeEnum.kPin,
+                    credentialIndex=code_slot,  # 1-based indexing
+                )
+            ),
+            timed_request_timeout_ms=1000,
+        )
+        if response is None:
+            return None
+        # GetCredentialStatus returns metadata about the credential
+        # but not the actual PIN code (security feature)
+        credential_exists = getattr(response, "credentialExists", False)
+        return "****" if credential_exists else None
+
     @callback
     def _update_from_device(self) -> None:
         """Update the entity from the device."""
