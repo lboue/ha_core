@@ -645,15 +645,16 @@
     "set_lock_usercode": {
       "description": "Sets a user code on a Matter lock device.",
       "fields": {
-        "code": {
-          "description": "The user code to set.",
-          "name": "Code"
+        "code_slot": {
+          "description": "The slot number to set the code in (1-255).",
+          "name": "Code slot"
         },
-        "code_id": {
-          "description": "The ID of the user code slot to set the code in.",
-          "name": "Code ID"
+        "usercode": {
+          "description": "The user code to set (e.g., 4-8 digits).",
+          "name": "User code"
         }
-      }
+      },
+      "name": "Set lock usercode"
     },
     "water_heater_boost": {
       "description": "Enables water heater boost for a specific duration.",
