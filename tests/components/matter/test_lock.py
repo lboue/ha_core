@@ -281,15 +281,39 @@ async def test_set_lock_usercode(
         blocking=True,
     )
 
-    assert matter_client.send_device_command.call_count == 1
-    assert matter_client.send_device_command.call_args == call(
+    # Should make two calls: SetUser then SetCredential
+    assert matter_client.send_device_command.call_count == 2
+
+    # First call: SetUser
+    assert matter_client.send_device_command.call_args_list[0] == call(
         node_id=matter_node.node_id,
         endpoint_id=1,
-        command=clusters.DoorLock.Commands.SetPinCode(
-            userIndex=0,  # code_slot 1 -> index 0 (0-based)
-            userStatus=clusters.DoorLock.Enums.UserStatusEnum.kEnabled,
-            userType=clusters.DoorLock.Enums.UserTypeEnum.kUnrestricted,
-            pin=b"1234",
+        command=clusters.DoorLock.Commands.SetUser(
+            operationType=clusters.DoorLock.Enums.DataOperationTypeEnum.kAdd,
+            userIndex=1,
+            userName=None,
+            userUniqueID=None,
+            userStatus=clusters.DoorLock.Enums.UserStatusEnum.kOccupiedEnabled,
+            userType=clusters.DoorLock.Enums.UserTypeEnum.kUnrestrictedUser,
+            credentialRule=clusters.DoorLock.Enums.CredentialRuleEnum.kSingle,
+        ),
+        timed_request_timeout_ms=1000,
+    )
+
+    # Second call: SetCredential
+    assert matter_client.send_device_command.call_args_list[1] == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.DoorLock.Commands.SetCredential(
+            operationType=clusters.DoorLock.Enums.DataOperationTypeEnum.kAdd,
+            credential=clusters.DoorLock.Structs.CredentialStruct(
+                credentialType=clusters.DoorLock.Enums.CredentialTypeEnum.kPin,
+                credentialIndex=1,
+            ),
+            credentialData=b"1234",
+            userIndex=1,
+            userStatus=None,
+            userType=None,
         ),
         timed_request_timeout_ms=1000,
     )
@@ -316,8 +340,39 @@ async def test_clear_lock_usercode(
     assert matter_client.send_device_command.call_args == call(
         node_id=matter_node.node_id,
         endpoint_id=1,
-        command=clusters.DoorLock.Commands.ClearPinCode(
-            userIndex=2,  # code_slot 3 -> index 2 (0-based)
+        command=clusters.DoorLock.Commands.ClearCredential(
+            credential=clusters.DoorLock.Structs.CredentialStruct(
+                credentialType=clusters.DoorLock.Enums.CredentialTypeEnum.kPin,
+                credentialIndex=3,
+            ),
+        ),
+        timed_request_timeout_ms=1000,
+    )
+
+
+@pytest.mark.parametrize("node_fixture", ["door_lock"])
+async def test_clear_lock_user(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test clearing a user on a Matter lock."""
+    await hass.services.async_call(
+        "matter",
+        "clear_lock_user",
+        {
+            "entity_id": "lock.mock_door_lock",
+            "code_slot": 2,
+        },
+        blocking=True,
+    )
+
+    assert matter_client.send_device_command.call_count == 1
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.DoorLock.Commands.ClearUser(
+            userIndex=2,
         ),
         timed_request_timeout_ms=1000,
     )
