@@ -1556,5 +1556,6 @@ DISCOVERY_SCHEMAS = [
             clusters.Thermostat.Attributes.SetpointHoldExpiryTimestamp,
         ),
         device_type=(device_types.Thermostat, device_types.RoomAirConditioner),
+        value_is_not=0,
     ),
 ]
