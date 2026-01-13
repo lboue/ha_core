@@ -319,4 +319,17 @@ DISCOVERY_SCHEMAS = [
         value_contains=clusters.EnergyEvse.Commands.EnableCharging.command_id,
         allow_multi=True,
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SWITCH,
+        entity_description=MatterNumericSwitchEntityDescription(
+            key="ThermostatTemperatureSetpointHold",
+            entity_category=EntityCategory.CONFIG,
+            translation_key="temperature_setpoint_hold",
+            device_to_ha=bool,
+            ha_to_device=int,
+        ),
+        entity_class=MatterNumericSwitch,
+        required_attributes=(clusters.Thermostat.Attributes.TemperatureSetpointHold,),
+        device_type=(device_types.Thermostat, device_types.RoomAirConditioner),
+    ),
 ]

@@ -1541,4 +1541,20 @@ DISCOVERY_SCHEMAS = [
         required_attributes=(clusters.DoorLock.Attributes.DoorClosedEvents,),
         featuremap_contains=clusters.DoorLock.Bitmaps.Feature.kDoorPositionSensor,
     ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="ThermostatSetpointHoldExpiryTimestamp",
+            translation_key="setpoint_hold_expiry_timestamp",
+            device_class=SensorDeviceClass.TIMESTAMP,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            # raw value is epoch seconds (Matter 2000 epoch)
+            device_to_ha=matter_epoch_seconds_to_utc,
+        ),
+        entity_class=MatterSensor,
+        required_attributes=(
+            clusters.Thermostat.Attributes.SetpointHoldExpiryTimestamp,
+        ),
+        device_type=(device_types.Thermostat, device_types.RoomAirConditioner),
+    ),
 ]

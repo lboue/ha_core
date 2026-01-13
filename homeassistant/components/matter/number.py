@@ -523,4 +523,22 @@ DISCOVERY_SCHEMAS = [
             clusters.DoorLock.Attributes.UserCodeTemporaryDisableTime,
         ),
     ),
+    MatterDiscoverySchema(
+        platform=Platform.NUMBER,
+        entity_description=MatterNumberEntityDescription(
+            key="ThermostatSetpointHoldDuration",
+            entity_category=EntityCategory.CONFIG,
+            translation_key="setpoint_hold_duration",
+            native_max_value=65535,
+            native_min_value=0,
+            native_step=1,
+            native_unit_of_measurement=UnitOfTime.MINUTES,
+            mode=NumberMode.BOX,
+        ),
+        entity_class=MatterNumber,
+        required_attributes=(
+            clusters.Thermostat.Attributes.TemperatureSetpointHoldDuration,
+        ),
+        device_type=(device_types.Thermostat, device_types.RoomAirConditioner),
+    ),
 ]

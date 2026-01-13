@@ -235,6 +235,9 @@
       "pump_setpoint": {
         "name": "Setpoint"
       },
+      "setpoint_hold_duration": {
+        "name": "Setpoint hold duration"
+      },
       "speaker_setpoint": {
         "name": "Volume"
       },
@@ -549,6 +552,9 @@
       "rms_voltage": {
         "name": "Effective voltage"
       },
+      "setpoint_hold_expiry_timestamp": {
+        "name": "Setpoint hold expiry time"
+      },
       "switch_current_position": {
         "name": "Current switch position"
       },
@@ -586,6 +592,9 @@
       },
       "switch": {
         "name": "[%key:component::switch::title%]"
+      },
+      "temperature_setpoint_hold": {
+        "name": "Temperature setpoint hold"
       }
     },
     "vacuum": {
