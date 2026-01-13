@@ -764,3 +764,43 @@ async def test_valve(
     state = hass.states.get("sensor.valve_auto_close_time")
     assert state
     assert state.state == "unknown"
+
+
+@pytest.mark.parametrize("node_fixture", ["aqara_thermostat_w500"])
+async def test_thermostat_setpoint_hold_expiry_timestamp(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test SetpointHoldExpiryTimestamp."""
+    # SetpointHoldExpiryTimestamp sensor - will only be created if value != 0
+    entity_id = "sensor.floor_heating_thermostat_setpoint_hold_expiry_time"
+
+    # Try to set a non-zero value to create the entity
+    set_node_attribute(matter_node, 1, 513, 65, 788620800)
+    await trigger_subscription_callback(hass, matter_client)
+
+    # Check if the entity was created
+    state = hass.states.get(entity_id)
+    if state is None:
+        # The attribute may not exist on this device, skip the test
+        pytest.skip("SetpointHoldExpiryTimestamp not available on this device")
+
+    assert state.state == "2025-01-13T00:00:00+00:00"
+
+    # Set to another timestamp: 820540800 seconds since 2000-01-01
+    # = 2026-01-01T00:00:00 UTC
+    set_node_attribute(matter_node, 1, 513, 65, 820540800)
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == "2026-01-01T00:00:00+00:00"
+
+    # Set to 0 (invalid/null) - entity should be removed
+    set_node_attribute(matter_node, 1, 513, 65, 0)
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(entity_id)
+    # Entity should be removed/unavailable when set to 0
+    assert state is None

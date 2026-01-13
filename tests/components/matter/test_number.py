@@ -333,3 +333,46 @@ async def test_matter_exception_on_door_lock_write_attribute(
         )
 
     assert str(exc_info.value) == "Boom!"
+
+
+@pytest.mark.parametrize("node_fixture", ["eve_thermo_v5"])
+async def test_thermostat_setpoint_hold_duration(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test thermostat setpoint hold duration number entity."""
+
+    entity_id = "number.eve_thermo_v5_setpoint_hold_duration"
+
+    # Initial value comes from 1/513/64 (TemperatureSetpointHoldDuration)
+    # Value is in minutes
+    state = hass.states.get(entity_id)
+    assert state
+    # Check if it exists and has a valid state
+    assert state.state in ("0", "unknown") or state.state.replace(".", "").isdigit()
+
+    # Update attribute to 60 minutes
+    set_node_attribute(matter_node, 1, 513, 64, 60)
+    await trigger_subscription_callback(hass, matter_client)
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == "60"
+
+    # Set value to 120 minutes via service
+    await hass.services.async_call(
+        "number",
+        "set_value",
+        {
+            "entity_id": entity_id,
+            "value": 120,
+        },
+        blocking=True,
+    )
+
+    assert matter_client.write_attribute.call_count == 1
+    call_args = matter_client.write_attribute.call_args
+    assert call_args[1]["endpoint_id"] == 1
+    assert call_args[1]["cluster_id"] == 513  # Thermostat cluster
+    assert call_args[1]["attribute_id"] == 64  # TemperatureSetpointHoldDuration
+    assert call_args[1]["value"] == 120

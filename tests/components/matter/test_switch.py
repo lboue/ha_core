@@ -232,3 +232,65 @@ async def test_evse_sensor(
         ),
         timed_request_timeout_ms=3000,
     )
+
+
+@pytest.mark.parametrize("node_fixture", ["eve_thermo_v5"])
+async def test_thermostat_setpoint_hold(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test thermostat temperature setpoint hold switch."""
+    entity_id = "switch.eve_thermo_v5_temperature_setpoint_hold"
+
+    # Initial state from fixture
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state in ("on", "off")
+
+    # Turn on the switch
+    await hass.services.async_call(
+        "switch",
+        "turn_on",
+        {"entity_id": entity_id},
+        blocking=True,
+    )
+
+    assert matter_client.write_attribute.call_count == 1
+    call_args = matter_client.write_attribute.call_args
+    assert call_args[1]["endpoint_id"] == 1
+    assert call_args[1]["cluster_id"] == 513  # Thermostat cluster
+    assert call_args[1]["attribute_id"] == 63  # TemperatureSetpointHold
+    assert call_args[1]["value"] == 1  # Boolean converted to int
+
+    # Simulate state update
+    set_node_attribute(matter_node, 1, 513, 63, 1)
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == "on"
+
+    # Turn off the switch
+    matter_client.reset_mock()
+    await hass.services.async_call(
+        "switch",
+        "turn_off",
+        {"entity_id": entity_id},
+        blocking=True,
+    )
+
+    assert matter_client.write_attribute.call_count == 1
+    call_args = matter_client.write_attribute.call_args
+    assert call_args[1]["endpoint_id"] == 1
+    assert call_args[1]["cluster_id"] == 513
+    assert call_args[1]["attribute_id"] == 63
+    assert call_args[1]["value"] == 0
+
+    # Simulate state update
+    set_node_attribute(matter_node, 1, 513, 63, 0)
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == "off"
