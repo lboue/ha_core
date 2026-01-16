@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'AC current limit',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -30,6 +31,7 @@
     'original_name': 'AC current limit',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'ac_current_limit',
     'unique_id': 'WBY00000000REXI01-charging_profile.ac_current_limit',
@@ -72,6 +74,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging end time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -79,6 +82,7 @@
     'original_name': 'Charging end time',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_end_time',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.charging_end_time',
@@ -120,6 +124,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging start time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -127,6 +132,7 @@
     'original_name': 'Charging start time',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_start_time',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.charging_start_time',
@@ -183,6 +189,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging status',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -190,6 +197,7 @@
     'original_name': 'Charging status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_status',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.charging_status',
@@ -245,6 +253,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging target',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -255,6 +264,7 @@
     'original_name': 'Charging target',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_target',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.charging_target',
@@ -298,6 +308,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Mileage',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -308,6 +319,7 @@
     'original_name': 'Mileage',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'mileage',
     'unique_id': 'WBY00000000REXI01-mileage',
@@ -353,6 +365,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining battery percent',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -363,6 +376,7 @@
     'original_name': 'Remaining battery percent',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_battery_percent',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.remaining_battery_percent',
@@ -408,6 +422,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining fuel',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -418,6 +433,7 @@
     'original_name': 'Remaining fuel',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_fuel',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.remaining_fuel',
@@ -463,6 +479,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining fuel percent',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -473,6 +490,7 @@
     'original_name': 'Remaining fuel percent',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_fuel_percent',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.remaining_fuel_percent',
@@ -517,6 +535,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range electric',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -527,6 +546,7 @@
     'original_name': 'Remaining range electric',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_electric',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.remaining_range_electric',
@@ -572,6 +592,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range fuel',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -582,6 +603,7 @@
     'original_name': 'Remaining range fuel',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_fuel',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.remaining_range_fuel',
@@ -627,6 +649,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range total',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -637,6 +660,7 @@
     'original_name': 'Remaining range total',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_total',
     'unique_id': 'WBY00000000REXI01-fuel_and_battery.remaining_range_total',
@@ -680,6 +704,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'AC current limit',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -690,6 +715,7 @@
     'original_name': 'AC current limit',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'ac_current_limit',
     'unique_id': 'WBA00000000DEMO02-charging_profile.ac_current_limit',
@@ -732,6 +758,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging end time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -739,6 +766,7 @@
     'original_name': 'Charging end time',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_end_time',
     'unique_id': 'WBA00000000DEMO02-fuel_and_battery.charging_end_time',
@@ -780,6 +808,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging start time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -787,6 +816,7 @@
     'original_name': 'Charging start time',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_start_time',
     'unique_id': 'WBA00000000DEMO02-fuel_and_battery.charging_start_time',
@@ -843,6 +873,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging status',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -850,6 +881,7 @@
     'original_name': 'Charging status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_status',
     'unique_id': 'WBA00000000DEMO02-fuel_and_battery.charging_status',
@@ -905,6 +937,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging target',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -915,6 +948,7 @@
     'original_name': 'Charging target',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_target',
     'unique_id': 'WBA00000000DEMO02-fuel_and_battery.charging_target',
@@ -964,6 +998,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Climate status',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -971,6 +1006,7 @@
     'original_name': 'Climate status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'climate_status',
     'unique_id': 'WBA00000000DEMO02-climate.activity',
@@ -1021,6 +1057,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front left target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1034,6 +1071,7 @@
     'original_name': 'Front left target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_left_target_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.front_left.target_pressure',
@@ -1079,6 +1117,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front left tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1092,6 +1131,7 @@
     'original_name': 'Front left tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_left_current_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.front_left.current_pressure',
@@ -1137,6 +1177,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front right target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1150,6 +1191,7 @@
     'original_name': 'Front right target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_right_target_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.front_right.target_pressure',
@@ -1195,6 +1237,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front right tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1208,6 +1251,7 @@
     'original_name': 'Front right tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_right_current_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.front_right.current_pressure',
@@ -1253,6 +1297,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Mileage',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -1263,6 +1308,7 @@
     'original_name': 'Mileage',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'mileage',
     'unique_id': 'WBA00000000DEMO02-mileage',
@@ -1308,6 +1354,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear left target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1321,6 +1368,7 @@
     'original_name': 'Rear left target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_left_target_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.rear_left.target_pressure',
@@ -1366,6 +1414,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear left tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1379,6 +1428,7 @@
     'original_name': 'Rear left tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_left_current_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.rear_left.current_pressure',
@@ -1424,6 +1474,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear right target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1437,6 +1488,7 @@
     'original_name': 'Rear right target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_right_target_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.rear_right.target_pressure',
@@ -1482,6 +1534,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear right tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -1495,6 +1548,7 @@
     'original_name': 'Rear right tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_right_current_pressure',
     'unique_id': 'WBA00000000DEMO02-tires.rear_right.current_pressure',
@@ -1540,6 +1594,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining battery percent',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -1550,6 +1605,7 @@
     'original_name': 'Remaining battery percent',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_battery_percent',
     'unique_id': 'WBA00000000DEMO02-fuel_and_battery.remaining_battery_percent',
@@ -1595,6 +1651,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range electric',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -1605,6 +1662,7 @@
     'original_name': 'Remaining range electric',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_electric',
     'unique_id': 'WBA00000000DEMO02-fuel_and_battery.remaining_range_electric',
@@ -1650,6 +1708,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range total',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -1660,6 +1719,7 @@
     'original_name': 'Remaining range total',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_total',
     'unique_id': 'WBA00000000DEMO02-fuel_and_battery.remaining_range_total',
@@ -1703,6 +1763,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'AC current limit',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -1713,6 +1774,7 @@
     'original_name': 'AC current limit',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'ac_current_limit',
     'unique_id': 'WBA00000000DEMO01-charging_profile.ac_current_limit',
@@ -1755,6 +1817,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging end time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -1762,6 +1825,7 @@
     'original_name': 'Charging end time',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_end_time',
     'unique_id': 'WBA00000000DEMO01-fuel_and_battery.charging_end_time',
@@ -1803,6 +1867,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging start time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -1810,6 +1875,7 @@
     'original_name': 'Charging start time',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_start_time',
     'unique_id': 'WBA00000000DEMO01-fuel_and_battery.charging_start_time',
@@ -1866,6 +1932,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging status',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -1873,6 +1940,7 @@
     'original_name': 'Charging status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_status',
     'unique_id': 'WBA00000000DEMO01-fuel_and_battery.charging_status',
@@ -1928,6 +1996,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging target',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -1938,6 +2007,7 @@
     'original_name': 'Charging target',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_target',
     'unique_id': 'WBA00000000DEMO01-fuel_and_battery.charging_target',
@@ -1987,6 +2057,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Climate status',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -1994,6 +2065,7 @@
     'original_name': 'Climate status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'climate_status',
     'unique_id': 'WBA00000000DEMO01-climate.activity',
@@ -2044,6 +2116,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front left target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2057,6 +2130,7 @@
     'original_name': 'Front left target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_left_target_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.front_left.target_pressure',
@@ -2102,6 +2176,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front left tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2115,6 +2190,7 @@
     'original_name': 'Front left tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_left_current_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.front_left.current_pressure',
@@ -2160,6 +2236,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front right target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2173,6 +2250,7 @@
     'original_name': 'Front right target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_right_target_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.front_right.target_pressure',
@@ -2218,6 +2296,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front right tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2231,6 +2310,7 @@
     'original_name': 'Front right tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_right_current_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.front_right.current_pressure',
@@ -2276,6 +2356,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Mileage',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -2286,6 +2367,7 @@
     'original_name': 'Mileage',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'mileage',
     'unique_id': 'WBA00000000DEMO01-mileage',
@@ -2331,6 +2413,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear left target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2344,6 +2427,7 @@
     'original_name': 'Rear left target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_left_target_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.rear_left.target_pressure',
@@ -2389,6 +2473,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear left tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2402,6 +2487,7 @@
     'original_name': 'Rear left tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_left_current_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.rear_left.current_pressure',
@@ -2447,6 +2533,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear right target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2460,6 +2547,7 @@
     'original_name': 'Rear right target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_right_target_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.rear_right.target_pressure',
@@ -2505,6 +2593,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear right tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2518,6 +2607,7 @@
     'original_name': 'Rear right tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_right_current_pressure',
     'unique_id': 'WBA00000000DEMO01-tires.rear_right.current_pressure',
@@ -2563,6 +2653,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining battery percent',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -2573,6 +2664,7 @@
     'original_name': 'Remaining battery percent',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_battery_percent',
     'unique_id': 'WBA00000000DEMO01-fuel_and_battery.remaining_battery_percent',
@@ -2618,6 +2710,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range electric',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -2628,6 +2721,7 @@
     'original_name': 'Remaining range electric',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_electric',
     'unique_id': 'WBA00000000DEMO01-fuel_and_battery.remaining_range_electric',
@@ -2673,6 +2767,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range total',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -2683,6 +2778,7 @@
     'original_name': 'Remaining range total',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_total',
     'unique_id': 'WBA00000000DEMO01-fuel_and_battery.remaining_range_total',
@@ -2734,6 +2830,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Climate status',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -2741,6 +2838,7 @@
     'original_name': 'Climate status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'climate_status',
     'unique_id': 'WBA00000000DEMO03-climate.activity',
@@ -2791,6 +2889,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front left target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2804,6 +2903,7 @@
     'original_name': 'Front left target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_left_target_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.front_left.target_pressure',
@@ -2849,6 +2949,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front left tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2862,6 +2963,7 @@
     'original_name': 'Front left tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_left_current_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.front_left.current_pressure',
@@ -2907,6 +3009,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front right target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2920,6 +3023,7 @@
     'original_name': 'Front right target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_right_target_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.front_right.target_pressure',
@@ -2965,6 +3069,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Front right tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -2978,6 +3083,7 @@
     'original_name': 'Front right tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'front_right_current_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.front_right.current_pressure',
@@ -3023,6 +3129,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Mileage',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -3033,6 +3140,7 @@
     'original_name': 'Mileage',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'mileage',
     'unique_id': 'WBA00000000DEMO03-mileage',
@@ -3078,6 +3186,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear left target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -3091,6 +3200,7 @@
     'original_name': 'Rear left target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_left_target_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.rear_left.target_pressure',
@@ -3136,6 +3246,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear left tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -3149,6 +3260,7 @@
     'original_name': 'Rear left tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_left_current_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.rear_left.current_pressure',
@@ -3194,6 +3306,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear right target pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -3207,6 +3320,7 @@
     'original_name': 'Rear right target pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_right_target_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.rear_right.target_pressure',
@@ -3252,6 +3366,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rear right tire pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 2,
@@ -3265,6 +3380,7 @@
     'original_name': 'Rear right tire pressure',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rear_right_current_pressure',
     'unique_id': 'WBA00000000DEMO03-tires.rear_right.current_pressure',
@@ -3310,6 +3426,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining fuel',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -3320,6 +3437,7 @@
     'original_name': 'Remaining fuel',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_fuel',
     'unique_id': 'WBA00000000DEMO03-fuel_and_battery.remaining_fuel',
@@ -3365,6 +3483,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining fuel percent',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -3375,6 +3494,7 @@
     'original_name': 'Remaining fuel percent',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_fuel_percent',
     'unique_id': 'WBA00000000DEMO03-fuel_and_battery.remaining_fuel_percent',
@@ -3419,6 +3539,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range fuel',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -3429,6 +3550,7 @@
     'original_name': 'Remaining range fuel',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_fuel',
     'unique_id': 'WBA00000000DEMO03-fuel_and_battery.remaining_range_fuel',
@@ -3474,6 +3596,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Remaining range total',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -3484,6 +3607,7 @@
     'original_name': 'Remaining range total',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'remaining_range_total',
     'unique_id': 'WBA00000000DEMO03-fuel_and_battery.remaining_range_total',

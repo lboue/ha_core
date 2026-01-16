@@ -22,6 +22,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Active downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -29,6 +30,7 @@
     'original_name': 'Active downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.ACTIVE: 'active'>,
     'unique_id': 'XXXXXXXXXXXXXX_active',
@@ -73,6 +75,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Downloads in queue',
     'options': dict({
     }),
     'original_device_class': None,
@@ -80,6 +83,7 @@
     'original_name': 'Downloads in queue',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.QUEUE: 'queue'>,
     'unique_id': 'XXXXXXXXXXXXXX_queue',
@@ -122,6 +126,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Free space',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -135,6 +140,7 @@
     'original_name': 'Free space',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.FREE_SPACE: 'free_space'>,
     'unique_id': 'XXXXXXXXXXXXXX_free_space',
@@ -177,6 +183,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Speed',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -190,6 +197,7 @@
     'original_name': 'Speed',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.SPEED: 'speed'>,
     'unique_id': 'XXXXXXXXXXXXXX_speed',
@@ -234,6 +242,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -241,6 +250,7 @@
     'original_name': 'Total downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.TOTAL: 'total'>,
     'unique_id': 'XXXXXXXXXXXXXX_total',
@@ -285,6 +295,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Active downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -292,6 +303,7 @@
     'original_name': 'Active downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.ACTIVE: 'active'>,
     'unique_id': 'XXXXXXXXXXXXXX_active',
@@ -336,6 +348,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Downloads in queue',
     'options': dict({
     }),
     'original_device_class': None,
@@ -343,6 +356,7 @@
     'original_name': 'Downloads in queue',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.QUEUE: 'queue'>,
     'unique_id': 'XXXXXXXXXXXXXX_queue',
@@ -385,6 +399,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Free space',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -398,6 +413,7 @@
     'original_name': 'Free space',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.FREE_SPACE: 'free_space'>,
     'unique_id': 'XXXXXXXXXXXXXX_free_space',
@@ -440,6 +456,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Speed',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -453,6 +470,7 @@
     'original_name': 'Speed',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.SPEED: 'speed'>,
     'unique_id': 'XXXXXXXXXXXXXX_speed',
@@ -497,6 +515,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -504,6 +523,7 @@
     'original_name': 'Total downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.TOTAL: 'total'>,
     'unique_id': 'XXXXXXXXXXXXXX_total',
@@ -548,6 +568,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Active downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -555,6 +576,7 @@
     'original_name': 'Active downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.ACTIVE: 'active'>,
     'unique_id': 'XXXXXXXXXXXXXX_active',
@@ -599,6 +621,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Downloads in queue',
     'options': dict({
     }),
     'original_device_class': None,
@@ -606,6 +629,7 @@
     'original_name': 'Downloads in queue',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.QUEUE: 'queue'>,
     'unique_id': 'XXXXXXXXXXXXXX_queue',
@@ -648,6 +672,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Free space',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -661,6 +686,7 @@
     'original_name': 'Free space',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.FREE_SPACE: 'free_space'>,
     'unique_id': 'XXXXXXXXXXXXXX_free_space',
@@ -703,6 +729,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Speed',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -716,6 +743,7 @@
     'original_name': 'Speed',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.SPEED: 'speed'>,
     'unique_id': 'XXXXXXXXXXXXXX_speed',
@@ -760,6 +788,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -767,6 +796,7 @@
     'original_name': 'Total downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.TOTAL: 'total'>,
     'unique_id': 'XXXXXXXXXXXXXX_total',
@@ -811,6 +841,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Active downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -818,6 +849,7 @@
     'original_name': 'Active downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.ACTIVE: 'active'>,
     'unique_id': 'XXXXXXXXXXXXXX_active',
@@ -862,6 +894,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Downloads in queue',
     'options': dict({
     }),
     'original_device_class': None,
@@ -869,6 +902,7 @@
     'original_name': 'Downloads in queue',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.QUEUE: 'queue'>,
     'unique_id': 'XXXXXXXXXXXXXX_queue',
@@ -911,6 +945,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Free space',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -924,6 +959,7 @@
     'original_name': 'Free space',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.FREE_SPACE: 'free_space'>,
     'unique_id': 'XXXXXXXXXXXXXX_free_space',
@@ -966,6 +1002,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Speed',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -979,6 +1016,7 @@
     'original_name': 'Speed',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.SPEED: 'speed'>,
     'unique_id': 'XXXXXXXXXXXXXX_speed',
@@ -1023,6 +1061,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total downloads',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1030,6 +1069,7 @@
     'original_name': 'Total downloads',
     'platform': 'pyload',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <PyLoadSensorEntity.TOTAL: 'total'>,
     'unique_id': 'XXXXXXXXXXXXXX_total',

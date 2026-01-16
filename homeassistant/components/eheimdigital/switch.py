@@ -4,13 +4,14 @@ from typing import Any, override
 
 from eheimdigital.classic_vario import EheimDigitalClassicVario
 from eheimdigital.device import EheimDigitalDevice
+from eheimdigital.filter import EheimDigitalFilter
 
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EheimDigitalConfigEntry, EheimDigitalUpdateCoordinator
-from .entity import EheimDigitalEntity
+from .entity import EheimDigitalEntity, exception_handler
 
 # Coordinator is used to centralize the data updates
 PARALLEL_UPDATES = 0
@@ -30,8 +31,8 @@ async def async_setup_entry(
         """Set up the switch entities for one or multiple devices."""
         entities: list[SwitchEntity] = []
         for device in device_address.values():
-            if isinstance(device, EheimDigitalClassicVario):
-                entities.append(EheimDigitalClassicVarioSwitch(coordinator, device))  # noqa: PERF401
+            if isinstance(device, (EheimDigitalClassicVario, EheimDigitalFilter)):
+                entities.append(EheimDigitalFilterSwitch(coordinator, device))  # noqa: PERF401
 
         async_add_entities(entities)
 
@@ -39,10 +40,10 @@ async def async_setup_entry(
     async_setup_device_entities(coordinator.hub.devices)
 
 
-class EheimDigitalClassicVarioSwitch(
-    EheimDigitalEntity[EheimDigitalClassicVario], SwitchEntity
+class EheimDigitalFilterSwitch(
+    EheimDigitalEntity[EheimDigitalClassicVario | EheimDigitalFilter], SwitchEntity
 ):
-    """Represent an EHEIM Digital classicVARIO switch entity."""
+    """Represent an EHEIM Digital classicVARIO or filter switch entity."""
 
     _attr_translation_key = "filter_active"
     _attr_name = None
@@ -50,18 +51,20 @@ class EheimDigitalClassicVarioSwitch(
     def __init__(
         self,
         coordinator: EheimDigitalUpdateCoordinator,
-        device: EheimDigitalClassicVario,
+        device: EheimDigitalClassicVario | EheimDigitalFilter,
     ) -> None:
-        """Initialize an EHEIM Digital classicVARIO switch entity."""
+        """Initialize an EHEIM Digital classicVARIO or filter switch entity."""
         super().__init__(coordinator, device)
         self._attr_unique_id = device.mac_address
         self._async_update_attrs()
 
     @override
+    @exception_handler
     async def async_turn_off(self, **kwargs: Any) -> None:
         await self._device.set_active(active=False)
 
     @override
+    @exception_handler
     async def async_turn_on(self, **kwargs: Any) -> None:
         await self._device.set_active(active=True)
 

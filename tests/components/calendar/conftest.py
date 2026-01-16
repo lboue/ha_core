@@ -44,10 +44,16 @@ class MockCalendarEntity(CalendarEntity):
 
     _attr_has_entity_name = True
 
-    def __init__(self, name: str, events: list[CalendarEvent] | None = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        events: list[CalendarEvent] | None = None,
+        unique_id: str | None = None,
+    ) -> None:
         """Initialize entity."""
         self._attr_name = name.capitalize()
         self._events = events or []
+        self._attr_unique_id = unique_id
 
     @property
     def event(self) -> CalendarEvent | None:
@@ -120,7 +126,9 @@ def mock_setup_integration(
         hass: HomeAssistant, config_entry: ConfigEntry
     ) -> bool:
         """Set up test config entry."""
-        await hass.config_entries.async_forward_entry_setups(config_entry, [DOMAIN])
+        await hass.config_entries.async_forward_entry_setups(
+            config_entry, [Platform.CALENDAR]
+        )
         return True
 
     async def async_unload_entry_init(
@@ -180,6 +188,7 @@ def create_test_entities() -> list[MockCalendarEntity]:
                 location="Future Location",
             )
         ],
+        unique_id="calendar_1_id",
     )
     entity1.async_get_events = AsyncMock(wraps=entity1.async_get_events)
 
@@ -193,6 +202,7 @@ def create_test_entities() -> list[MockCalendarEntity]:
                 summary="Current Event",
             )
         ],
+        unique_id="calendar_2_id",
     )
     entity2.async_get_events = AsyncMock(wraps=entity2.async_get_events)
 

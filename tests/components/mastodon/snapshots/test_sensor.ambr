@@ -22,6 +22,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Followers',
     'options': dict({
     }),
     'original_device_class': None,
@@ -29,6 +30,7 @@
     'original_name': 'Followers',
     'platform': 'mastodon',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'followers',
     'unique_id': 'trwnh_mastodon_social_followers',
@@ -73,6 +75,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Following',
     'options': dict({
     }),
     'original_device_class': None,
@@ -80,6 +83,7 @@
     'original_name': 'Following',
     'platform': 'mastodon',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'following',
     'unique_id': 'trwnh_mastodon_social_following',
@@ -124,6 +128,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Posts',
     'options': dict({
     }),
     'original_device_class': None,
@@ -131,6 +136,7 @@
     'original_name': 'Posts',
     'platform': 'mastodon',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'posts',
     'unique_id': 'trwnh_mastodon_social_posts',

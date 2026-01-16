@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'CoverName',
     'options': dict({
     }),
     'original_device_class': None,
@@ -27,6 +28,7 @@
     'original_name': 'CoverName',
     'platform': 'velbus',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <CoverEntityFeature: 15>,
     'translation_key': None,
     'unique_id': '1234-9',
@@ -69,6 +71,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'CoverNameNoPos',
     'options': dict({
     }),
     'original_device_class': None,
@@ -76,6 +79,7 @@
     'original_name': 'CoverNameNoPos',
     'platform': 'velbus',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <CoverEntityFeature: 11>,
     'translation_key': None,
     'unique_id': '12345-11',

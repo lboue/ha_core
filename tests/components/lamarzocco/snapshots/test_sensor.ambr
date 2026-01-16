@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Brewing start time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -27,6 +28,7 @@
     'original_name': 'Brewing start time',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'brewing_start_time',
     'unique_id': 'GS012345_brewing_start_time',
@@ -44,7 +46,7 @@
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '2025-05-07T18:04:20+00:00',
+    'state': 'unavailable',
   })
 # ---
 # name: test_sensors[sensor.gs012345_coffee_boiler_ready_time-entry]
@@ -68,6 +70,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Coffee boiler ready time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -75,6 +78,7 @@
     'original_name': 'Coffee boiler ready time',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'coffee_boiler_ready_time',
     'unique_id': 'GS012345_coffee_boiler_ready_time',
@@ -92,7 +96,7 @@
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': 'unknown',
+    'state': 'unavailable',
   })
 # ---
 # name: test_sensors[sensor.gs012345_last_cleaning_time-entry]
@@ -116,6 +120,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Last cleaning time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -123,6 +128,7 @@
     'original_name': 'Last cleaning time',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'last_cleaning_time',
     'unique_id': 'GS012345_last_cleaning_time',
@@ -164,6 +170,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Steam boiler ready time',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.TIMESTAMP: 'timestamp'>,
@@ -171,6 +178,7 @@
     'original_name': 'Steam boiler ready time',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'steam_boiler_ready_time',
     'unique_id': 'GS012345_steam_boiler_ready_time',
@@ -214,6 +222,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total coffees made',
     'options': dict({
     }),
     'original_device_class': None,
@@ -221,6 +230,7 @@
     'original_name': 'Total coffees made',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'total_coffees_made',
     'unique_id': 'GS012345_drink_stats_coffee',
@@ -265,6 +275,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total flushes done',
     'options': dict({
     }),
     'original_device_class': None,
@@ -272,6 +283,7 @@
     'original_name': 'Total flushes done',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'total_flushes_done',
     'unique_id': 'GS012345_drink_stats_flushing',

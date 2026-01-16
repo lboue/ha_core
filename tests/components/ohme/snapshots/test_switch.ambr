@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Lock buttons',
     'options': dict({
     }),
     'original_device_class': None,
@@ -27,6 +28,7 @@
     'original_name': 'Lock buttons',
     'platform': 'ohme',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'lock_buttons',
     'unique_id': 'chargerid_lock_buttons',
@@ -67,6 +69,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Price cap',
     'options': dict({
     }),
     'original_device_class': None,
@@ -74,6 +77,7 @@
     'original_name': 'Price cap',
     'platform': 'ohme',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'price_cap',
     'unique_id': 'chargerid_price_cap',
@@ -114,6 +118,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Require approval',
     'options': dict({
     }),
     'original_device_class': None,
@@ -121,6 +126,7 @@
     'original_name': 'Require approval',
     'platform': 'ohme',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'require_approval',
     'unique_id': 'chargerid_require_approval',
@@ -161,6 +167,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Sleep when inactive',
     'options': dict({
     }),
     'original_device_class': None,
@@ -168,6 +175,7 @@
     'original_name': 'Sleep when inactive',
     'platform': 'ohme',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sleep_when_inactive',
     'unique_id': 'chargerid_sleep_when_inactive',

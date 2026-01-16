@@ -24,6 +24,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Dimmable light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -31,6 +32,7 @@
     'original_name': 'Dimmable light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 40>,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:02-00',
@@ -90,6 +92,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -97,6 +100,7 @@
     'original_name': None,
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '01234E56789A-/groups/0',
@@ -176,6 +180,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RGB light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -183,6 +188,7 @@
     'original_name': 'RGB light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:00-00',
@@ -255,6 +261,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Tunable white light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -262,6 +269,7 @@
     'original_name': 'Tunable white light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:01-00',
@@ -332,6 +340,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Dimmable light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -339,6 +348,7 @@
     'original_name': 'Dimmable light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 40>,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:02-00',
@@ -398,6 +408,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -405,6 +416,7 @@
     'original_name': None,
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '01234E56789A-/groups/0',
@@ -484,6 +496,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RGB light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -491,6 +504,7 @@
     'original_name': 'RGB light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:00-00',
@@ -563,6 +577,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Tunable white light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -570,6 +585,7 @@
     'original_name': 'Tunable white light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:01-00',
@@ -640,6 +656,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Dimmable light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -647,6 +664,7 @@
     'original_name': 'Dimmable light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 40>,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:02-00',
@@ -706,6 +724,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -713,6 +732,7 @@
     'original_name': None,
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '01234E56789A-/groups/0',
@@ -792,6 +812,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RGB light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -799,6 +820,7 @@
     'original_name': 'RGB light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:00-00',
@@ -871,6 +893,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Tunable white light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -878,6 +901,7 @@
     'original_name': 'Tunable white light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '00:00:00:00:00:00:00:01-00',
@@ -957,6 +981,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Hue Go',
     'options': dict({
     }),
     'original_device_class': None,
@@ -964,6 +989,7 @@
     'original_name': 'Hue Go',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '00:17:88:01:01:23:45:67-00',
@@ -1049,6 +1075,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Hue Ensis',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1056,6 +1083,7 @@
     'original_name': 'Hue Ensis',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '00:17:88:01:01:23:45:67-01',
@@ -1150,6 +1178,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'LIDL xmas light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1157,6 +1186,7 @@
     'original_name': 'LIDL xmas light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '58:8e:81:ff:fe:db:7b:be-01',
@@ -1244,6 +1274,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Hue White Ambiance',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1251,6 +1282,7 @@
     'original_name': 'Hue White Ambiance',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 40>,
     'translation_key': None,
     'unique_id': '00:17:88:01:01:23:45:67-02',
@@ -1321,6 +1353,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Hue Filament',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1328,6 +1361,7 @@
     'original_name': 'Hue Filament',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 40>,
     'translation_key': None,
     'unique_id': '00:17:88:01:01:23:45:67-03',
@@ -1379,6 +1413,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Simple Light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1386,6 +1421,7 @@
     'original_name': 'Simple Light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '00:15:8d:00:01:23:45:67-01',
@@ -1450,6 +1486,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gradient light',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1457,6 +1494,7 @@
     'original_name': 'Gradient light',
     'platform': 'deconz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <LightEntityFeature: 44>,
     'translation_key': None,
     'unique_id': '00:17:88:01:0b:0c:0d:0e-0f',

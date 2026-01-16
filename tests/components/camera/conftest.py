@@ -148,6 +148,22 @@ def mock_stream_source_fixture() -> Generator[AsyncMock]:
         yield mock_stream_source
 
 
+@pytest.fixture(name="mock_create_stream")
+def mock_create_stream_fixture() -> Generator[Mock]:
+    """Fixture to mock create_stream and prevent real stream threads."""
+    mock_stream = Mock()
+    mock_stream.add_provider = Mock()
+    mock_stream.start = AsyncMock()
+    mock_stream.endpoint_url = Mock(return_value="http://home.assistant/playlist.m3u8")
+    mock_stream.set_update_callback = Mock()
+    mock_stream.available = True
+    with patch(
+        "homeassistant.components.camera.create_stream",
+        return_value=mock_stream,
+    ):
+        yield mock_stream
+
+
 @pytest.fixture
 async def mock_test_webrtc_cameras(hass: HomeAssistant) -> None:
     """Initialize test WebRTC cameras with native RTC support."""
@@ -201,7 +217,7 @@ async def mock_test_webrtc_cameras(hass: HomeAssistant) -> None:
     ) -> bool:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
-            config_entry, [camera.DOMAIN]
+            config_entry, [Platform.CAMERA]
         )
         return True
 
@@ -210,7 +226,7 @@ async def mock_test_webrtc_cameras(hass: HomeAssistant) -> None:
     ) -> bool:
         """Unload test config entry."""
         await hass.config_entries.async_forward_entry_unload(
-            config_entry, camera.DOMAIN
+            config_entry, Platform.CAMERA
         )
         return True
 

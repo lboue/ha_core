@@ -948,6 +948,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Dailies',
     'options': dict({
     }),
     'original_device_class': None,
@@ -955,6 +956,7 @@
     'original_name': 'Dailies',
     'platform': 'habitica',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <HabiticaCalendar.DAILIES: 'dailys'>,
     'unique_id': 'a380546a-94be-4b8e-8a0b-23e0d5c03303_dailys',
@@ -1002,6 +1004,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Daily reminders',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1009,6 +1012,7 @@
     'original_name': 'Daily reminders',
     'platform': 'habitica',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <HabiticaCalendar.DAILY_REMINDERS: 'daily_reminders'>,
     'unique_id': 'a380546a-94be-4b8e-8a0b-23e0d5c03303_daily_reminders',
@@ -1055,6 +1059,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'To-do reminders',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1062,6 +1067,7 @@
     'original_name': 'To-do reminders',
     'platform': 'habitica',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <HabiticaCalendar.TODO_REMINDERS: 'todo_reminders'>,
     'unique_id': 'a380546a-94be-4b8e-8a0b-23e0d5c03303_todo_reminders',
@@ -1108,6 +1114,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': "To-Do's",
     'options': dict({
     }),
     'original_device_class': None,
@@ -1115,6 +1122,7 @@
     'original_name': "To-Do's",
     'platform': 'habitica',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': <HabiticaCalendar.TODOS: 'todos'>,
     'unique_id': 'a380546a-94be-4b8e-8a0b-23e0d5c03303_todos',

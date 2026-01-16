@@ -10,15 +10,11 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .coordinator import (
-    FRITZ_DATA_KEY,
-    AvmWrapper,
-    FritzConfigEntry,
-    FritzData,
-    FritzDevice,
-    device_filter_out_from_trackers,
-)
+from .const import DEFAULT_DEVICE_NAME
+from .coordinator import FRITZ_DATA_KEY, AvmWrapper, FritzConfigEntry, FritzData
 from .entity import FritzDeviceBase
+from .helpers import device_filter_out_from_trackers
+from .models import FritzDevice
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -76,6 +72,7 @@ class FritzBoxTracker(FritzDeviceBase, ScannerEntity):
     def __init__(self, avm_wrapper: AvmWrapper, device: FritzDevice) -> None:
         """Initialize a FRITZ!Box device."""
         super().__init__(avm_wrapper, device)
+        self._attr_name: str = device.hostname or DEFAULT_DEVICE_NAME
         self._last_activity: datetime.datetime | None = device.last_activity
 
     @property

@@ -26,6 +26,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Activity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -33,6 +34,7 @@
     'original_name': 'Activity',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'activity',
     'unique_id': 'pet_id_123_activity_label',
@@ -81,6 +83,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Activity time',
     'options': dict({
     }),
     'original_device_class': None,
@@ -88,6 +91,7 @@
     'original_name': 'Activity time',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'activity_time',
     'unique_id': 'pet_id_123_minutes_active',
@@ -132,6 +136,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Calories burned',
     'options': dict({
     }),
     'original_device_class': None,
@@ -139,6 +144,7 @@
     'original_name': 'Calories burned',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'calories',
     'unique_id': 'pet_id_123_calories',
@@ -181,6 +187,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Daily goal',
     'options': dict({
     }),
     'original_device_class': None,
@@ -188,6 +195,7 @@
     'original_name': 'Daily goal',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'daily_goal',
     'unique_id': 'pet_id_123_daily_goal',
@@ -231,6 +239,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Day sleep',
     'options': dict({
     }),
     'original_device_class': None,
@@ -238,6 +247,7 @@
     'original_name': 'Day sleep',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'minutes_day_sleep',
     'unique_id': 'pet_id_123_minutes_day_sleep',
@@ -282,6 +292,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Night sleep',
     'options': dict({
     }),
     'original_device_class': None,
@@ -289,6 +300,7 @@
     'original_name': 'Night sleep',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'minutes_night_sleep',
     'unique_id': 'pet_id_123_minutes_night_sleep',
@@ -333,6 +345,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Rest time',
     'options': dict({
     }),
     'original_device_class': None,
@@ -340,6 +353,7 @@
     'original_name': 'Rest time',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rest_time',
     'unique_id': 'pet_id_123_minutes_rest',
@@ -388,6 +402,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Sleep',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -395,6 +410,7 @@
     'original_name': 'Sleep',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sleep',
     'unique_id': 'pet_id_123_sleep_label',
@@ -441,6 +457,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Tracker battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -448,6 +465,7 @@
     'original_name': 'Tracker battery',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'tracker_battery_level',
     'unique_id': 'pet_id_123_battery_level',
@@ -498,6 +516,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Tracker state',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -505,6 +524,7 @@
     'original_name': 'Tracker state',
     'platform': 'tractive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'tracker_state',
     'unique_id': 'pet_id_123_tracker_state',

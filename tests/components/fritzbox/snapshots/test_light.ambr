@@ -29,6 +29,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'fake_name',
     'options': dict({
     }),
     'original_device_class': None,
@@ -36,6 +37,7 @@
     'original_name': 'fake_name',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12345 1234567',
@@ -111,6 +113,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'fake_name',
     'options': dict({
     }),
     'original_device_class': None,
@@ -118,6 +121,7 @@
     'original_name': 'fake_name',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12345 1234567',
@@ -188,6 +192,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'fake_name',
     'options': dict({
     }),
     'original_device_class': None,
@@ -195,6 +200,7 @@
     'original_name': 'fake_name',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12345 1234567',
@@ -245,6 +251,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'fake_name',
     'options': dict({
     }),
     'original_device_class': None,
@@ -252,6 +259,7 @@
     'original_name': 'fake_name',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12345 1234567',

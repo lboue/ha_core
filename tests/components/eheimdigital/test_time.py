@@ -20,7 +20,6 @@ from .conftest import init_integration
 from tests.common import MockConfigEntry, snapshot_platform
 
 
-@pytest.mark.usefixtures("classic_vario_mock", "heater_mock")
 async def test_setup(
     hass: HomeAssistant,
     eheimdigital_hub_mock: MagicMock,
@@ -49,7 +48,6 @@ async def test_setup(
     await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
 
 
-@pytest.mark.usefixtures("classic_vario_mock", "heater_mock")
 @pytest.mark.parametrize(
     ("device_name", "entity_list"),
     [
@@ -59,14 +57,14 @@ async def test_setup(
                 (
                     "time.mock_heater_day_start_time",
                     time(9, 0, tzinfo=timezone(timedelta(hours=1))),
-                    "set_day_start_time",
-                    (time(9, 0, tzinfo=timezone(timedelta(hours=1))),),
+                    "dayStartT",
+                    9 * 60,
                 ),
                 (
                     "time.mock_heater_night_start_time",
                     time(19, 0, tzinfo=timezone(timedelta(hours=1))),
-                    "set_night_start_time",
-                    (time(19, 0, tzinfo=timezone(timedelta(hours=1))),),
+                    "nightStartT",
+                    19 * 60,
                 ),
             ],
         ),
@@ -76,14 +74,31 @@ async def test_setup(
                 (
                     "time.mock_classicvario_day_start_time",
                     time(9, 0, tzinfo=timezone(timedelta(hours=1))),
-                    "set_day_start_time",
-                    (time(9, 0, tzinfo=timezone(timedelta(hours=1))),),
+                    "startTime_day",
+                    9 * 60,
                 ),
                 (
                     "time.mock_classicvario_night_start_time",
                     time(19, 0, tzinfo=timezone(timedelta(hours=1))),
-                    "set_night_start_time",
-                    (time(19, 0, tzinfo=timezone(timedelta(hours=1))),),
+                    "startTime_night",
+                    19 * 60,
+                ),
+            ],
+        ),
+        (
+            "filter_mock",
+            [
+                (
+                    "time.mock_filter_day_start_time",
+                    time(9, 0, tzinfo=timezone(timedelta(hours=1))),
+                    "end_time_night_mode",
+                    9 * 60,
+                ),
+                (
+                    "time.mock_filter_night_start_time",
+                    time(19, 0, tzinfo=timezone(timedelta(hours=1))),
+                    "start_time_night_mode",
+                    19 * 60,
                 ),
             ],
         ),
@@ -114,11 +129,10 @@ async def test_set_value(
             {ATTR_ENTITY_ID: item[0], ATTR_TIME: item[1]},
             blocking=True,
         )
-        calls = [call for call in device.mock_calls if call[0] == item[2]]
-        assert len(calls) == 1 and calls[0][1] == item[3]
+        calls = [call for call in device.hub.mock_calls if call[0] == "send_packet"]
+        assert calls[-1][1][0][item[2]] == item[3]
 
 
-@pytest.mark.usefixtures("classic_vario_mock", "heater_mock")
 @pytest.mark.parametrize(
     ("device_name", "entity_list"),
     [
@@ -127,13 +141,17 @@ async def test_set_value(
             [
                 (
                     "time.mock_heater_day_start_time",
-                    "day_start_time",
-                    time(9, 0, tzinfo=timezone(timedelta(hours=3))),
+                    "heater_data",
+                    "dayStartT",
+                    540,
+                    time(9, 0, tzinfo=timezone(timedelta(hours=1))).isoformat(),
                 ),
                 (
                     "time.mock_heater_night_start_time",
-                    "night_start_time",
-                    time(19, 0, tzinfo=timezone(timedelta(hours=3))),
+                    "heater_data",
+                    "nightStartT",
+                    1140,
+                    time(19, 0, tzinfo=timezone(timedelta(hours=1))).isoformat(),
                 ),
             ],
         ),
@@ -142,13 +160,36 @@ async def test_set_value(
             [
                 (
                     "time.mock_classicvario_day_start_time",
-                    "day_start_time",
-                    time(9, 0, tzinfo=timezone(timedelta(hours=1))),
+                    "classic_vario_data",
+                    "startTime_day",
+                    540,
+                    time(9, 0, tzinfo=timezone(timedelta(hours=1))).isoformat(),
                 ),
                 (
                     "time.mock_classicvario_night_start_time",
-                    "night_start_time",
-                    time(22, 0, tzinfo=timezone(timedelta(hours=1))),
+                    "classic_vario_data",
+                    "startTime_night",
+                    1320,
+                    time(22, 0, tzinfo=timezone(timedelta(hours=1))).isoformat(),
+                ),
+            ],
+        ),
+        (
+            "filter_mock",
+            [
+                (
+                    "time.mock_filter_day_start_time",
+                    "filter_data",
+                    "end_time_night_mode",
+                    540,
+                    time(9, 0, tzinfo=timezone(timedelta(hours=1))).isoformat(),
+                ),
+                (
+                    "time.mock_filter_night_start_time",
+                    "filter_data",
+                    "start_time_night_mode",
+                    1320,
+                    time(22, 0, tzinfo=timezone(timedelta(hours=1))).isoformat(),
                 ),
             ],
         ),
@@ -159,7 +200,7 @@ async def test_state_update(
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_name: str,
-    entity_list: list[tuple[str, str, time]],
+    entity_list: list[tuple[str, str, str, float, str]],
     request: pytest.FixtureRequest,
 ) -> None:
     """Test state updates."""
@@ -173,7 +214,7 @@ async def test_state_update(
     await hass.async_block_till_done()
 
     for item in entity_list:
-        setattr(device, item[1], item[2])
+        getattr(device, item[1])[item[2]] = item[3]
         await eheimdigital_hub_mock.call_args.kwargs["receive_callback"]()
         assert (state := hass.states.get(item[0]))
-        assert state.state == item[2].isoformat()
+        assert state.state == item[4]

@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gateway firmware',
     'options': dict({
     }),
     'original_device_class': <UpdateDeviceClass.FIRMWARE: 'firmware'>,
@@ -27,6 +28,7 @@
     'original_name': 'Gateway firmware',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <UpdateEntityFeature: 21>,
     'translation_key': 'gateway_firmware',
     'unique_id': 'GS012345_gateway_firmware',
@@ -80,6 +82,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Machine firmware',
     'options': dict({
     }),
     'original_device_class': <UpdateDeviceClass.FIRMWARE: 'firmware'>,
@@ -87,6 +90,7 @@
     'original_name': 'Machine firmware',
     'platform': 'lamarzocco',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <UpdateEntityFeature: 21>,
     'translation_key': 'machine_firmware',
     'unique_id': 'GS012345_machine_firmware',

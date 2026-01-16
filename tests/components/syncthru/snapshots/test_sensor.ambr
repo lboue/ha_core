@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -27,6 +28,7 @@
     'original_name': None,
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '08HRB8GJ3F019DD_main',
@@ -69,6 +71,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Active alerts',
     'options': dict({
     }),
     'original_device_class': None,
@@ -76,6 +79,7 @@
     'original_name': 'Active alerts',
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'active_alerts',
     'unique_id': '08HRB8GJ3F019DD_active_alerts',
@@ -118,6 +122,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Black toner level',
     'options': dict({
     }),
     'original_device_class': None,
@@ -125,6 +130,7 @@
     'original_name': 'Black toner level',
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'toner_black',
     'unique_id': '08HRB8GJ3F019DD_toner_black',
@@ -171,6 +177,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Cyan toner level',
     'options': dict({
     }),
     'original_device_class': None,
@@ -178,6 +185,7 @@
     'original_name': 'Cyan toner level',
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'toner_cyan',
     'unique_id': '08HRB8GJ3F019DD_toner_cyan',
@@ -224,6 +232,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Input tray 1',
     'options': dict({
     }),
     'original_device_class': None,
@@ -231,6 +240,7 @@
     'original_name': 'Input tray 1',
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'tray',
     'unique_id': '08HRB8GJ3F019DD_tray_tray_1',
@@ -280,6 +290,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Magenta toner level',
     'options': dict({
     }),
     'original_device_class': None,
@@ -287,6 +298,7 @@
     'original_name': 'Magenta toner level',
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'toner_magenta',
     'unique_id': '08HRB8GJ3F019DD_toner_magenta',
@@ -333,6 +345,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Output tray 1',
     'options': dict({
     }),
     'original_device_class': None,
@@ -340,6 +353,7 @@
     'original_name': 'Output tray 1',
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'output_tray',
     'unique_id': '08HRB8GJ3F019DD_output_tray_1',
@@ -384,6 +398,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Yellow toner level',
     'options': dict({
     }),
     'original_device_class': None,
@@ -391,6 +406,7 @@
     'original_name': 'Yellow toner level',
     'platform': 'syncthru',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'toner_yellow',
     'unique_id': '08HRB8GJ3F019DD_toner_yellow',

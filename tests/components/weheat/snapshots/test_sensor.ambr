@@ -32,6 +32,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -39,6 +40,7 @@
     'original_name': None,
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'heat_pump_state',
     'unique_id': '0000-1111-2222-3333_heat_pump_state',
@@ -93,6 +95,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Central heating inlet temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -103,6 +106,7 @@
     'original_name': 'Central heating inlet temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'ch_inlet_temperature',
     'unique_id': '0000-1111-2222-3333_ch_inlet_temperature',
@@ -148,6 +152,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Central heating pump flow',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -158,6 +163,7 @@
     'original_name': 'Central heating pump flow',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'central_heating_flow_volume',
     'unique_id': '0000-1111-2222-3333_central_heating_flow_volume',
@@ -203,6 +209,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Compressor speed',
     'options': dict({
     }),
     'original_device_class': None,
@@ -210,6 +217,7 @@
     'original_name': 'Compressor speed',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'compressor_rpm',
     'unique_id': '0000-1111-2222-3333_compressor_rpm',
@@ -254,6 +262,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Compressor usage',
     'options': dict({
     }),
     'original_device_class': None,
@@ -261,6 +270,7 @@
     'original_name': 'Compressor usage',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'compressor_percentage',
     'unique_id': '0000-1111-2222-3333_compressor_percentage',
@@ -305,6 +315,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'COP',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -315,6 +326,7 @@
     'original_name': 'COP',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'cop',
     'unique_id': '0000-1111-2222-3333_cop',
@@ -358,6 +370,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Current room temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -368,6 +381,7 @@
     'original_name': 'Current room temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'thermostat_room_temperature',
     'unique_id': '0000-1111-2222-3333_thermostat_room_temperature',
@@ -413,6 +427,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'DHW bottom temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -423,6 +438,7 @@
     'original_name': 'DHW bottom temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'dhw_bottom_temperature',
     'unique_id': '0000-1111-2222-3333_dhw_bottom_temperature',
@@ -468,6 +484,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'DHW pump flow',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -478,6 +495,7 @@
     'original_name': 'DHW pump flow',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'dhw_flow_volume',
     'unique_id': '0000-1111-2222-3333_dhw_flow_volume',
@@ -523,6 +541,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'DHW top temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -533,6 +552,7 @@
     'original_name': 'DHW top temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'dhw_top_temperature',
     'unique_id': '0000-1111-2222-3333_dhw_top_temperature',
@@ -578,13 +598,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Electricity used',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.ENERGY: 'energy'>,
     'original_icon': None,
     'original_name': 'Electricity used',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'electricity_used',
     'unique_id': '0000-1111-2222-3333_electricity_used',
@@ -630,6 +655,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Input power',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -640,6 +666,7 @@
     'original_name': 'Input power',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'power_input',
     'unique_id': '0000-1111-2222-3333_power_input',
@@ -685,6 +712,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Output power',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 0,
@@ -695,6 +723,7 @@
     'original_name': 'Output power',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'power_output',
     'unique_id': '0000-1111-2222-3333_power_output',
@@ -740,6 +769,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Outside temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -750,6 +780,7 @@
     'original_name': 'Outside temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'outside_temperature',
     'unique_id': '0000-1111-2222-3333_outside_temperature',
@@ -795,6 +826,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Room temperature setpoint',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -805,6 +837,7 @@
     'original_name': 'Room temperature setpoint',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'thermostat_room_temperature_setpoint',
     'unique_id': '0000-1111-2222-3333_thermostat_room_temperature_setpoint',
@@ -850,13 +883,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total energy output',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.ENERGY: 'energy'>,
     'original_icon': None,
     'original_name': 'Total energy output',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'energy_output',
     'unique_id': '0000-1111-2222-3333_energy_output',
@@ -902,6 +940,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Water inlet temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -912,6 +951,7 @@
     'original_name': 'Water inlet temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'water_inlet_temperature',
     'unique_id': '0000-1111-2222-3333_water_inlet_temperature',
@@ -957,6 +997,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Water outlet temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -967,6 +1008,7 @@
     'original_name': 'Water outlet temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'water_outlet_temperature',
     'unique_id': '0000-1111-2222-3333_water_outlet_temperature',
@@ -1012,6 +1054,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Water target temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -1022,6 +1065,7 @@
     'original_name': 'Water target temperature',
     'platform': 'weheat',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'thermostat_water_setpoint',
     'unique_id': '0000-1111-2222-3333_thermostat_water_setpoint',

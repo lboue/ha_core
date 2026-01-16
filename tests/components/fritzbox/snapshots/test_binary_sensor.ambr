@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Alarm',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.WINDOW: 'window'>,
@@ -27,6 +28,7 @@
     'original_name': 'Alarm',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'alarm',
     'unique_id': '12345 1234567_alarm',
@@ -68,6 +70,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.BATTERY: 'battery'>,
@@ -75,6 +78,7 @@
     'original_name': 'Battery',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12345 1234567_battery_low',
@@ -116,6 +120,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Button lock on device',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.LOCK: 'lock'>,
@@ -123,6 +128,7 @@
     'original_name': 'Button lock on device',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'lock',
     'unique_id': '12345 1234567_lock',
@@ -164,6 +170,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Button lock via UI',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.LOCK: 'lock'>,
@@ -171,6 +178,7 @@
     'original_name': 'Button lock via UI',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'device_lock',
     'unique_id': '12345 1234567_device_lock',
@@ -212,6 +220,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Holiday mode',
     'options': dict({
     }),
     'original_device_class': None,
@@ -219,6 +228,7 @@
     'original_name': 'Holiday mode',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'holiday_active',
     'unique_id': '12345 1234567_holiday_active',
@@ -259,6 +269,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Open window detected',
     'options': dict({
     }),
     'original_device_class': None,
@@ -266,6 +277,7 @@
     'original_name': 'Open window detected',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'window_open',
     'unique_id': '12345 1234567_window_open',
@@ -306,6 +318,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Summer mode',
     'options': dict({
     }),
     'original_device_class': None,
@@ -313,6 +326,7 @@
     'original_name': 'Summer mode',
     'platform': 'fritzbox',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'summer_active',
     'unique_id': '12345 1234567_summer_active',

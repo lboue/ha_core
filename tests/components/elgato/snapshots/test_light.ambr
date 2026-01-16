@@ -66,6 +66,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -73,6 +74,7 @@
     'original_name': None,
     'platform': 'elgato',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'CN11A1A00001',
@@ -101,7 +103,6 @@
         'CN11A1A00001',
       ),
     }),
-    'is_new': False,
     'labels': set({
     }),
     'manufacturer': 'Elgato',
@@ -111,7 +112,6 @@
     'name_by_user': None,
     'primary_config_entry': <ANY>,
     'serial_number': 'CN11A1A00001',
-    'suggested_area': None,
     'sw_version': '1.0.3 (192)',
     'via_device_id': None,
   })
@@ -185,6 +185,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -192,6 +193,7 @@
     'original_name': None,
     'platform': 'elgato',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'CN11A1A00001',
@@ -220,7 +222,6 @@
         'CN11A1A00001',
       ),
     }),
-    'is_new': False,
     'labels': set({
     }),
     'manufacturer': 'Elgato',
@@ -230,7 +231,6 @@
     'name_by_user': None,
     'primary_config_entry': <ANY>,
     'serial_number': 'CN11A1A00001',
-    'suggested_area': None,
     'sw_version': '1.0.3 (192)',
     'via_device_id': None,
   })
@@ -304,6 +304,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -311,6 +312,7 @@
     'original_name': None,
     'platform': 'elgato',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'CN11A1A00001',
@@ -339,7 +341,6 @@
         'CN11A1A00001',
       ),
     }),
-    'is_new': False,
     'labels': set({
     }),
     'manufacturer': 'Elgato',
@@ -349,7 +350,6 @@
     'name_by_user': None,
     'primary_config_entry': <ANY>,
     'serial_number': 'CN11A1A00001',
-    'suggested_area': None,
     'sw_version': '1.0.3 (192)',
     'via_device_id': None,
   })

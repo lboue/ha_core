@@ -26,6 +26,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging mode',
     'options': dict({
     }),
     'original_device_class': None,
@@ -33,6 +34,7 @@
     'original_name': 'Charging mode',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_mode',
     'unique_id': 'WBY00000000REXI01-charging_mode',
@@ -94,6 +96,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'AC charging limit',
     'options': dict({
     }),
     'original_device_class': None,
@@ -101,6 +104,7 @@
     'original_name': 'AC charging limit',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'ac_limit',
     'unique_id': 'WBA00000000DEMO02-ac_limit',
@@ -163,6 +167,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging mode',
     'options': dict({
     }),
     'original_device_class': None,
@@ -170,6 +175,7 @@
     'original_name': 'Charging mode',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_mode',
     'unique_id': 'WBA00000000DEMO02-charging_mode',
@@ -231,6 +237,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'AC charging limit',
     'options': dict({
     }),
     'original_device_class': None,
@@ -238,6 +245,7 @@
     'original_name': 'AC charging limit',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'ac_limit',
     'unique_id': 'WBA00000000DEMO01-ac_limit',
@@ -300,6 +308,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging mode',
     'options': dict({
     }),
     'original_device_class': None,
@@ -307,6 +316,7 @@
     'original_name': 'Charging mode',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_mode',
     'unique_id': 'WBA00000000DEMO01-charging_mode',

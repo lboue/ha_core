@@ -22,6 +22,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Energy price',
     'options': dict({
     }),
     'original_device_class': None,
@@ -29,6 +30,7 @@
     'original_name': 'Energy price',
     'platform': 'rainforest_raven',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'energy_price',
     'unique_id': '1234567890abcdef.PriceCluster.price',
@@ -75,13 +77,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Power demand',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.POWER: 'power'>,
     'original_icon': None,
     'original_name': 'Power demand',
     'platform': 'rainforest_raven',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'power_demand',
     'unique_id': '1234567890abcdef.InstantaneousDemand.demand',
@@ -127,6 +134,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Signal strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -134,6 +142,7 @@
     'original_name': 'Signal strength',
     'platform': 'rainforest_raven',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'signal_strength',
     'unique_id': 'abcdef0123456789.NetworkInfo.link_strength',
@@ -179,13 +188,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total energy delivered',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.ENERGY: 'energy'>,
     'original_icon': None,
     'original_name': 'Total energy delivered',
     'platform': 'rainforest_raven',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'total_energy_delivered',
     'unique_id': '1234567890abcdef.CurrentSummationDelivered.summation_delivered',
@@ -231,13 +245,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Total energy received',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.ENERGY: 'energy'>,
     'original_icon': None,
     'original_name': 'Total energy received',
     'platform': 'rainforest_raven',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'total_energy_received',
     'unique_id': '1234567890abcdef.CurrentSummationDelivered.summation_received',

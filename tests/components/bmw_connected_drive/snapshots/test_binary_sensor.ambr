@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging status',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.BATTERY_CHARGING: 'battery_charging'>,
@@ -27,6 +28,7 @@
     'original_name': 'Charging status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_status',
     'unique_id': 'WBY00000000REXI01-charging_status',
@@ -68,6 +70,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Check control messages',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -75,6 +78,7 @@
     'original_name': 'Check control messages',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'check_control_messages',
     'unique_id': 'WBY00000000REXI01-check_control_messages',
@@ -116,6 +120,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Condition-based services',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -123,6 +128,7 @@
     'original_name': 'Condition-based services',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'condition_based_services',
     'unique_id': 'WBY00000000REXI01-condition_based_services',
@@ -170,6 +176,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Connection status',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PLUG: 'plug'>,
@@ -177,6 +184,7 @@
     'original_name': 'Connection status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'connection_status',
     'unique_id': 'WBY00000000REXI01-connection_status',
@@ -218,6 +226,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Door lock state',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.LOCK: 'lock'>,
@@ -225,6 +234,7 @@
     'original_name': 'Door lock state',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'door_lock_state',
     'unique_id': 'WBY00000000REXI01-door_lock_state',
@@ -267,6 +277,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Lids',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -274,6 +285,7 @@
     'original_name': 'Lids',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'lids',
     'unique_id': 'WBY00000000REXI01-lids',
@@ -322,6 +334,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pre-entry climatization',
     'options': dict({
     }),
     'original_device_class': None,
@@ -329,6 +342,7 @@
     'original_name': 'Pre-entry climatization',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'is_pre_entry_climatization_enabled',
     'unique_id': 'WBY00000000REXI01-is_pre_entry_climatization_enabled',
@@ -369,6 +383,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Windows',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -376,6 +391,7 @@
     'original_name': 'Windows',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'windows',
     'unique_id': 'WBY00000000REXI01-windows',
@@ -419,6 +435,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging status',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.BATTERY_CHARGING: 'battery_charging'>,
@@ -426,6 +443,7 @@
     'original_name': 'Charging status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_status',
     'unique_id': 'WBA00000000DEMO02-charging_status',
@@ -467,6 +485,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Check control messages',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -474,6 +493,7 @@
     'original_name': 'Check control messages',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'check_control_messages',
     'unique_id': 'WBA00000000DEMO02-check_control_messages',
@@ -516,6 +536,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Condition-based services',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -523,6 +544,7 @@
     'original_name': 'Condition-based services',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'condition_based_services',
     'unique_id': 'WBA00000000DEMO02-condition_based_services',
@@ -575,6 +597,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Connection status',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PLUG: 'plug'>,
@@ -582,6 +605,7 @@
     'original_name': 'Connection status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'connection_status',
     'unique_id': 'WBA00000000DEMO02-connection_status',
@@ -623,6 +647,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Door lock state',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.LOCK: 'lock'>,
@@ -630,6 +655,7 @@
     'original_name': 'Door lock state',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'door_lock_state',
     'unique_id': 'WBA00000000DEMO02-door_lock_state',
@@ -672,6 +698,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Lids',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -679,6 +706,7 @@
     'original_name': 'Lids',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'lids',
     'unique_id': 'WBA00000000DEMO02-lids',
@@ -726,6 +754,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pre-entry climatization',
     'options': dict({
     }),
     'original_device_class': None,
@@ -733,6 +762,7 @@
     'original_name': 'Pre-entry climatization',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'is_pre_entry_climatization_enabled',
     'unique_id': 'WBA00000000DEMO02-is_pre_entry_climatization_enabled',
@@ -773,6 +803,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Windows',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -780,6 +811,7 @@
     'original_name': 'Windows',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'windows',
     'unique_id': 'WBA00000000DEMO02-windows',
@@ -826,6 +858,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Charging status',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.BATTERY_CHARGING: 'battery_charging'>,
@@ -833,6 +866,7 @@
     'original_name': 'Charging status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'charging_status',
     'unique_id': 'WBA00000000DEMO01-charging_status',
@@ -874,6 +908,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Check control messages',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -881,6 +916,7 @@
     'original_name': 'Check control messages',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'check_control_messages',
     'unique_id': 'WBA00000000DEMO01-check_control_messages',
@@ -923,6 +959,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Condition-based services',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -930,6 +967,7 @@
     'original_name': 'Condition-based services',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'condition_based_services',
     'unique_id': 'WBA00000000DEMO01-condition_based_services',
@@ -982,6 +1020,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Connection status',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PLUG: 'plug'>,
@@ -989,6 +1028,7 @@
     'original_name': 'Connection status',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'connection_status',
     'unique_id': 'WBA00000000DEMO01-connection_status',
@@ -1030,6 +1070,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Door lock state',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.LOCK: 'lock'>,
@@ -1037,6 +1078,7 @@
     'original_name': 'Door lock state',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'door_lock_state',
     'unique_id': 'WBA00000000DEMO01-door_lock_state',
@@ -1079,6 +1121,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Lids',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -1086,6 +1129,7 @@
     'original_name': 'Lids',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'lids',
     'unique_id': 'WBA00000000DEMO01-lids',
@@ -1134,6 +1178,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pre-entry climatization',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1141,6 +1186,7 @@
     'original_name': 'Pre-entry climatization',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'is_pre_entry_climatization_enabled',
     'unique_id': 'WBA00000000DEMO01-is_pre_entry_climatization_enabled',
@@ -1181,6 +1227,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Windows',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -1188,6 +1235,7 @@
     'original_name': 'Windows',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'windows',
     'unique_id': 'WBA00000000DEMO01-windows',
@@ -1234,6 +1282,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Check control messages',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -1241,6 +1290,7 @@
     'original_name': 'Check control messages',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'check_control_messages',
     'unique_id': 'WBA00000000DEMO03-check_control_messages',
@@ -1284,6 +1334,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Condition-based services',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
@@ -1291,6 +1342,7 @@
     'original_name': 'Condition-based services',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'condition_based_services',
     'unique_id': 'WBA00000000DEMO03-condition_based_services',
@@ -1346,6 +1398,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Door lock state',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.LOCK: 'lock'>,
@@ -1353,6 +1406,7 @@
     'original_name': 'Door lock state',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'door_lock_state',
     'unique_id': 'WBA00000000DEMO03-door_lock_state',
@@ -1395,6 +1449,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Lids',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -1402,6 +1457,7 @@
     'original_name': 'Lids',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'lids',
     'unique_id': 'WBA00000000DEMO03-lids',
@@ -1449,6 +1505,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Windows',
     'options': dict({
     }),
     'original_device_class': <BinarySensorDeviceClass.OPENING: 'opening'>,
@@ -1456,6 +1513,7 @@
     'original_name': 'Windows',
     'platform': 'bmw_connected_drive',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'windows',
     'unique_id': 'WBA00000000DEMO03-windows',

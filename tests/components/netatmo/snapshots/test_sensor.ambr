@@ -22,6 +22,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -35,6 +36,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure',
     'unique_id': '12:34:56:26:68:92-pressure',
@@ -83,6 +85,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -90,6 +93,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:26:68:92-co2',
@@ -144,6 +148,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Health index',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -151,6 +156,7 @@
     'original_name': 'Health index',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'health_idx',
     'unique_id': '12:34:56:26:68:92-health_idx',
@@ -204,6 +210,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -211,6 +218,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:26:68:92-humidity',
@@ -259,13 +267,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Noise',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.SOUND_PRESSURE: 'sound_pressure'>,
     'original_icon': None,
     'original_name': 'Noise',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'noise',
     'unique_id': '12:34:56:26:68:92-noise',
@@ -312,6 +325,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pressure trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -319,6 +333,7 @@
     'original_name': 'Pressure trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure_trend',
     'unique_id': '12:34:56:26:68:92-pressure_trend',
@@ -362,6 +377,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -369,6 +385,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:26:68:92-reachable',
@@ -414,6 +431,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -424,6 +442,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:26:68:92-temperature',
@@ -470,6 +489,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -477,6 +497,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:26:68:92-temp_trend',
@@ -520,6 +541,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wi-Fi strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -527,6 +549,7 @@
     'original_name': 'Wi-Fi strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wifi_strength',
     'unique_id': '12:34:56:26:68:92-wifi_status',
@@ -572,6 +595,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -585,6 +609,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure',
     'unique_id': '12:34:56:26:69:0c-pressure',
@@ -631,6 +656,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -638,6 +664,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:26:69:0c-co2',
@@ -690,6 +717,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Health index',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -697,6 +725,7 @@
     'original_name': 'Health index',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'health_idx',
     'unique_id': '12:34:56:26:69:0c-health_idx',
@@ -748,6 +777,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -755,6 +785,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:26:69:0c-humidity',
@@ -801,13 +832,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Noise',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.SOUND_PRESSURE: 'sound_pressure'>,
     'original_icon': None,
     'original_name': 'Noise',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'noise',
     'unique_id': '12:34:56:26:69:0c-noise',
@@ -852,6 +888,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pressure trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -859,6 +896,7 @@
     'original_name': 'Pressure trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure_trend',
     'unique_id': '12:34:56:26:69:0c-pressure_trend',
@@ -900,6 +938,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -907,6 +946,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:26:69:0c-reachable',
@@ -952,6 +992,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -962,6 +1003,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:26:69:0c-temperature',
@@ -1006,6 +1048,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1013,6 +1056,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:26:69:0c-temp_trend',
@@ -1054,6 +1098,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wi-Fi strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -1061,6 +1106,7 @@
     'original_name': 'Wi-Fi strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wifi_strength',
     'unique_id': '12:34:56:26:69:0c-wifi_status',
@@ -1106,6 +1152,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -1113,6 +1160,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '222452125-12:34:56:20:f5:8c-battery',
@@ -1136,7 +1184,7 @@
     'state': '90',
   })
 # ---
-# name: test_entity[sensor.cold_water_none-entry]
+# name: test_entity[sensor.cold_water-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -1149,7 +1197,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.cold_water_none',
+    'entity_id': 'sensor.cold_water',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -1157,6 +1205,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -1164,27 +1213,28 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#8-12:34:56:00:16:0e#8-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.cold_water_none-state]
+# name: test_entity[sensor.cold_water-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Cold water None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.cold_water_none',
+    'entity_id': 'sensor.cold_water',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'True',
   })
 # ---
-# name: test_entity[sensor.consumption_meter_none-entry]
+# name: test_entity[sensor.consumption_meter-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -1197,7 +1247,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.consumption_meter_none',
+    'entity_id': 'sensor.consumption_meter',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -1205,6 +1255,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -1212,20 +1263,21 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:00:a1:4c:da-12:34:56:00:00:a1:4c:da-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.consumption_meter_none-state]
+# name: test_entity[sensor.consumption_meter-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Consumption meter None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.consumption_meter_none',
+    'entity_id': 'sensor.consumption_meter',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
@@ -1255,13 +1307,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Power',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.POWER: 'power'>,
     'original_icon': None,
     'original_name': 'Power',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:00:a1:4c:da-12:34:56:00:00:a1:4c:da-power',
@@ -1308,6 +1365,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -1315,6 +1373,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '1002003001-1002003001-humidity',
@@ -1338,7 +1397,7 @@
     'state': '67',
   })
 # ---
-# name: test_entity[sensor.ecocompteur_none-entry]
+# name: test_entity[sensor.ecocompteur-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -1351,7 +1410,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.ecocompteur_none',
+    'entity_id': 'sensor.ecocompteur',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -1359,6 +1418,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -1366,27 +1426,28 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e-12:34:56:00:16:0e-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.ecocompteur_none-state]
+# name: test_entity[sensor.ecocompteur-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Écocompteur None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.ecocompteur_none',
+    'entity_id': 'sensor.ecocompteur',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_entity[sensor.gas_none-entry]
+# name: test_entity[sensor.gas-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -1399,7 +1460,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.gas_none',
+    'entity_id': 'sensor.gas',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -1407,6 +1468,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -1414,20 +1476,21 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#6-12:34:56:00:16:0e#6-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.gas_none-state]
+# name: test_entity[sensor.gas-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Gas None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.gas_none',
+    'entity_id': 'sensor.gas',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
@@ -1457,6 +1520,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -1470,6 +1534,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-avg-pressure',
@@ -1518,6 +1583,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust angle',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -1525,6 +1591,7 @@
     'original_name': 'Gust angle',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_angle',
     'unique_id': 'Home-avg-gustangle_value',
@@ -1573,13 +1640,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust strength',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Gust strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_strength',
     'unique_id': 'Home-avg-guststrength',
@@ -1628,6 +1700,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -1635,6 +1708,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-avg-humidity',
@@ -1683,13 +1757,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-avg-rain',
@@ -1738,6 +1817,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation last hour',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -1748,6 +1828,7 @@
     'original_name': 'Precipitation last hour',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_1',
     'unique_id': 'Home-avg-sum_rain_1',
@@ -1796,13 +1877,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation today',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation today',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_24',
     'unique_id': 'Home-avg-sum_rain_24',
@@ -1851,6 +1937,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -1861,6 +1948,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-avg-temperature',
@@ -1909,6 +1997,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind direction',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -1916,6 +2005,7 @@
     'original_name': 'Wind direction',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-avg-windangle_value',
@@ -1964,13 +2054,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind speed',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Wind speed',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-avg-windstrength',
@@ -2019,6 +2114,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -2032,6 +2128,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-max-pressure',
@@ -2080,6 +2177,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust angle',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -2087,6 +2185,7 @@
     'original_name': 'Gust angle',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_angle',
     'unique_id': 'Home-max-gustangle_value',
@@ -2135,13 +2234,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust strength',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Gust strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_strength',
     'unique_id': 'Home-max-guststrength',
@@ -2190,6 +2294,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -2197,6 +2302,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-max-humidity',
@@ -2245,13 +2351,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-max-rain',
@@ -2300,6 +2411,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation last hour',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -2310,6 +2422,7 @@
     'original_name': 'Precipitation last hour',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_1',
     'unique_id': 'Home-max-sum_rain_1',
@@ -2358,13 +2471,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation today',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation today',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_24',
     'unique_id': 'Home-max-sum_rain_24',
@@ -2413,6 +2531,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -2423,6 +2542,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-max-temperature',
@@ -2471,6 +2591,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind direction',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -2478,6 +2599,7 @@
     'original_name': 'Wind direction',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-max-windangle_value',
@@ -2526,13 +2648,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind speed',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Wind speed',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-max-windstrength',
@@ -2581,6 +2708,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -2594,6 +2722,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-min-pressure',
@@ -2642,6 +2771,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust angle',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -2649,6 +2779,7 @@
     'original_name': 'Gust angle',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_angle',
     'unique_id': 'Home-min-gustangle_value',
@@ -2697,13 +2828,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust strength',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Gust strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_strength',
     'unique_id': 'Home-min-guststrength',
@@ -2752,6 +2888,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -2759,6 +2896,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-min-humidity',
@@ -2807,13 +2945,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-min-rain',
@@ -2862,6 +3005,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation last hour',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -2872,6 +3016,7 @@
     'original_name': 'Precipitation last hour',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_1',
     'unique_id': 'Home-min-sum_rain_1',
@@ -2920,13 +3065,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation today',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation today',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_24',
     'unique_id': 'Home-min-sum_rain_24',
@@ -2975,6 +3125,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -2985,6 +3136,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-min-temperature',
@@ -3033,6 +3185,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind direction',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -3040,6 +3193,7 @@
     'original_name': 'Wind direction',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-min-windangle_value',
@@ -3088,13 +3242,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind speed',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Wind speed',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': 'Home-min-windstrength',
@@ -3120,7 +3279,7 @@
     'state': '15',
   })
 # ---
-# name: test_entity[sensor.hot_water_none-entry]
+# name: test_entity[sensor.hot_water-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -3133,7 +3292,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.hot_water_none',
+    'entity_id': 'sensor.hot_water',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -3141,6 +3300,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -3148,20 +3308,21 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#7-12:34:56:00:16:0e#7-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.hot_water_none-state]
+# name: test_entity[sensor.hot_water-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Hot water None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.hot_water_none',
+    'entity_id': 'sensor.hot_water',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
@@ -3191,6 +3352,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -3204,6 +3366,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure',
     'unique_id': '12:34:56:25:cf:a8-pressure',
@@ -3252,6 +3415,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -3259,6 +3423,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:25:cf:a8-co2',
@@ -3313,6 +3478,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Health index',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -3320,6 +3486,7 @@
     'original_name': 'Health index',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'health_idx',
     'unique_id': '12:34:56:25:cf:a8-health_idx',
@@ -3373,6 +3540,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -3380,6 +3548,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:25:cf:a8-humidity',
@@ -3428,13 +3597,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Noise',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.SOUND_PRESSURE: 'sound_pressure'>,
     'original_icon': None,
     'original_name': 'Noise',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'noise',
     'unique_id': '12:34:56:25:cf:a8-noise',
@@ -3481,6 +3655,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pressure trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -3488,6 +3663,7 @@
     'original_name': 'Pressure trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure_trend',
     'unique_id': '12:34:56:25:cf:a8-pressure_trend',
@@ -3531,6 +3707,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -3538,6 +3715,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:25:cf:a8-reachable',
@@ -3583,6 +3761,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -3593,6 +3772,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:25:cf:a8-temperature',
@@ -3639,6 +3819,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -3646,6 +3827,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:25:cf:a8-temp_trend',
@@ -3689,6 +3871,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wi-Fi strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -3696,6 +3879,7 @@
     'original_name': 'Wi-Fi strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wifi_strength',
     'unique_id': '12:34:56:25:cf:a8-wifi_status',
@@ -3718,7 +3902,7 @@
     'state': 'Full',
   })
 # ---
-# name: test_entity[sensor.line_1_none-entry]
+# name: test_entity[sensor.line_1-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -3731,7 +3915,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.line_1_none',
+    'entity_id': 'sensor.line_1',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -3739,6 +3923,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -3746,27 +3931,28 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#0-12:34:56:00:16:0e#0-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.line_1_none-state]
+# name: test_entity[sensor.line_1-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Line 1 None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.line_1_none',
+    'entity_id': 'sensor.line_1',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'True',
   })
 # ---
-# name: test_entity[sensor.line_2_none-entry]
+# name: test_entity[sensor.line_2-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -3779,7 +3965,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.line_2_none',
+    'entity_id': 'sensor.line_2',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -3787,6 +3973,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -3794,27 +3981,28 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#1-12:34:56:00:16:0e#1-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.line_2_none-state]
+# name: test_entity[sensor.line_2-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Line 2 None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.line_2_none',
+    'entity_id': 'sensor.line_2',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'True',
   })
 # ---
-# name: test_entity[sensor.line_3_none-entry]
+# name: test_entity[sensor.line_3-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -3827,7 +4015,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.line_3_none',
+    'entity_id': 'sensor.line_3',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -3835,6 +4023,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -3842,27 +4031,28 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#2-12:34:56:00:16:0e#2-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.line_3_none-state]
+# name: test_entity[sensor.line_3-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Line 3 None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.line_3_none',
+    'entity_id': 'sensor.line_3',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'True',
   })
 # ---
-# name: test_entity[sensor.line_4_none-entry]
+# name: test_entity[sensor.line_4-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -3875,7 +4065,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.line_4_none',
+    'entity_id': 'sensor.line_4',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -3883,6 +4073,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -3890,27 +4081,28 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#3-12:34:56:00:16:0e#3-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.line_4_none-state]
+# name: test_entity[sensor.line_4-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Line 4 None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.line_4_none',
+    'entity_id': 'sensor.line_4',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'True',
   })
 # ---
-# name: test_entity[sensor.line_5_none-entry]
+# name: test_entity[sensor.line_5-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -3923,7 +4115,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.line_5_none',
+    'entity_id': 'sensor.line_5',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -3931,6 +4123,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -3938,20 +4131,21 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#4-12:34:56:00:16:0e#4-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.line_5_none-state]
+# name: test_entity[sensor.line_5-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Line 5 None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.line_5_none',
+    'entity_id': 'sensor.line_5',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
@@ -3981,6 +4175,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -3994,6 +4189,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure',
     'unique_id': '12:34:56:26:65:14-pressure',
@@ -4042,6 +4238,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -4049,6 +4246,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '2746182631-12:34:56:00:01:ae-battery',
@@ -4095,6 +4293,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -4102,6 +4301,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:26:65:14-co2',
@@ -4156,6 +4356,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Health index',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -4163,6 +4364,7 @@
     'original_name': 'Health index',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'health_idx',
     'unique_id': '12:34:56:26:65:14-health_idx',
@@ -4216,6 +4418,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -4223,6 +4426,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:26:65:14-humidity',
@@ -4271,13 +4475,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Noise',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.SOUND_PRESSURE: 'sound_pressure'>,
     'original_icon': None,
     'original_name': 'Noise',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'noise',
     'unique_id': '12:34:56:26:65:14-noise',
@@ -4324,6 +4533,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pressure trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -4331,6 +4541,7 @@
     'original_name': 'Pressure trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure_trend',
     'unique_id': '12:34:56:26:65:14-pressure_trend',
@@ -4374,6 +4585,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -4381,6 +4593,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:26:65:14-reachable',
@@ -4426,6 +4639,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -4436,6 +4650,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:26:65:14-temperature',
@@ -4482,6 +4697,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -4489,6 +4705,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:26:65:14-temp_trend',
@@ -4532,6 +4749,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wi-Fi strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -4539,6 +4757,7 @@
     'original_name': 'Wi-Fi strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wifi_strength',
     'unique_id': '12:34:56:26:65:14-wifi_status',
@@ -4584,6 +4803,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -4597,6 +4817,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure',
     'unique_id': '12:34:56:3e:c5:46-pressure',
@@ -4645,6 +4866,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -4652,6 +4874,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:3e:c5:46-co2',
@@ -4706,6 +4929,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Health index',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -4713,6 +4937,7 @@
     'original_name': 'Health index',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'health_idx',
     'unique_id': '12:34:56:3e:c5:46-health_idx',
@@ -4766,6 +4991,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -4773,6 +4999,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:3e:c5:46-humidity',
@@ -4821,13 +5048,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Noise',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.SOUND_PRESSURE: 'sound_pressure'>,
     'original_icon': None,
     'original_name': 'Noise',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'noise',
     'unique_id': '12:34:56:3e:c5:46-noise',
@@ -4874,6 +5106,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pressure trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -4881,6 +5114,7 @@
     'original_name': 'Pressure trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure_trend',
     'unique_id': '12:34:56:3e:c5:46-pressure_trend',
@@ -4924,6 +5158,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -4931,6 +5166,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:3e:c5:46-reachable',
@@ -4976,6 +5212,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -4986,6 +5223,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:3e:c5:46-temperature',
@@ -5032,6 +5270,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -5039,6 +5278,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:3e:c5:46-temp_trend',
@@ -5082,6 +5322,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wi-Fi strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -5089,6 +5330,7 @@
     'original_name': 'Wi-Fi strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wifi_strength',
     'unique_id': '12:34:56:3e:c5:46-wifi_status',
@@ -5111,7 +5353,7 @@
     'state': 'High',
   })
 # ---
-# name: test_entity[sensor.prise_none-entry]
+# name: test_entity[sensor.prise-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -5124,7 +5366,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.prise_none',
+    'entity_id': 'sensor.prise',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -5132,6 +5374,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -5139,20 +5382,21 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:80:00:12:ac:f2-12:34:56:80:00:12:ac:f2-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.prise_none-state]
+# name: test_entity[sensor.prise-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Prise None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.prise_none',
+    'entity_id': 'sensor.prise',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
@@ -5182,13 +5426,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Power',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.POWER: 'power'>,
     'original_icon': None,
     'original_name': 'Power',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:80:00:12:ac:f2-12:34:56:80:00:12:ac:f2-power',
@@ -5212,7 +5461,7 @@
     'state': '0',
   })
 # ---
-# name: test_entity[sensor.total_none-entry]
+# name: test_entity[sensor.total-entry]
   EntityRegistryEntrySnapshot({
     'aliases': set({
     }),
@@ -5225,7 +5474,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.total_none',
+    'entity_id': 'sensor.total',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -5233,6 +5482,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': None,
@@ -5240,20 +5490,21 @@
     'original_name': None,
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '12:34:56:00:16:0e#5-12:34:56:00:16:0e#5-reachable',
     'unit_of_measurement': None,
   })
 # ---
-# name: test_entity[sensor.total_none-state]
+# name: test_entity[sensor.total-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': 'Data provided by Netatmo',
       'friendly_name': 'Total None',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.total_none',
+    'entity_id': 'sensor.total',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
@@ -5283,6 +5534,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -5290,6 +5542,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '2833524037-12:34:56:03:a5:54-battery',
@@ -5336,6 +5589,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -5343,6 +5597,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': None,
     'unique_id': '2940411577-12:34:56:03:a0:ac-battery',
@@ -5389,6 +5644,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Atmospheric pressure',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -5402,6 +5658,7 @@
     'original_name': 'Atmospheric pressure',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure',
     'unique_id': '12:34:56:80:bb:26-pressure',
@@ -5450,6 +5707,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -5457,6 +5715,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'battery',
     'unique_id': '12:34:56:80:7e:18-battery_percent',
@@ -5503,6 +5762,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -5510,6 +5770,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:80:7e:18-co2',
@@ -5556,6 +5817,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -5563,6 +5825,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:80:7e:18-humidity',
@@ -5607,6 +5870,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -5614,6 +5878,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:80:7e:18-reachable',
@@ -5655,6 +5920,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RF strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -5662,6 +5928,7 @@
     'original_name': 'RF strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rf_strength',
     'unique_id': '12:34:56:80:7e:18-rf_status',
@@ -5705,6 +5972,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -5715,6 +5983,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:80:7e:18-temperature',
@@ -5759,6 +6028,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -5766,6 +6036,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:80:7e:18-temp_trend',
@@ -5809,6 +6080,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -5816,6 +6088,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'battery',
     'unique_id': '12:34:56:80:44:92-battery_percent',
@@ -5862,6 +6135,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -5869,6 +6143,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:80:44:92-co2',
@@ -5915,6 +6190,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -5922,6 +6198,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:80:44:92-humidity',
@@ -5966,6 +6243,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -5973,6 +6251,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:80:44:92-reachable',
@@ -6014,6 +6293,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RF strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -6021,6 +6301,7 @@
     'original_name': 'RF strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rf_strength',
     'unique_id': '12:34:56:80:44:92-rf_status',
@@ -6064,6 +6345,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -6074,6 +6356,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:80:44:92-temperature',
@@ -6118,6 +6401,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -6125,6 +6409,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:80:44:92-temp_trend',
@@ -6168,6 +6453,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Carbon dioxide',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.CO2: 'carbon_dioxide'>,
@@ -6175,6 +6461,7 @@
     'original_name': 'Carbon dioxide',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'co2',
     'unique_id': '12:34:56:80:bb:26-co2',
@@ -6223,6 +6510,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -6230,6 +6518,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'battery',
     'unique_id': '12:34:56:03:1b:e4-battery_percent',
@@ -6276,6 +6565,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust angle',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -6283,6 +6573,7 @@
     'original_name': 'Gust angle',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_angle',
     'unique_id': '12:34:56:03:1b:e4-gustangle_value',
@@ -6338,6 +6629,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust direction',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -6345,6 +6637,7 @@
     'original_name': 'Gust direction',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_direction',
     'unique_id': '12:34:56:03:1b:e4-gustangle',
@@ -6399,13 +6692,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Gust strength',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Gust strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'gust_strength',
     'unique_id': '12:34:56:03:1b:e4-guststrength',
@@ -6450,6 +6748,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -6457,6 +6756,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:03:1b:e4-reachable',
@@ -6498,6 +6798,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RF strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -6505,6 +6806,7 @@
     'original_name': 'RF strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rf_strength',
     'unique_id': '12:34:56:03:1b:e4-rf_status',
@@ -6548,6 +6850,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind angle',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.WIND_DIRECTION: 'wind_direction'>,
@@ -6555,6 +6858,7 @@
     'original_name': 'Wind angle',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wind_angle',
     'unique_id': '12:34:56:03:1b:e4-windangle_value',
@@ -6610,6 +6914,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind direction',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.ENUM: 'enum'>,
@@ -6617,6 +6922,7 @@
     'original_name': 'Wind direction',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wind_direction',
     'unique_id': '12:34:56:03:1b:e4-windangle',
@@ -6671,13 +6977,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wind speed',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 2,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.WIND_SPEED: 'wind_speed'>,
     'original_icon': None,
     'original_name': 'Wind speed',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wind_strength',
     'unique_id': '12:34:56:03:1b:e4-windstrength',
@@ -6724,6 +7035,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -6731,6 +7043,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:80:bb:26-humidity',
@@ -6779,13 +7092,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Noise',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.SOUND_PRESSURE: 'sound_pressure'>,
     'original_icon': None,
     'original_name': 'Noise',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'noise',
     'unique_id': '12:34:56:80:bb:26-noise',
@@ -6834,6 +7152,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -6841,6 +7160,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'battery',
     'unique_id': '12:34:56:80:1c:42-battery_percent',
@@ -6887,6 +7207,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidity',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.HUMIDITY: 'humidity'>,
@@ -6894,6 +7215,7 @@
     'original_name': 'Humidity',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'humidity',
     'unique_id': '12:34:56:80:1c:42-humidity',
@@ -6938,6 +7260,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -6945,6 +7268,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:80:1c:42-reachable',
@@ -6986,6 +7310,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RF strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -6993,6 +7318,7 @@
     'original_name': 'RF strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rf_strength',
     'unique_id': '12:34:56:80:1c:42-rf_status',
@@ -7036,6 +7362,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -7046,6 +7373,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:80:1c:42-temperature',
@@ -7090,6 +7418,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -7097,6 +7426,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:80:1c:42-temp_trend',
@@ -7138,6 +7468,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Pressure trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -7145,6 +7476,7 @@
     'original_name': 'Pressure trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'pressure_trend',
     'unique_id': '12:34:56:80:bb:26-pressure_trend',
@@ -7190,6 +7522,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Battery',
     'options': dict({
     }),
     'original_device_class': <SensorDeviceClass.BATTERY: 'battery'>,
@@ -7197,6 +7530,7 @@
     'original_name': 'Battery',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'battery',
     'unique_id': '12:34:56:80:c1:ea-battery_percent',
@@ -7243,13 +7577,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rain',
     'unique_id': '12:34:56:80:c1:ea-rain',
@@ -7296,6 +7635,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation last hour',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -7306,6 +7646,7 @@
     'original_name': 'Precipitation last hour',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_1',
     'unique_id': '12:34:56:80:c1:ea-sum_rain_1',
@@ -7352,13 +7693,18 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Precipitation today',
     'options': dict({
+      'sensor': dict({
+        'suggested_display_precision': 0,
+      }),
     }),
     'original_device_class': <SensorDeviceClass.PRECIPITATION: 'precipitation'>,
     'original_icon': None,
     'original_name': 'Precipitation today',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'sum_rain_24',
     'unique_id': '12:34:56:80:c1:ea-sum_rain_24',
@@ -7403,6 +7749,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -7410,6 +7757,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:80:c1:ea-reachable',
@@ -7451,6 +7799,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'RF strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -7458,6 +7807,7 @@
     'original_name': 'RF strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'rf_strength',
     'unique_id': '12:34:56:80:c1:ea-rf_status',
@@ -7499,6 +7849,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Reachability',
     'options': dict({
     }),
     'original_device_class': None,
@@ -7506,6 +7857,7 @@
     'original_name': 'Reachability',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'reachable',
     'unique_id': '12:34:56:80:bb:26-reachable',
@@ -7551,6 +7903,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature',
     'options': dict({
       'sensor': dict({
         'suggested_display_precision': 1,
@@ -7561,6 +7914,7 @@
     'original_name': 'Temperature',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temperature',
     'unique_id': '12:34:56:80:bb:26-temperature',
@@ -7607,6 +7961,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Temperature trend',
     'options': dict({
     }),
     'original_device_class': None,
@@ -7614,6 +7969,7 @@
     'original_name': 'Temperature trend',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'temp_trend',
     'unique_id': '12:34:56:80:bb:26-temp_trend',
@@ -7657,6 +8013,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Wi-Fi strength',
     'options': dict({
     }),
     'original_device_class': None,
@@ -7664,6 +8021,7 @@
     'original_name': 'Wi-Fi strength',
     'platform': 'netatmo',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'wifi_strength',
     'unique_id': '12:34:56:80:bb:26-wifi_status',

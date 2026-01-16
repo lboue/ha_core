@@ -5,10 +5,11 @@ from unittest.mock import AsyncMock
 from pysmartthings import Attribute, Capability, Command
 from pysmartthings.models import HealthStatus
 import pytest
-from syrupy import SnapshotAssertion
+from syrupy.assertion import SnapshotAssertion
 
 from homeassistant.components.select import (
     ATTR_OPTION,
+    ATTR_OPTIONS,
     DOMAIN as SELECT_DOMAIN,
     SERVICE_SELECT_OPTION,
 )
@@ -95,6 +96,38 @@ async def test_select_option(
     )
 
 
+@pytest.mark.parametrize("device_fixture", ["da_ks_range_0101x"])
+async def test_select_option_map(
+    hass: HomeAssistant,
+    devices: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test state update."""
+    await setup_integration(hass, mock_config_entry)
+
+    state = hass.states.get("select.vulcan_lamp")
+    assert state
+    assert state.state == "extra_high"
+    assert state.attributes[ATTR_OPTIONS] == [
+        "off",
+        "extra_high",
+    ]
+
+    await hass.services.async_call(
+        SELECT_DOMAIN,
+        SERVICE_SELECT_OPTION,
+        {ATTR_ENTITY_ID: "select.vulcan_lamp", ATTR_OPTION: "extra_high"},
+        blocking=True,
+    )
+    devices.execute_device_command.assert_called_once_with(
+        "2c3cbaa0-1899-5ddc-7b58-9d657bd48f18",
+        Capability.SAMSUNG_CE_LAMP,
+        Command.SET_BRIGHTNESS_LEVEL,
+        MAIN,
+        argument="extraHigh",
+    )
+
+
 @pytest.mark.parametrize("device_fixture", ["da_wm_wd_000001"])
 async def test_select_option_without_remote_control(
     hass: HomeAssistant,
@@ -156,3 +189,34 @@ async def test_availability_at_start(
     """Test unavailable at boot."""
     await setup_integration(hass, mock_config_entry)
     assert hass.states.get("select.dryer").state == STATE_UNAVAILABLE
+
+
+@pytest.mark.parametrize("device_fixture", ["da_ac_rac_000003"])
+async def test_select_option_as_integer(
+    hass: HomeAssistant,
+    devices: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test selecting an option represented as an integer."""
+    await setup_integration(hass, mock_config_entry)
+
+    state = hass.states.get("select.clim_salon_dust_filter_alarm_threshold")
+    assert state.state == "500"
+    assert all(isinstance(option, str) for option in state.attributes[ATTR_OPTIONS])
+
+    await hass.services.async_call(
+        SELECT_DOMAIN,
+        SERVICE_SELECT_OPTION,
+        {
+            ATTR_ENTITY_ID: "select.clim_salon_dust_filter_alarm_threshold",
+            ATTR_OPTION: "300",
+        },
+        blocking=True,
+    )
+    devices.execute_device_command.assert_called_once_with(
+        "1e3f7ca2-e005-e1a4-f6d7-bc231e3f7977",
+        Capability.SAMSUNG_CE_DUST_FILTER_ALARM,
+        Command.SET_ALARM_THRESHOLD,
+        MAIN,
+        argument=300,
+    )

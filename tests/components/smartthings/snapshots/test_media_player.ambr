@@ -28,6 +28,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': <MediaPlayerDeviceClass.SPEAKER: 'speaker'>,
@@ -35,6 +36,7 @@
     'original_name': None,
     'platform': 'smartthings',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <MediaPlayerEntityFeature: 23949>,
     'translation_key': None,
     'unique_id': 'afcf3b91-0000-1111-2222-ddff2a0a6577_main',
@@ -90,6 +92,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': <MediaPlayerDeviceClass.SPEAKER: 'speaker'>,
@@ -97,6 +100,7 @@
     'original_name': None,
     'platform': 'smartthings',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <MediaPlayerEntityFeature: 318477>,
     'translation_key': None,
     'unique_id': 'c9276e43-fe3c-88c3-1dcc-2eb79e292b8c_main',
@@ -144,6 +148,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': <MediaPlayerDeviceClass.SPEAKER: 'speaker'>,
@@ -151,6 +156,7 @@
     'original_name': None,
     'platform': 'smartthings',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <MediaPlayerEntityFeature: 21517>,
     'translation_key': None,
     'unique_id': 'c85fced9-c474-4a47-93c2-037cc7829536_main',
@@ -198,6 +204,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': <MediaPlayerDeviceClass.SPEAKER: 'speaker'>,
@@ -205,6 +212,7 @@
     'original_name': None,
     'platform': 'smartthings',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <MediaPlayerEntityFeature: 21901>,
     'translation_key': None,
     'unique_id': '0d94e5db-8501-2355-eb4f-214163702cac_main',
@@ -253,6 +261,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': <MediaPlayerDeviceClass.SPEAKER: 'speaker'>,
@@ -260,6 +269,7 @@
     'original_name': None,
     'platform': 'smartthings',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <MediaPlayerEntityFeature: 1420>,
     'translation_key': None,
     'unique_id': 'a75cb1e1-03fd-3c77-ca9f-d4e56c4096c6_main',
@@ -309,6 +319,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': None,
     'options': dict({
     }),
     'original_device_class': <MediaPlayerDeviceClass.TV: 'tv'>,
@@ -316,6 +327,7 @@
     'original_name': None,
     'platform': 'smartthings',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <MediaPlayerEntityFeature: 23997>,
     'translation_key': None,
     'unique_id': '4588d2d9-a8cf-40f4-9a0b-ed5dfbaccda1_main',

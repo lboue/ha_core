@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'FRITZ!OS',
     'options': dict({
     }),
     'original_device_class': None,
@@ -27,6 +28,7 @@
     'original_name': 'FRITZ!OS',
     'platform': 'fritz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <UpdateEntityFeature: 1>,
     'translation_key': None,
     'unique_id': '1C:ED:6F:12:34:11-update',
@@ -79,6 +81,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'FRITZ!OS',
     'options': dict({
     }),
     'original_device_class': None,
@@ -86,6 +89,7 @@
     'original_name': 'FRITZ!OS',
     'platform': 'fritz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <UpdateEntityFeature: 1>,
     'translation_key': None,
     'unique_id': '1C:ED:6F:12:34:11-update',
@@ -138,6 +142,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'FRITZ!OS',
     'options': dict({
     }),
     'original_device_class': None,
@@ -145,6 +150,7 @@
     'original_name': 'FRITZ!OS',
     'platform': 'fritz',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <UpdateEntityFeature: 1>,
     'translation_key': None,
     'unique_id': '1C:ED:6F:12:34:11-update',

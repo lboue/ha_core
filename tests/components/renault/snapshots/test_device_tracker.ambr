@@ -20,6 +20,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Location',
     'options': dict({
     }),
     'original_device_class': None,
@@ -27,6 +28,7 @@
     'original_name': 'Location',
     'platform': 'renault',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'location',
     'unique_id': 'vf1zoe50vin_location',
@@ -68,6 +70,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Location',
     'options': dict({
     }),
     'original_device_class': None,
@@ -75,6 +78,7 @@
     'original_name': 'Location',
     'platform': 'renault',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'location',
     'unique_id': 'vf1zoe50vin_location',
@@ -115,6 +119,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Location',
     'options': dict({
     }),
     'original_device_class': None,
@@ -122,6 +127,7 @@
     'original_name': 'Location',
     'platform': 'renault',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'location',
     'unique_id': 'vf1capturfuelvin_location',
@@ -166,6 +172,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Location',
     'options': dict({
     }),
     'original_device_class': None,
@@ -173,6 +180,7 @@
     'original_name': 'Location',
     'platform': 'renault',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'location',
     'unique_id': 'vf1capturphevvin_location',
@@ -217,6 +225,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Location',
     'options': dict({
     }),
     'original_device_class': None,
@@ -224,6 +233,7 @@
     'original_name': 'Location',
     'platform': 'renault',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'location',
     'unique_id': 'vf1twingoiiivin_location',
@@ -268,6 +278,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Location',
     'options': dict({
     }),
     'original_device_class': None,
@@ -275,6 +286,7 @@
     'original_name': 'Location',
     'platform': 'renault',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': 0,
     'translation_key': 'location',
     'unique_id': 'vf1zoe50vin_location',

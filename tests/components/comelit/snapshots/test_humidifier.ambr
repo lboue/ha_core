@@ -27,6 +27,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Dehumidifier',
     'options': dict({
     }),
     'original_device_class': <HumidifierDeviceClass.DEHUMIDIFIER: 'dehumidifier'>,
@@ -34,6 +35,7 @@
     'original_name': 'Dehumidifier',
     'platform': 'comelit',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <HumidifierEntityFeature: 1>,
     'translation_key': 'dehumidifier',
     'unique_id': 'serial_bridge_config_entry_id-0-dehumidifier',
@@ -93,6 +95,7 @@
     'labels': set({
     }),
     'name': None,
+    'object_id_base': 'Humidifier',
     'options': dict({
     }),
     'original_device_class': <HumidifierDeviceClass.HUMIDIFIER: 'humidifier'>,
@@ -100,6 +103,7 @@
     'original_name': 'Humidifier',
     'platform': 'comelit',
     'previous_unique_id': None,
+    'suggested_object_id': None,
     'supported_features': <HumidifierEntityFeature: 1>,
     'translation_key': 'humidifier',
     'unique_id': 'serial_bridge_config_entry_id-0-humidifier',
