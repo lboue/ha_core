@@ -132,6 +132,7 @@ async def integration_fixture(
         "resideo_x2s_thermostat",
         "room_airconditioner",
         "secuyou_smart_lock",
+        "silabs_closure",
         "silabs_dishwasher",
         "silabs_evse_charging",
         "silabs_laundrywasher",
