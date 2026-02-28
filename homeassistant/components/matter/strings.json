@@ -618,6 +618,26 @@
     }
   },
   "services": {
+    "clear_lock_user": {
+      "description": "Clears a user and all associated credentials from a Matter lock.",
+      "fields": {
+        "code_slot": {
+          "description": "The user index (code slot) to clear (1-255).",
+          "name": "Code slot"
+        }
+      },
+      "name": "Clear lock user"
+    },
+    "clear_lock_usercode": {
+      "description": "Clears a user code from a Matter lock device.",
+      "fields": {
+        "code_slot": {
+          "description": "The slot number to clear the code from (1-255).",
+          "name": "Code slot"
+        }
+      },
+      "name": "Clear lock user code"
+    },
     "open_commissioning_window": {
       "description": "Allows adding one of your devices to another Matter network by opening the commissioning window for this Matter device for 60 seconds.",
       "fields": {
@@ -627,6 +647,20 @@
         }
       },
       "name": "Open commissioning window"
+    },
+    "set_lock_usercode": {
+      "description": "Sets a user code on a Matter lock device.",
+      "fields": {
+        "code_slot": {
+          "description": "The slot number to set the code in (1-255).",
+          "name": "Code slot"
+        },
+        "usercode": {
+          "description": "The user code to set (e.g., 4-8 digits).",
+          "name": "User code"
+        }
+      },
+      "name": "Set lock usercode"
     },
     "water_heater_boost": {
       "description": "Enables water heater boost for a specific duration.",
