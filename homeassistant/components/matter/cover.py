@@ -6,6 +6,7 @@ from math import floor
 from typing import Any
 
 from chip.clusters import Objects as clusters
+from chip.clusters.cluster_defs.Globals import Globals
 from matter_server.client.models import device_types
 
 from homeassistant.components.cover import (
@@ -50,6 +51,36 @@ POSITION_TO_PERCENT = {
     clusters.ClosureControl.Enums.CurrentPositionEnum.kOpenedForVentilation: 75,
     clusters.ClosureControl.Enums.CurrentPositionEnum.kOpenedAtSignature: 90,
 }
+
+GARAGE_DOOR_TAG_NAMESPACE_ID = int(Globals.Enums.namespace.kClosure)
+
+# Closure Semantic Tag Namespace
+# tuple format: (tag name, tag id)
+CLOSURE_TAGS: tuple[tuple[str, int], ...] = (
+    ("Covering", 0x00),
+    ("Window", 0x01),
+    ("Barrier", 0x02),
+    ("Cabinet", 0x03),
+    ("Gate", 0x04),
+    ("GarageDoor", 0x05),
+    ("Door", 0x06),
+)
+
+CLOSURE_TAG_ID_BY_NAME = dict(CLOSURE_TAGS)
+
+
+def _has_closure_tag(endpoint: Any, namespace_id: int, tag_id: int) -> bool:
+    """Return true if the endpoint Descriptor TagList includes a semtag."""
+    tag_list = endpoint.get_attribute_value(
+        None, clusters.Descriptor.Attributes.TagList
+    )
+    return any(
+        (
+            getattr(tag, "namespaceID", None) == namespace_id
+            and getattr(tag, "tag", None) == tag_id
+        )
+        for tag in tag_list or []
+    )
 
 
 def _current_closure_position_percent(position: Any) -> int | None:
@@ -219,7 +250,15 @@ class MatterCover(MatterEntity, CoverEntity):
                         self._attr_is_opening = current_percent < target_percent
                         self._attr_is_closing = current_percent > target_percent
 
-            self._attr_device_class = CoverDeviceClass.GARAGE
+            self._attr_device_class = (
+                CoverDeviceClass.GARAGE
+                if _has_closure_tag(
+                    self._entity_info.endpoint,
+                    GARAGE_DOOR_TAG_NAMESPACE_ID,
+                    CLOSURE_TAG_ID_BY_NAME["GarageDoor"],
+                )
+                else CoverDeviceClass.AWNING
+            )
             supported_features = (
                 CoverEntityFeature.OPEN
                 | CoverEntityFeature.CLOSE
@@ -386,8 +425,13 @@ DISCOVERY_SCHEMAS = [
         device_type=(device_types.Closure,),
         required_attributes=(
             clusters.ClosureControl.Attributes.MainState,
+            clusters.Descriptor.Attributes.TagList,
             clusters.ClosureControl.Attributes.OverallCurrentState,
             clusters.ClosureControl.Attributes.OverallTargetState,
+        ),
+        tag_list_contains=(
+            GARAGE_DOOR_TAG_NAMESPACE_ID,
+            CLOSURE_TAG_ID_BY_NAME["GarageDoor"],
         ),
         featuremap_contains=clusters.ClosureControl.Bitmaps.Feature.kPositioning,
     ),

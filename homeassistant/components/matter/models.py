@@ -147,6 +147,10 @@ class MatterDiscoverySchema:
     # in case of a list value, the list may not contain this value
     value_is_not: Any = UNSET
 
+    # [optional] the endpoint Descriptor.TagList must contain a semtag
+    # matching this (namespaceID, tag)
+    tag_list_contains: tuple[int, int] | None = None
+
     # [optional] the secondary (required) attribute value must NOT have this value
     # for example to filter out empty lists in list sensor values
     secondary_value_is_not: Any = UNSET

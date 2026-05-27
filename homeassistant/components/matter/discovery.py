@@ -2,6 +2,7 @@
 
 from collections.abc import Generator
 
+from chip.clusters import Objects as clusters
 from chip.clusters.ClusterObjects import ClusterAttributeDescriptor, NullValue
 from matter_server.client.models.node import MatterEndpoint
 
@@ -27,6 +28,17 @@ from .update import DISCOVERY_SCHEMAS as UPDATE_SCHEMAS
 from .vacuum import DISCOVERY_SCHEMAS as VACUUM_SCHEMAS
 from .valve import DISCOVERY_SCHEMAS as VALVE_SCHEMAS
 from .water_heater import DISCOVERY_SCHEMAS as WATER_HEATER_SCHEMAS
+
+
+def _semtag_matches(tag: object, namespace_id: int, tag_id: int) -> bool:
+    """Return true if a semtag object or dict matches namespace and tag."""
+    if isinstance(tag, dict):
+        return tag.get("1") == namespace_id and tag.get("2") == tag_id
+    return (
+        getattr(tag, "namespaceID", None) == namespace_id
+        and getattr(tag, "tag", None) == tag_id
+    )
+
 
 DISCOVERY_SCHEMAS: dict[Platform, list[MatterDiscoverySchema]] = {
     Platform.BINARY_SENSOR: BINARY_SENSOR_SCHEMAS,
@@ -172,6 +184,17 @@ def async_discover_entities(
             )
         ):
             continue
+
+        # check for required semtag in Descriptor.TagList
+        if schema.tag_list_contains is not None:
+            namespace_id, tag_id = schema.tag_list_contains
+            tag_list = endpoint.get_attribute_value(
+                None, clusters.Descriptor.Attributes.TagList
+            )
+            if not any(
+                _semtag_matches(tag, namespace_id, tag_id) for tag in tag_list or []
+            ):
+                continue
 
         # check for value that may not be present in SECONDARY attribute
         secondary_attribute = (
