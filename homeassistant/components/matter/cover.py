@@ -6,6 +6,7 @@ from math import floor
 from typing import Any
 
 from chip.clusters import Objects as clusters
+from matter_server.client.models import device_types
 
 from homeassistant.components.cover import (
     ATTR_POSITION,
@@ -41,6 +42,41 @@ TYPE_MAP = {
     clusters.WindowCovering.Enums.Type.kTiltBlindLiftAndTilt: CoverDeviceClass.BLIND,
 }
 
+POSITION_TO_PERCENT = {
+    clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed: 0,
+    clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyOpened: 100,
+    clusters.ClosureControl.Enums.CurrentPositionEnum.kPartiallyOpened: 50,
+    clusters.ClosureControl.Enums.CurrentPositionEnum.kOpenedForPedestrian: 25,
+    clusters.ClosureControl.Enums.CurrentPositionEnum.kOpenedForVentilation: 75,
+    clusters.ClosureControl.Enums.CurrentPositionEnum.kOpenedAtSignature: 90,
+}
+
+
+def _current_closure_position_percent(position: Any) -> int | None:
+    """Convert a ClosureControl position enum to a cover percentage."""
+    if position is None:
+        return None
+    return POSITION_TO_PERCENT.get(position)
+
+
+def _target_closure_position_for_percent(
+    position: int,
+) -> clusters.ClosureControl.Enums.TargetPositionEnum:
+    """Convert a cover percentage to a ClosureControl target position."""
+    if position <= 0:
+        return clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
+    if position >= 100:
+        return clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen
+    if position <= 25:
+        return (
+            clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToPedestrianPosition
+        )
+    if position <= 75:
+        return (
+            clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToVentilationPosition
+        )
+    return clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToSignaturePosition
+
 
 class OperationalStatus(IntEnum):
     """Ongoing operations enumeration for coverings per Matter spec."""
@@ -74,6 +110,17 @@ class MatterCover(MatterEntity, CoverEntity):
     @property
     def is_closed(self) -> bool | None:
         """Return true if cover is closed, None if no position."""
+        if self._entity_info.endpoint.has_cluster(clusters.ClosureControl):
+            current_state = self.get_matter_attribute_value(
+                clusters.ClosureControl.Attributes.OverallCurrentState
+            )
+            if current_state is None or current_state.position is None:
+                return None
+            return (
+                current_state.position
+                == clusters.ClosureControl.Enums.CurrentPositionEnum.kFullyClosed
+            )
+
         if not self._entity_info.endpoint.has_attribute(
             None, clusters.WindowCovering.Attributes.CurrentPositionLiftPercent100ths
         ):
@@ -87,19 +134,47 @@ class MatterCover(MatterEntity, CoverEntity):
 
     async def async_stop_cover(self, **kwargs: Any) -> None:
         """Stop the cover movement."""
+        if self._entity_info.endpoint.has_cluster(clusters.ClosureControl):
+            await self.send_device_command(clusters.ClosureControl.Commands.Stop())
+            return
+
         await self.send_device_command(clusters.WindowCovering.Commands.StopMotion())
 
     async def async_open_cover(self, **kwargs: Any) -> None:
         """Open the cover."""
+        if self._entity_info.endpoint.has_cluster(clusters.ClosureControl):
+            await self.send_device_command(
+                clusters.ClosureControl.Commands.MoveTo(
+                    position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen
+                )
+            )
+            return
+
         await self.send_device_command(clusters.WindowCovering.Commands.UpOrOpen())
 
     async def async_close_cover(self, **kwargs: Any) -> None:
         """Close the cover."""
+        if self._entity_info.endpoint.has_cluster(clusters.ClosureControl):
+            await self.send_device_command(
+                clusters.ClosureControl.Commands.MoveTo(
+                    position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
+                )
+            )
+            return
+
         await self.send_device_command(clusters.WindowCovering.Commands.DownOrClose())
 
     async def async_set_cover_position(self, **kwargs: Any) -> None:
         """Set the cover to a specific position."""
         position = kwargs[ATTR_POSITION]
+        if self._entity_info.endpoint.has_cluster(clusters.ClosureControl):
+            await self.send_device_command(
+                clusters.ClosureControl.Commands.MoveTo(
+                    position=_target_closure_position_for_percent(position)
+                )
+            )
+            return
+
         await self.send_device_command(
             # value needs to be inverted and is sent in 100ths
             clusters.WindowCovering.Commands.GoToLiftPercentage((100 - position) * 100)
@@ -116,6 +191,48 @@ class MatterCover(MatterEntity, CoverEntity):
     @callback
     def _update_from_device(self) -> None:
         """Update from device."""
+        if self._entity_info.endpoint.has_cluster(clusters.ClosureControl):
+            current_state = self.get_matter_attribute_value(
+                clusters.ClosureControl.Attributes.OverallCurrentState
+            )
+            target_state = self.get_matter_attribute_value(
+                clusters.ClosureControl.Attributes.OverallTargetState
+            )
+            current_position = getattr(current_state, "position", None)
+            target_position = getattr(target_state, "position", None)
+
+            self._attr_is_opening = False
+            self._attr_is_closing = False
+            if current_position is not None:
+                self._attr_current_cover_position = _current_closure_position_percent(
+                    current_position
+                )
+                if (
+                    target_position is not None
+                    and current_state.position != target_state.position
+                ):
+                    current_percent = _current_closure_position_percent(
+                        current_position
+                    )
+                    target_percent = _current_closure_position_percent(target_position)
+                    if current_percent is not None and target_percent is not None:
+                        self._attr_is_opening = current_percent < target_percent
+                        self._attr_is_closing = current_percent > target_percent
+
+            self._attr_device_class = CoverDeviceClass.GARAGE
+            supported_features = (
+                CoverEntityFeature.OPEN
+                | CoverEntityFeature.CLOSE
+                | CoverEntityFeature.STOP
+            )
+            commands = self.get_matter_attribute_value(
+                clusters.ClosureControl.Attributes.AcceptedCommandList
+            )
+            if clusters.ClosureControl.Commands.MoveTo.command_id in commands:
+                supported_features |= CoverEntityFeature.SET_POSITION
+            self._attr_supported_features = supported_features
+            return
+
         operational_status = self.get_matter_attribute_value(
             clusters.WindowCovering.Attributes.OperationalStatus
         )
@@ -259,5 +376,19 @@ DISCOVERY_SCHEMAS = [
             clusters.WindowCovering.Attributes.CurrentPositionLiftPercent100ths,
             clusters.WindowCovering.Attributes.CurrentPositionTiltPercent100ths,
         ),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.COVER,
+        entity_description=MatterCoverEntityDescription(
+            key="MatterClosureControlGarageDoor", name=None
+        ),
+        entity_class=MatterCover,
+        device_type=(device_types.Closure,),
+        required_attributes=(
+            clusters.ClosureControl.Attributes.MainState,
+            clusters.ClosureControl.Attributes.OverallCurrentState,
+            clusters.ClosureControl.Attributes.OverallTargetState,
+        ),
+        featuremap_contains=clusters.ClosureControl.Bitmaps.Feature.kPositioning,
     ),
 ]

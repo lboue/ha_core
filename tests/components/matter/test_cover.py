@@ -8,7 +8,11 @@ from matter_server.client.models.node import MatterNode
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from homeassistant.components.cover import CoverEntityFeature, CoverState
+from homeassistant.components.cover import (
+    CoverDeviceClass,
+    CoverEntityFeature,
+    CoverState,
+)
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
@@ -97,7 +101,34 @@ async def test_cover(
         endpoint_id=1,
         command=clusters.WindowCovering.Commands.UpOrOpen(),
     )
-    matter_client.send_device_command.reset_mock()
+
+
+@pytest.mark.parametrize("node_fixture", ["mock_closure_garage_door"])
+async def test_closure_garage_door_cover(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test Matter garage door closure support."""
+
+    state = hass.states.async_all(Platform.COVER)[0]
+    assert state.attributes["device_class"] == CoverDeviceClass.GARAGE
+    assert state.state == CoverState.OPEN
+
+    await hass.services.async_call(
+        "cover",
+        "close_cover",
+        {"entity_id": state.entity_id},
+        blocking=True,
+    )
+
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.ClosureControl.Commands.MoveTo(
+            position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyClosed
+        ),
+    )
 
 
 @pytest.mark.parametrize(
