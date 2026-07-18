@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, ClassVar, override
+from typing import Any, ClassVar, cast, override
 
 from chip.clusters import Objects as clusters
 from chip.clusters.Objects import NullValue
@@ -29,6 +29,8 @@ from .helpers import MatterConfigEntry
 from .models import MatterDiscoverySchema
 
 PLACEHOLDER = Path(__file__).parent / "placeholder.png"
+
+CameraAvStreamManagementFeature = clusters.CameraAvStreamManagement.Bitmaps.Feature
 
 
 async def async_setup_entry(
@@ -283,10 +285,22 @@ class MatterCamera(MatterEntity, Camera):
     async def async_camera_image(
         self, width: int | None = None, height: int | None = None
     ) -> bytes | None:
-        """Return a placeholder image.
-
-        Matter WebRTC cameras do not currently support snapshots.
-        """
+        """Return a snapshot from the camera, or a placeholder if unsupported."""
+        feature_map = self.get_matter_attribute_value(
+            clusters.CameraAvStreamManagement.Attributes.FeatureMap
+        )
+        if (
+            feature_map is not None
+            and feature_map & CameraAvStreamManagementFeature.kSnapshot
+        ):
+            try:
+                response = await self.send_device_command(
+                    clusters.CameraAvStreamManagement.Commands.CaptureSnapshot()
+                )
+            except HomeAssistantError as err:
+                LOGGER.debug("Error capturing Matter camera snapshot: %s", err)
+            else:
+                return cast(bytes, response["data"])
         if MatterCamera._placeholder_image is None:
             MatterCamera._placeholder_image = await self.hass.async_add_executor_job(
                 PLACEHOLDER.read_bytes
@@ -308,6 +322,7 @@ DISCOVERY_SCHEMAS = [
         optional_attributes=(
             clusters.CameraAvStreamManagement.Attributes.SoftLivestreamPrivacyModeEnabled,
             clusters.CameraAvStreamManagement.Attributes.HardPrivacyModeOn,
+            clusters.CameraAvStreamManagement.Attributes.FeatureMap,
         ),
         allow_none_value=True,
     ),

@@ -463,3 +463,42 @@ async def test_camera_image(
     """Test that the camera returns the placeholder still image."""
     image = await async_get_image(hass, ENTITY_ID)
     assert image.content == PLACEHOLDER.read_bytes()
+
+
+@pytest.mark.parametrize("node_fixture", ["mock_camera"])
+async def test_camera_image_snapshot(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test that a snapshot is captured when the device supports it."""
+    set_node_attribute(matter_node, 1, 1361, 65532, 15)
+    matter_client.send_device_command.return_value = {
+        "data": b"snapshot-bytes",
+        "imageCodec": 0,
+        "resolution": {"width": 640, "height": 480},
+    }
+
+    image = await async_get_image(hass, ENTITY_ID)
+
+    assert image.content == b"snapshot-bytes"
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.CameraAvStreamManagement.Commands.CaptureSnapshot(),
+    )
+
+
+@pytest.mark.parametrize("node_fixture", ["mock_camera"])
+async def test_camera_image_snapshot_error(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test that a snapshot failure falls back to the placeholder image."""
+    set_node_attribute(matter_node, 1, 1361, 65532, 15)
+    matter_client.send_device_command.side_effect = MatterError("boom")
+
+    image = await async_get_image(hass, ENTITY_ID)
+
+    assert image.content == PLACEHOLDER.read_bytes()
