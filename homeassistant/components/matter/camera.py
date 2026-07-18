@@ -52,6 +52,7 @@ class MatterWebRTCSession:
     send_message: WebRTCSendMessage
     matter_session_id: int | None = None
     pending_candidates: list[RTCIceCandidateInit] = field(default_factory=list)
+    closed: bool = False
 
 
 class MatterCamera(MatterEntity, Camera):
@@ -151,6 +152,10 @@ class MatterCamera(MatterEntity, Camera):
 
         matter_session_id = response["webRtcSessionId"]
         session.matter_session_id = matter_session_id
+        if session.closed:
+            # The frontend closed the session while the offer was in flight.
+            await self._end_matter_session(matter_session_id)
+            return
         self._matter_session_ids[matter_session_id] = session_id
 
         # Replay device events that arrived before the session id was known.
@@ -249,6 +254,20 @@ class MatterCamera(MatterEntity, Camera):
             self._sessions.pop(session_id, None)
             self._matter_session_ids.pop(matter_session_id, None)
 
+    async def _end_matter_session(self, matter_session_id: int) -> None:
+        """End a WebRTC session on the camera."""
+        try:
+            await self.matter_client.send_device_command(
+                node_id=self._endpoint.node.node_id,
+                endpoint_id=self._endpoint.endpoint_id,
+                command=clusters.WebRtcTransportProvider.Commands.EndSession(
+                    webRtcSessionID=matter_session_id,
+                    reason=clusters.WebRtcTransportDefinitions.Enums.WebRTCEndReasonEnum.kUserHangup,
+                ),
+            )
+        except MatterError as err:
+            LOGGER.debug("Error ending WebRTC session %s: %s", matter_session_id, err)
+
     @callback
     @override
     def close_webrtc_session(self, session_id: str) -> None:
@@ -257,25 +276,11 @@ class MatterCamera(MatterEntity, Camera):
         if (session := self._sessions.pop(session_id, None)) is None:
             return
         if (matter_session_id := session.matter_session_id) is None:
+            # The offer is still in flight; end the session once it resolves.
+            session.closed = True
             return
         self._matter_session_ids.pop(matter_session_id, None)
-
-        async def _end_session() -> None:
-            try:
-                await self.matter_client.send_device_command(
-                    node_id=self._endpoint.node.node_id,
-                    endpoint_id=self._endpoint.endpoint_id,
-                    command=clusters.WebRtcTransportProvider.Commands.EndSession(
-                        webRtcSessionID=matter_session_id,
-                        reason=clusters.WebRtcTransportDefinitions.Enums.WebRTCEndReasonEnum.kUserHangup,
-                    ),
-                )
-            except MatterError as err:
-                LOGGER.debug(
-                    "Error ending WebRTC session %s: %s", matter_session_id, err
-                )
-
-        self.hass.async_create_task(_end_session())
+        self.hass.async_create_task(self._end_matter_session(matter_session_id))
 
     @override
     async def async_camera_image(

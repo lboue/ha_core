@@ -352,6 +352,70 @@ async def test_camera_webrtc_answer_races_offer(
 
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
+async def test_camera_webrtc_close_races_offer(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+    hass_ws_client: WebSocketGenerator,
+) -> None:
+    """Test the frontend closing a session while the offer is still in flight."""
+    release = asyncio.Event()
+
+    async def blocked_offer(**kwargs: Any) -> dict[str, Any]:
+        await release.wait()
+        return {"webRtcSessionId": MATTER_SESSION_ID}
+
+    matter_client.send_webrtc_provider_command.side_effect = blocked_offer
+    client = await hass_ws_client(hass)
+
+    await client.send_json_auto_id(
+        {
+            "type": "camera/webrtc/offer",
+            "entity_id": ENTITY_ID,
+            "offer": "v=0\r\n",
+        }
+    )
+    response = await client.receive_json()
+    assert response["success"] is True
+    subscription_id = response["id"]
+    response = await client.receive_json()
+    assert response["event"]["type"] == "session"
+
+    # The frontend closes the session before ProvideOffer resolves.
+    await client.send_json_auto_id(
+        {
+            "type": "unsubscribe_events",
+            "subscription": subscription_id,
+        }
+    )
+    response = await client.receive_json()
+    assert response["success"] is True
+    # The Matter session id isn't known yet, so nothing can be ended.
+    assert matter_client.send_device_command.call_count == 0
+
+    # Releasing the offer should end the now-orphaned Matter session.
+    release.set()
+    await hass.async_block_till_done()
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.WebRtcTransportProvider.Commands.EndSession(
+            webRtcSessionID=MATTER_SESSION_ID,
+            reason=clusters.WebRtcTransportDefinitions.Enums.WebRTCEndReasonEnum.kUserHangup,
+        ),
+    )
+
+    # A late device event for the orphaned session is ignored, not a KeyError.
+    matter_client.send_device_command.reset_mock()
+    callback = _get_webrtc_callback(matter_client)
+    callback(
+        EventType.WEBRTC_CALLBACK,
+        _webrtc_callback_data(matter_node, "answer", {"sdp": "late"}),
+    )
+    assert matter_client.send_device_command.call_count == 0
+
+
+@pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_webrtc_offer_error(
     hass: HomeAssistant,
     matter_client: MagicMock,
