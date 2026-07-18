@@ -1,8 +1,7 @@
 """Matter camera platform."""
 
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, ClassVar, cast, override
+from typing import Any, cast, override
 
 from chip.clusters import Objects as clusters
 from chip.clusters.Objects import NullValue
@@ -27,8 +26,6 @@ from .const import LOGGER
 from .entity import MatterEntity, MatterEntityDescription
 from .helpers import MatterConfigEntry
 from .models import MatterDiscoverySchema
-
-PLACEHOLDER = Path(__file__).parent / "placeholder.png"
 
 CameraAvStreamManagementFeature = clusters.CameraAvStreamManagement.Bitmaps.Feature
 
@@ -63,7 +60,6 @@ class MatterCamera(MatterEntity, Camera):
     _attr_supported_features = CameraEntityFeature.STREAM
     _platform_translation_key = "camera"
     entity_description: MatterCameraEntityDescription
-    _placeholder_image: ClassVar[bytes | None] = None
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the Matter camera."""
@@ -285,27 +281,22 @@ class MatterCamera(MatterEntity, Camera):
     async def async_camera_image(
         self, width: int | None = None, height: int | None = None
     ) -> bytes | None:
-        """Return a snapshot from the camera, or a placeholder if unsupported."""
+        """Capture and return a snapshot from the camera, if supported."""
         feature_map = self.get_matter_attribute_value(
             clusters.CameraAvStreamManagement.Attributes.FeatureMap
         )
-        if (
-            feature_map is not None
-            and feature_map & CameraAvStreamManagementFeature.kSnapshot
+        if feature_map is None or not (
+            feature_map & CameraAvStreamManagementFeature.kSnapshot
         ):
-            try:
-                response = await self.send_device_command(
-                    clusters.CameraAvStreamManagement.Commands.CaptureSnapshot()
-                )
-            except HomeAssistantError as err:
-                LOGGER.debug("Error capturing Matter camera snapshot: %s", err)
-            else:
-                return cast(bytes, response["data"])
-        if MatterCamera._placeholder_image is None:
-            MatterCamera._placeholder_image = await self.hass.async_add_executor_job(
-                PLACEHOLDER.read_bytes
+            return None
+        try:
+            response = await self.send_device_command(
+                clusters.CameraAvStreamManagement.Commands.CaptureSnapshot()
             )
-        return MatterCamera._placeholder_image
+        except HomeAssistantError as err:
+            LOGGER.debug("Error capturing Matter camera snapshot: %s", err)
+            return None
+        return cast(bytes, response["data"])
 
 
 DISCOVERY_SCHEMAS = [

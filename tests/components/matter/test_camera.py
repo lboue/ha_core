@@ -19,9 +19,9 @@ from homeassistant.components.camera import (
     async_get_image,
     get_camera_from_entity_id,
 )
-from homeassistant.components.matter.camera import PLACEHOLDER
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry as er
 
 from .common import (
@@ -455,14 +455,14 @@ async def test_camera_end_event(
 
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
-async def test_camera_image(
+async def test_camera_image_unsupported(
     hass: HomeAssistant,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
-    """Test that the camera returns the placeholder still image."""
-    image = await async_get_image(hass, ENTITY_ID)
-    assert image.content == PLACEHOLDER.read_bytes()
+    """Test that no image is returned when the device does not support snapshots."""
+    with pytest.raises(HomeAssistantError):
+        await async_get_image(hass, ENTITY_ID)
 
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
@@ -495,10 +495,9 @@ async def test_camera_image_snapshot_error(
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
-    """Test that a snapshot failure falls back to the placeholder image."""
+    """Test that no image is returned when capturing the snapshot fails."""
     set_node_attribute(matter_node, 1, 1361, 65532, 15)
     matter_client.send_device_command.side_effect = MatterError("boom")
 
-    image = await async_get_image(hass, ENTITY_ID)
-
-    assert image.content == PLACEHOLDER.read_bytes()
+    with pytest.raises(HomeAssistantError):
+        await async_get_image(hass, ENTITY_ID)
