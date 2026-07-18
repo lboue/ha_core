@@ -1,6 +1,7 @@
 """Test Matter cameras."""
 
 import asyncio
+from base64 import b64encode
 from collections.abc import Callable, Generator
 from typing import Any
 from unittest.mock import MagicMock, call, patch
@@ -548,7 +549,7 @@ async def test_camera_image_snapshot(
         ],
     )
     matter_client.send_device_command.return_value = {
-        "data": b"snapshot-bytes",
+        "data": b64encode(b"snapshot-bytes").decode(),
         "imageCodec": 0,
         "resolution": {"width": 1920, "height": 1080},
     }

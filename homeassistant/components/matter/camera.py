@@ -1,7 +1,8 @@
 """Matter camera platform."""
 
+from base64 import b64decode
 from dataclasses import dataclass, field
-from typing import Any, cast, override
+from typing import Any, override
 
 from chip.clusters import Objects as clusters
 from chip.clusters.Objects import NullValue
@@ -315,7 +316,8 @@ class MatterCamera(MatterEntity, Camera):
         except HomeAssistantError as err:
             LOGGER.debug("Error capturing Matter camera snapshot: %s", err)
             return None
-        return cast(bytes, response["data"])
+        # bytes fields are base64-encoded by the Matter server's JSON protocol.
+        return b64decode(response["data"])
 
 
 DISCOVERY_SCHEMAS = [
