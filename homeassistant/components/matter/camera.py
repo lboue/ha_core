@@ -294,9 +294,23 @@ class MatterCamera(MatterEntity, Camera):
             feature_map & CameraAvStreamManagementFeature.kSnapshot
         ):
             return None
+        snapshot_capabilities = self.get_matter_attribute_value(
+            clusters.CameraAvStreamManagement.Attributes.SnapshotCapabilities
+        )
+        if not snapshot_capabilities:
+            return None
+        # Request the highest resolution the camera advertises; a default
+        # (0x0) requestedResolution causes some devices/bridges to return a
+        # tiny placeholder image instead of a real snapshot.
+        requested_resolution = max(
+            (capability.resolution for capability in snapshot_capabilities),
+            key=lambda resolution: resolution.width * resolution.height,
+        )
         try:
             response = await self.send_device_command(
-                clusters.CameraAvStreamManagement.Commands.CaptureSnapshot()
+                clusters.CameraAvStreamManagement.Commands.CaptureSnapshot(
+                    requestedResolution=requested_resolution
+                )
             )
         except HomeAssistantError as err:
             LOGGER.debug("Error capturing Matter camera snapshot: %s", err)
@@ -319,6 +333,7 @@ DISCOVERY_SCHEMAS = [
             clusters.CameraAvStreamManagement.Attributes.SoftLivestreamPrivacyModeEnabled,
             clusters.CameraAvStreamManagement.Attributes.HardPrivacyModeOn,
             clusters.CameraAvStreamManagement.Attributes.FeatureMap,
+            clusters.CameraAvStreamManagement.Attributes.SnapshotCapabilities,
         ),
         allow_none_value=True,
     ),

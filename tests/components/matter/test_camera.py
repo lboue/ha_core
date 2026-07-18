@@ -537,10 +537,20 @@ async def test_camera_image_snapshot(
 ) -> None:
     """Test that a snapshot is captured when the device supports it."""
     set_node_attribute(matter_node, 1, 1361, 65532, 15)
+    set_node_attribute(
+        matter_node,
+        1,
+        1361,
+        10,
+        [
+            {"resolution": {"width": 640, "height": 480}, "maxFrameRate": 15},
+            {"resolution": {"width": 1920, "height": 1080}, "maxFrameRate": 15},
+        ],
+    )
     matter_client.send_device_command.return_value = {
         "data": b"snapshot-bytes",
         "imageCodec": 0,
-        "resolution": {"width": 640, "height": 480},
+        "resolution": {"width": 1920, "height": 1080},
     }
 
     image = await async_get_image(hass, ENTITY_ID)
@@ -549,7 +559,11 @@ async def test_camera_image_snapshot(
     assert matter_client.send_device_command.call_args == call(
         node_id=matter_node.node_id,
         endpoint_id=1,
-        command=clusters.CameraAvStreamManagement.Commands.CaptureSnapshot(),
+        command=clusters.CameraAvStreamManagement.Commands.CaptureSnapshot(
+            requestedResolution=clusters.CameraAvStreamManagement.Structs.VideoResolutionStruct(
+                width=1920, height=1080
+            )
+        ),
     )
 
 
@@ -561,6 +575,13 @@ async def test_camera_image_snapshot_error(
 ) -> None:
     """Test that no image is returned when capturing the snapshot fails."""
     set_node_attribute(matter_node, 1, 1361, 65532, 15)
+    set_node_attribute(
+        matter_node,
+        1,
+        1361,
+        10,
+        [{"resolution": {"width": 640, "height": 480}, "maxFrameRate": 15}],
+    )
     matter_client.send_device_command.side_effect = MatterError("boom")
 
     with pytest.raises(HomeAssistantError):
