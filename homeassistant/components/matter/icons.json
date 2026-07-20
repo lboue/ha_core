@@ -89,6 +89,9 @@
       "current_phase": {
         "default": "mdi:state-machine"
       },
+      "current_price": {
+        "default": "mdi:cash"
+      },
       "door_closed_events": {
         "default": "mdi:door-closed"
       },

@@ -441,6 +441,9 @@
       "current_phase": {
         "name": "Current phase"
       },
+      "current_price": {
+        "name": "Current price"
+      },
       "door_closed_events": {
         "name": "Door closed events"
       },

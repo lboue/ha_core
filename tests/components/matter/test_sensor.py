@@ -68,6 +68,26 @@ async def test_flow_sensor(
     assert state.state == "2.0"
 
 
+@pytest.mark.parametrize("node_fixture", ["mock_meter_reference_point"])
+async def test_commodity_price_sensor(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test CommodityPrice current price sensor."""
+    state = hass.states.get("sensor.mock_meter_reference_point_current_price")
+    assert state
+    assert state.state == "0.25"
+    assert state.attributes["unit_of_measurement"] == "GBP/kWh"
+
+    set_node_attribute(matter_node, 13, 149, 2, None)
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get("sensor.mock_meter_reference_point_current_price")
+    assert state
+    assert state.state == "unknown"
+
+
 @pytest.mark.parametrize("node_fixture", ["mock_humidity_sensor"])
 async def test_humidity_sensor(
     hass: HomeAssistant,

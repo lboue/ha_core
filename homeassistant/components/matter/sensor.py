@@ -45,7 +45,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.util import dt as dt_util, slugify
 
-from .const import CONCENTRATION_BECQUERELS_PER_CUBIC_METER
+from .const import CONCENTRATION_BECQUERELS_PER_CUBIC_METER, ISO_4217_NUMERIC_TO_ALPHA
 from .entity import MatterEntity, MatterEntityDescription
 from .helpers import MatterConfigEntry
 from .models import MatterDiscoverySchema
@@ -249,6 +249,22 @@ def matter_epoch_microseconds_to_utc(x: int | None) -> datetime | None:
     return dt_util.utc_from_timestamp(seconds + MATTER_2000_TO_UNIX_EPOCH_OFFSET)
 
 
+def commodity_price_unit(
+    currency: clusters.Globals.Structs.currency | Nullable | None,
+    tariff_unit: clusters.Globals.Enums.TariffUnitEnum,
+) -> str | None:
+    """Build a currency/commodity unit string for the CommodityPrice cluster."""
+    if currency in (None, NullValue):
+        return None
+    alpha_currency = ISO_4217_NUMERIC_TO_ALPHA.get(currency.currency)
+    if alpha_currency is None:
+        return None
+    commodity = (
+        "kVAh" if tariff_unit == clusters.Globals.Enums.TariffUnitEnum.kKVAh else "kWh"
+    )
+    return f"{alpha_currency}/{commodity}"
+
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: MatterConfigEntry,
@@ -337,6 +353,35 @@ class MatterDraftElectricalMeasurementSensor(MatterEntity, SensorEntity):
             self._attr_native_value = None
         else:
             self._attr_native_value = round(raw_value / divisor * multiplier, 2)
+
+
+class MatterCommodityPriceSensor(MatterEntity, SensorEntity):
+    """Matter sensor for the CommodityPrice cluster's current price."""
+
+    entity_description: MatterSensorEntityDescription
+
+    @callback
+    @override
+    def _update_from_device(self) -> None:
+        """Update from device."""
+        current_price, currency, tariff_unit = (
+            self.get_matter_attribute_value(self._entity_info.attributes_to_watch[0]),
+            self.get_matter_attribute_value(self._entity_info.attributes_to_watch[1]),
+            self.get_matter_attribute_value(self._entity_info.attributes_to_watch[2]),
+        )
+
+        if (
+            current_price in (None, NullValue)
+            or current_price.price is None
+            or currency in (None, NullValue)
+        ):
+            self._attr_native_value = None
+        else:
+            self._attr_native_value = current_price.price / 10**currency.decimalPoints
+
+        self._attr_native_unit_of_measurement = commodity_price_unit(
+            currency, tariff_unit
+        )
 
 
 class MatterOperationalStateSensor(MatterSensor):
@@ -1166,6 +1211,22 @@ DISCOVERY_SCHEMAS = [
             DraftElectricalMeasurementCluster.Attributes.AcCurrentMultiplier,
         ),
         absent_clusters=(clusters.ElectricalPowerMeasurement,),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.SENSOR,
+        entity_description=MatterSensorEntityDescription(
+            key="CommodityPriceCurrentPrice",
+            translation_key="current_price",
+            state_class=SensorStateClass.MEASUREMENT,
+            suggested_display_precision=2,
+        ),
+        entity_class=MatterCommodityPriceSensor,
+        required_attributes=(
+            clusters.CommodityPrice.Attributes.CurrentPrice,
+            clusters.CommodityPrice.Attributes.Currency,
+            clusters.CommodityPrice.Attributes.TariffUnit,
+        ),
+        allow_none_value=True,
     ),
     MatterDiscoverySchema(
         platform=Platform.SENSOR,
