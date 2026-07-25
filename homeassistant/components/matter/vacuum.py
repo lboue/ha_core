@@ -162,6 +162,21 @@ class MatterVacuum(MatterEntity, StateVacuumEntity):
         await self.send_device_command(clusters.RvcOperationalState.Commands.Pause())
 
     @property
+    @override
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Return device specific state attributes."""
+        if VacuumEntityFeature.CLEAN_AREA not in self.supported_features:
+            return None
+        current_area_id: int | None = self.get_matter_attribute_value(
+            clusters.ServiceArea.Attributes.CurrentArea
+        )
+        if current_area_id is None:
+            return None
+        if (segment := self._current_segments.get(str(current_area_id))) is None:
+            return None
+        return {"current_room": segment.name}
+
+    @property
     def _current_segments(self) -> dict[str, Segment]:
         """Return the current cleanable segments reported by the device."""
         supported_areas: list[clusters.ServiceArea.Structs.AreaStruct] = (
@@ -347,6 +362,7 @@ DISCOVERY_SCHEMAS = [
         optional_attributes=(
             clusters.ServiceArea.Attributes.FeatureMap,
             clusters.ServiceArea.Attributes.SupportedAreas,
+            clusters.ServiceArea.Attributes.CurrentArea,
         ),
         device_type=(device_types.RoboticVacuumCleaner,),
         allow_none_value=True,

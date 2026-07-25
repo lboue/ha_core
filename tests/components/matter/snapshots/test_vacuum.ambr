@@ -141,6 +141,7 @@
 # name: test_vacuum[mock_vacuum_cleaner][vacuum.mock_vacuum-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
+      'current_room': 'My Location A',
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Mock Vacuum',
       <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <VacuumEntityFeature: 28700>,
     }),
