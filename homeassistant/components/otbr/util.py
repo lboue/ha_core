@@ -48,6 +48,14 @@ class GetBorderAgentIdNotSupported(HomeAssistantError):
     """Raised from python_otbr_api.GetBorderAgentIdNotSupportedError."""
 
 
+class EphemeralKeyNotSupported(HomeAssistantError):
+    """Raised from python_otbr_api.EphemeralKeyNotSupportedError."""
+
+
+class EphemeralKeyConflict(HomeAssistantError):
+    """Raised from python_otbr_api.EphemeralKeyConflictError."""
+
+
 def compose_default_network_name(pan_id: int) -> str:
     """Generate a default network name."""
     return f"ha-thread-{pan_id:04x}"
@@ -115,6 +123,50 @@ class OTBRData:
     async def get_active_dataset(self) -> python_otbr_api.ActiveDataSet | None:
         """Get current active operational dataset, or None."""
         return await self.api.get_active_dataset()
+
+    @_handle_otbr_error
+    async def get_ephemeral_key_enabled(self) -> bool:
+        """Get whether the ephemeral key (ePSKc) feature is enabled."""
+        try:
+            return await self.api.get_ephemeral_key_enabled()
+        except python_otbr_api.EphemeralKeyNotSupportedError as exc:
+            raise EphemeralKeyNotSupported from exc
+
+    @_handle_otbr_error
+    async def set_ephemeral_key_enabled(self, enabled: bool) -> None:
+        """Enable or disable the ephemeral key (ePSKc) feature."""
+        try:
+            await self.api.set_ephemeral_key_enabled(enabled)
+        except python_otbr_api.EphemeralKeyNotSupportedError as exc:
+            raise EphemeralKeyNotSupported from exc
+
+    @_handle_otbr_error
+    async def get_ephemeral_key_status(self) -> python_otbr_api.EphemeralKeyStatus:
+        """Get the status of the current ephemeral key (ePSKc) session."""
+        try:
+            return await self.api.get_ephemeral_key_status()
+        except python_otbr_api.EphemeralKeyNotSupportedError as exc:
+            raise EphemeralKeyNotSupported from exc
+
+    @_handle_otbr_error
+    async def activate_ephemeral_key(
+        self, lifetime: int | None = None, port: int | None = None
+    ) -> python_otbr_api.EphemeralKeyActivationResult:
+        """Generate and activate an ephemeral key (ePSKc)."""
+        try:
+            return await self.api.activate_ephemeral_key(lifetime, port)
+        except python_otbr_api.EphemeralKeyNotSupportedError as exc:
+            raise EphemeralKeyNotSupported from exc
+        except python_otbr_api.EphemeralKeyConflictError as exc:
+            raise EphemeralKeyConflict from exc
+
+    @_handle_otbr_error
+    async def deactivate_ephemeral_key(self) -> None:
+        """Deactivate the current ephemeral key (ePSKc) session, if any."""
+        try:
+            await self.api.deactivate_ephemeral_key()
+        except python_otbr_api.EphemeralKeyNotSupportedError as exc:
+            raise EphemeralKeyNotSupported from exc
 
     @_handle_otbr_error
     async def get_active_dataset_tlvs(self) -> bytes | None:

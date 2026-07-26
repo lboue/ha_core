@@ -19,6 +19,8 @@ from homeassistant.exceptions import HomeAssistantError
 
 from .const import DEFAULT_CHANNEL, DOMAIN
 from .util import (
+    EphemeralKeyConflict,
+    EphemeralKeyNotSupported,
     OTBRData,
     compose_default_network_name,
     generate_random_pan_id,
@@ -37,6 +39,114 @@ def async_setup(hass: HomeAssistant) -> None:
     websocket_api.async_register_command(hass, websocket_create_network)
     websocket_api.async_register_command(hass, websocket_set_channel)
     websocket_api.async_register_command(hass, websocket_set_network)
+    websocket_api.async_register_command(hass, websocket_epskc_status)
+    websocket_api.async_register_command(hass, websocket_epskc_set_enabled)
+    websocket_api.async_register_command(hass, websocket_epskc_activate)
+    websocket_api.async_register_command(hass, websocket_epskc_deactivate)
+
+
+def _first_otbr_data(
+    hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict
+) -> OTBRData | None:
+    """Return the first loaded OTBR config entry's data, or send an error."""
+    config_entries: list[OTBRConfigEntry] = hass.config_entries.async_loaded_entries(
+        DOMAIN
+    )
+    if not config_entries:
+        connection.send_error(msg["id"], "not_loaded", "No OTBR API loaded")
+        return None
+    return config_entries[0].runtime_data
+
+
+@websocket_api.websocket_command({"type": "otbr/epskc_status"})
+@websocket_api.require_admin
+@websocket_api.async_response
+async def websocket_epskc_status(
+    hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict
+) -> None:
+    """Get the ephemeral key (ePSKc) feature enabled state and session status."""
+    if (data := _first_otbr_data(hass, connection, msg)) is None:
+        return
+    try:
+        enabled = await data.get_ephemeral_key_enabled()
+        status = await data.get_ephemeral_key_status()
+    except EphemeralKeyNotSupported:
+        connection.send_error(msg["id"], "not_supported", "")
+        return
+    except HomeAssistantError as exc:
+        connection.send_error(msg["id"], "epskc_status_failed", str(exc))
+        return
+    connection.send_result(
+        msg["id"],
+        {"enabled": enabled, "state": status.state.value, "port": status.port},
+    )
+
+
+@websocket_api.websocket_command(
+    {"type": "otbr/epskc_set_enabled", vol.Required("enabled"): bool}
+)
+@websocket_api.require_admin
+@websocket_api.async_response
+async def websocket_epskc_set_enabled(
+    hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict
+) -> None:
+    """Enable or disable the ephemeral key (ePSKc) feature."""
+    if (data := _first_otbr_data(hass, connection, msg)) is None:
+        return
+    try:
+        await data.set_ephemeral_key_enabled(msg["enabled"])
+    except EphemeralKeyNotSupported:
+        connection.send_error(msg["id"], "not_supported", "")
+        return
+    except HomeAssistantError as exc:
+        connection.send_error(msg["id"], "epskc_set_enabled_failed", str(exc))
+        return
+    connection.send_result(msg["id"])
+
+
+@websocket_api.websocket_command({"type": "otbr/epskc_activate"})
+@websocket_api.require_admin
+@websocket_api.async_response
+async def websocket_epskc_activate(
+    hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict
+) -> None:
+    """Generate and activate an ephemeral key (ePSKc)."""
+    if (data := _first_otbr_data(hass, connection, msg)) is None:
+        return
+    try:
+        result = await data.activate_ephemeral_key()
+    except EphemeralKeyNotSupported:
+        connection.send_error(msg["id"], "not_supported", "")
+        return
+    except EphemeralKeyConflict:
+        connection.send_error(
+            msg["id"], "epskc_conflict", "The feature is disabled, or already active"
+        )
+        return
+    except HomeAssistantError as exc:
+        connection.send_error(msg["id"], "epskc_activate_failed", str(exc))
+        return
+    connection.send_result(msg["id"], {"tap": result.tap, "port": result.port})
+
+
+@websocket_api.websocket_command({"type": "otbr/epskc_deactivate"})
+@websocket_api.require_admin
+@websocket_api.async_response
+async def websocket_epskc_deactivate(
+    hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict
+) -> None:
+    """Deactivate the current ephemeral key (ePSKc) session, if any."""
+    if (data := _first_otbr_data(hass, connection, msg)) is None:
+        return
+    try:
+        await data.deactivate_ephemeral_key()
+    except EphemeralKeyNotSupported:
+        connection.send_error(msg["id"], "not_supported", "")
+        return
+    except HomeAssistantError as exc:
+        connection.send_error(msg["id"], "epskc_deactivate_failed", str(exc))
+        return
+    connection.send_result(msg["id"])
 
 
 @websocket_api.websocket_command(
