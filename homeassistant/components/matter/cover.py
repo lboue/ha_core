@@ -6,6 +6,7 @@ from math import floor
 from typing import TYPE_CHECKING, Any, override
 
 from chip.clusters import Objects as clusters
+from matter_server.client.models.device_types import ClosurePanel
 from matter_server.common.helpers.util import create_attribute_path
 from matter_server.common.models import EventType
 from propcache.api import cached_property
@@ -213,6 +214,88 @@ def _remote_unlatch_supported(
     )
 
 
+def _resolve_closure_panels(
+    parent: MatterEndpoint,
+) -> dict[ClosurePanelRole, list[MatterEndpoint]]:
+    """Group `parent`'s ClosurePanel children by role, in PartsList order.
+
+    More than one panel can share a role (e.g. two Lift panels on a
+    dual-leaf window, disambiguated only by a Common Position tag this
+    integration doesn't look at) - callers decide what to do with the rest
+    of each list. This is the single source of truth for that grouping. so
+    MatterClosure (which panel is "mine") and the secondary-panel discovery
+    predicate below (which panels are "the rest") can never disagree.
+    """
+    node = parent.node
+    panels: dict[ClosurePanelRole, list[MatterEndpoint]] = {}
+    for child_id in node.get_compose_child_ids(parent.endpoint_id) or ():
+        child = node.endpoints[child_id]
+        if not child.has_cluster(clusters.ClosureDimension):
+            continue
+        # ClosureDimension permits MotionLatching without Positioning
+        # (a latch-only panel): nothing to drive current_cover_position/
+        # current_cover_tilt_position from in that case.
+        if not _feature_supported(
+            child,
+            clusters.ClosureDimension.Attributes.FeatureMap,
+            clusters.ClosureDimension.Bitmaps.Feature.kPositioning,
+        ):
+            continue
+        tag_list = child.get_attribute_value(
+            None, clusters.Descriptor.Attributes.TagList
+        )
+        role = _get_closure_panel_role(tag_list)
+        if role is None:
+            continue
+        panels.setdefault(role, []).append(child)
+    return panels
+
+
+def _is_secondary_closure_panel(endpoint: MatterEndpoint) -> bool:
+    """Return True if `endpoint` shares its role with an earlier sibling panel.
+
+    Discovery predicate for MatterClosureSecondaryPanel: True only for the
+    2nd+ ClosurePanel of a given role under the same parent Closure - the
+    ones MatterClosure's own `_closure_panels` doesn't surface.
+    """
+    parent = endpoint.node.get_compose_parent(endpoint.endpoint_id)
+    if parent is None or not parent.has_cluster(clusters.ClosureControl):
+        return False
+    for role_panels in _resolve_closure_panels(parent).values():
+        if endpoint in role_panels[1:]:
+            return True
+    return False
+
+
+async def _send_panel_set_target(
+    entity: MatterEntity, panel: MatterEndpoint, position: int
+) -> None:
+    """Send SetTarget to a ClosurePanel endpoint.
+
+    A latched panel rejects SetTarget with InvalidInState until it's
+    explicitly unlatched, so unlatch as part of the move when the panel
+    supports it (mirrors the parent's MoveTo `latch=False`). Shared by
+    MatterClosure (its primary panel per role) and
+    MatterClosureSecondaryPanel (everything else).
+    """
+    command_kwargs: dict[str, Any] = {
+        "position": _ha_position_to_percent100ths(position)
+    }
+    if _remote_unlatch_supported(
+        panel,
+        clusters.ClosureDimension.Attributes.FeatureMap,
+        clusters.ClosureDimension.Attributes.LatchControlModes,
+        clusters.ClosureDimension.Bitmaps.Feature.kMotionLatching,
+        clusters.ClosureDimension.Bitmaps.LatchControlModesBitmap.kRemoteUnlatching,
+    ):
+        command_kwargs["latch"] = False
+    await entity.send_device_command(
+        clusters.ClosureDimension.Commands.SetTarget(**command_kwargs),
+        endpoint=panel,
+        timed_request_timeout_ms=1000,
+    )
+
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: MatterConfigEntry,
@@ -375,54 +458,21 @@ class MatterClosure(MatterEntity, CoverEntity):
     listed in this endpoint's Descriptor PartsList and each carrying its own
     ClosureDimension cluster for fine positioning. Those children are
     resolved lazily via `_closure_panels` and drive
-    `current_cover_position`/`current_cover_tilt_position`.
+    `current_cover_position`/`current_cover_tilt_position`. If more than one
+    panel shares a role (e.g. two Lift panels), only the first (stable
+    PartsList order) is used here - the rest get their own
+    MatterClosureSecondaryPanel entity instead.
     """
 
     _write_state_debounce_cooldown = STATE_WRITE_DEBOUNCE_COOLDOWN
 
     @cached_property
     def _closure_panels(self) -> dict[ClosurePanelRole, MatterEndpoint]:
-        """Return the ClosurePanel child endpoints, if any, by functional role."""
-        node = self._endpoint.node
-        panels: dict[ClosurePanelRole, MatterEndpoint] = {}
-        for child_id in node.get_compose_child_ids(self._endpoint.endpoint_id) or ():
-            child = node.endpoints[child_id]
-            if not child.has_cluster(clusters.ClosureDimension):
-                continue
-            # ClosureDimension permits MotionLatching without Positioning
-            # (a latch-only panel): nothing to drive current_cover_position/
-            # current_cover_tilt_position from in that case.
-            if not _feature_supported(
-                child,
-                clusters.ClosureDimension.Attributes.FeatureMap,
-                clusters.ClosureDimension.Bitmaps.Feature.kPositioning,
-            ):
-                continue
-            tag_list = child.get_attribute_value(
-                None, clusters.Descriptor.Attributes.TagList
-            )
-            role = _get_closure_panel_role(tag_list)
-            if role is None:
-                continue
-            if role in panels:
-                # e.g. two Lift panels disambiguated by a Common Position
-                # (Left/Right) tag we don't look at: current_cover_position
-                # can only ever reflect one of them, so keep the first
-                # found (stable PartsList order) and ignore the rest.
-                # (cached_property: computed once, before entity_id exists,
-                # so identify by node/endpoint rather than self.entity_id.)
-                LOGGER.warning(
-                    "Node %s endpoint %s has multiple ClosurePanel children with "
-                    "the %s role; only endpoint %s is used, endpoint %s is ignored",
-                    self._endpoint.node.node_id,
-                    self._endpoint.endpoint_id,
-                    role.name,
-                    panels[role].endpoint_id,
-                    child_id,
-                )
-                continue
-            panels[role] = child
-        return panels
+        """Return this entity's primary ClosurePanel per role, if any."""
+        return {
+            role: role_panels[0]
+            for role, role_panels in _resolve_closure_panels(self._endpoint).items()
+        }
 
     @override
     async def async_added_to_hass(self) -> None:
@@ -483,37 +533,13 @@ class MatterClosure(MatterEntity, CoverEntity):
     async def async_set_cover_position(self, **kwargs: Any) -> None:
         """Set the cover's position, via its primary ClosurePanel child endpoint."""
         panel = self._closure_panels[ClosurePanelRole.POSITION]
-        await self._set_panel_target(panel, kwargs[ATTR_POSITION])
+        await _send_panel_set_target(self, panel, kwargs[ATTR_POSITION])
 
     @override
     async def async_set_cover_tilt_position(self, **kwargs: Any) -> None:
         """Set the cover's Tilt position, via its ClosurePanel child endpoint."""
         panel = self._closure_panels[ClosurePanelRole.TILT]
-        await self._set_panel_target(panel, kwargs[ATTR_TILT_POSITION])
-
-    async def _set_panel_target(self, panel: MatterEndpoint, position: int) -> None:
-        """Send SetTarget to a ClosurePanel child endpoint.
-
-        A latched panel rejects SetTarget with InvalidInState until it's
-        explicitly unlatched, so unlatch as part of the move when the panel
-        supports it (mirrors the parent's MoveTo `latch=False` above).
-        """
-        command_kwargs: dict[str, Any] = {
-            "position": _ha_position_to_percent100ths(position)
-        }
-        if _remote_unlatch_supported(
-            panel,
-            clusters.ClosureDimension.Attributes.FeatureMap,
-            clusters.ClosureDimension.Attributes.LatchControlModes,
-            clusters.ClosureDimension.Bitmaps.Feature.kMotionLatching,
-            clusters.ClosureDimension.Bitmaps.LatchControlModesBitmap.kRemoteUnlatching,
-        ):
-            command_kwargs["latch"] = False
-        await self.send_device_command(
-            clusters.ClosureDimension.Commands.SetTarget(**command_kwargs),
-            endpoint=panel,
-            timed_request_timeout_ms=1000,
-        )
+        await _send_panel_set_target(self, panel, kwargs[ATTR_TILT_POSITION])
 
     @callback
     @override
@@ -605,6 +631,63 @@ class MatterClosure(MatterEntity, CoverEntity):
         )
 
 
+class MatterClosureSecondaryPanel(MatterEntity, CoverEntity):
+    """A ClosurePanel that shares its role with an earlier sibling panel.
+
+    MatterClosure only ever surfaces one panel per role (POSITION/TILT) on
+    its own entity (see `_closure_panels`); a device with more than one
+    panel of the same role - e.g. two Lift panels on a dual-leaf window,
+    disambiguated only by a Common Position (Left/Right) tag this
+    integration doesn't look at - gets one of these per extra panel instead
+    of the rest being silently unusable.
+
+    Open/Close/Stop stay solely on the device's MatterClosure entity: a
+    parent MoveTo already drives every child panel (confirmed against a real
+    device), so duplicating those controls here would just be redundant.
+    This entity only ever exposes its own panel's position.
+    """
+
+    _write_state_debounce_cooldown = STATE_WRITE_DEBOUNCE_COOLDOWN
+
+    @override
+    async def async_set_cover_position(self, **kwargs: Any) -> None:
+        """Set this panel's position."""
+        await _send_panel_set_target(self, self._endpoint, kwargs[ATTR_POSITION])
+
+    @override
+    async def async_set_cover_tilt_position(self, **kwargs: Any) -> None:
+        """Set this panel's tilt position."""
+        await _send_panel_set_target(self, self._endpoint, kwargs[ATTR_TILT_POSITION])
+
+    @callback
+    @override
+    def _update_from_device(self) -> None:
+        """Update the entity from this panel's own ClosureDimension attributes."""
+        # mirrors the parent Closure's device class: physically the same closure
+        if parent := self._endpoint.node.get_compose_parent(self._endpoint.endpoint_id):
+            self._attr_device_class = _get_closure_device_class(
+                parent.get_attribute_value(None, clusters.Descriptor.Attributes.TagList)
+            )
+
+        tag_list = self.get_matter_attribute_value(
+            clusters.Descriptor.Attributes.TagList
+        )
+        role = _get_closure_panel_role(tag_list)
+        current_state = self.get_matter_attribute_value(
+            clusters.ClosureDimension.Attributes.CurrentState
+        )
+        position = _percent100ths_to_ha_position(
+            _extract_struct_field(current_state, 0, "position")
+        )
+        self._attr_is_closed = position == 0 if position is not None else None
+        if role == ClosurePanelRole.TILT:
+            self._attr_current_cover_tilt_position = position
+            self._attr_supported_features = CoverEntityFeature.SET_TILT_POSITION
+        else:
+            self._attr_current_cover_position = position
+            self._attr_supported_features = CoverEntityFeature.SET_POSITION
+
+
 # Discovery schema(s) to map Matter Attributes to HA entities
 DISCOVERY_SCHEMAS = [
     MatterDiscoverySchema(
@@ -694,5 +777,16 @@ DISCOVERY_SCHEMAS = [
         ),
         allow_none_value=True,
         featuremap_contains=clusters.ClosureControl.Bitmaps.Feature.kMotionLatching,
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.COVER,
+        entity_description=MatterCoverEntityDescription(
+            key="MatterClosureSecondaryPanel",
+            name=None,
+        ),
+        entity_class=MatterClosureSecondaryPanel,
+        required_attributes=(clusters.ClosureDimension.Attributes.CurrentState,),
+        device_type=(ClosurePanel,),
+        custom_check_value=_is_secondary_closure_panel,
     ),
 ]

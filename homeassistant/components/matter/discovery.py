@@ -145,6 +145,13 @@ def async_discover_entities(
         ):
             continue
 
+        # check custom predicate, e.g. one that needs to look at sibling
+        # endpoints - not expressible by the declarative checks above
+        if schema.custom_check_value is not None and not schema.custom_check_value(
+            endpoint
+        ):
+            continue
+
         # BEGIN checks on actual attribute values
         # these are the least likely to be used and least
         # efficient, so they are checked last

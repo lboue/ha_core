@@ -1,5 +1,6 @@
 """Models used for the Matter integration."""
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, TypedDict
 
@@ -150,3 +151,8 @@ class MatterDiscoverySchema:
     # [optional] the secondary (required) attribute value must NOT have this value
     # for example to filter out empty lists in list sensor values
     secondary_value_is_not: Any = UNSET
+
+    # [optional] additional predicate the endpoint must satisfy, for checks
+    # the declarative fields above can't express (e.g. a check that needs to
+    # look at sibling endpoints, not just this one)
+    custom_check_value: Callable[[MatterEndpoint], bool] | None = None

@@ -21,7 +21,6 @@ from homeassistant.helpers import entity_registry as er
 
 from .common import (
     set_node_attribute,
-    setup_integration_with_node_fixture,
     snapshot_matter_entities,
     trigger_subscription_callback,
 )
@@ -941,44 +940,50 @@ async def test_closure_cover_roof_window_real_device(
     assert state.attributes["current_position"] == 51
 
 
-async def test_closure_cover_duplicate_panel_role(
+@pytest.mark.parametrize("node_fixture", ["mock_closure_dual_lift"])
+async def test_closure_cover_dual_lift_panels(
     hass: HomeAssistant,
     matter_client: MagicMock,
-    caplog: pytest.LogCaptureFixture,
+    matter_node: MatterNode,
 ) -> None:
-    """Two panels sharing the same role: keep the first, warn, ignore the rest.
+    """Two panels sharing the POSITION role each get their own entity.
 
-    HA's cover entity can only ever represent one current_cover_position;
-    silently overwriting the first panel found with the second would be
-    worse than picking one deterministically and saying so in the logs.
+    The first (endpoint 2) stays the device's primary MatterClosure entity
+    (Open/Close/Stop + its own position); the second (endpoint 3) gets a
+    MatterClosureSecondaryPanel with only its own SET_POSITION - not
+    dropped, and not duplicating Open/Close/Stop (the parent's MoveTo
+    already drives every panel device-side, confirmed against real
+    hardware in test_closure_cover_venetian_blinds' sibling device).
     """
-    # retag endpoint 3 ("Tilt") as a second Lift panel instead; setup runs
-    # here (not via the matter_node fixture) so the warning it logs is
-    # captured - fixture-setup-phase logs aren't visible in caplog.
-    matter_node = await setup_integration_with_node_fixture(
-        hass,
-        "mock_closure_venetian_blinds",
-        matter_client,
-        {"3/29/4": [{"0": None, "1": 69, "2": 0, "3": "ClosurePanel.Lift"}]},
-    )
-    entity_id = hass.states.async_all(Platform.COVER)[0].entity_id
-    state = hass.states.get(entity_id)
-    assert state
-    assert state.attributes["supported_features"] & CoverEntityFeature.SET_POSITION
-    assert not (
-        state.attributes["supported_features"] & CoverEntityFeature.SET_TILT_POSITION
-    )
-    assert "current_tilt_position" not in state.attributes
-    assert (
-        "Node 119 endpoint 1 has multiple ClosurePanel children with the "
-        "POSITION role; only endpoint 2 is used, endpoint 3 is ignored"
-    ) in caplog.text
+    cover_states = hass.states.async_all(Platform.COVER)
+    assert len(cover_states) == 2
 
-    # endpoint 2 (the first Lift panel found) is still the one commanded
+    primary_id = next(
+        state.entity_id
+        for state in cover_states
+        if state.attributes["supported_features"] & CoverEntityFeature.OPEN
+    )
+    secondary_id = next(
+        state.entity_id for state in cover_states if state.entity_id != primary_id
+    )
+
+    primary = hass.states.get(primary_id)
+    assert primary
+    assert primary.attributes["device_class"] == CoverDeviceClass.WINDOW
+    assert primary.attributes["supported_features"] & CoverEntityFeature.SET_POSITION
+
+    secondary = hass.states.get(secondary_id)
+    assert secondary
+    assert secondary.attributes["device_class"] == CoverDeviceClass.WINDOW
+    # only SET_POSITION: no Open/Close/Stop/Tilt of its own
+    assert secondary.attributes["supported_features"] == CoverEntityFeature.SET_POSITION
+    assert "current_tilt_position" not in secondary.attributes
+
+    # the primary entity's position is commanded on endpoint 2
     await hass.services.async_call(
         "cover",
         "set_cover_position",
-        {"entity_id": entity_id, "position": 30},
+        {"entity_id": primary_id, "position": 30},
         blocking=True,
     )
     assert matter_client.send_device_command.call_args == call(
@@ -986,6 +991,41 @@ async def test_closure_cover_duplicate_panel_role(
         endpoint_id=2,
         command=clusters.ClosureDimension.Commands.SetTarget(
             position=7000, latch=False
+        ),
+        timed_request_timeout_ms=1000,
+    )
+    matter_client.send_device_command.reset_mock()
+
+    # the secondary entity's position is commanded on endpoint 3, independently
+    await hass.services.async_call(
+        "cover",
+        "set_cover_position",
+        {"entity_id": secondary_id, "position": 60},
+        blocking=True,
+    )
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=3,
+        command=clusters.ClosureDimension.Commands.SetTarget(
+            position=4000, latch=False
+        ),
+        timed_request_timeout_ms=1000,
+    )
+    matter_client.send_device_command.reset_mock()
+
+    # Open/Close/Stop only ever exist on the primary entity
+    await hass.services.async_call(
+        "cover",
+        "open_cover",
+        {"entity_id": primary_id},
+        blocking=True,
+    )
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=1,
+        command=clusters.ClosureControl.Commands.MoveTo(
+            position=clusters.ClosureControl.Enums.TargetPositionEnum.kMoveToFullyOpen,
+            latch=False,
         ),
         timed_request_timeout_ms=1000,
     )
