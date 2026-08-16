@@ -21,6 +21,7 @@ from homeassistant.helpers import entity_registry as er
 
 from .common import (
     set_node_attribute,
+    setup_integration_with_node_fixture,
     snapshot_matter_entities,
     trigger_subscription_callback,
 )
@@ -938,3 +939,53 @@ async def test_closure_cover_roof_window_real_device(
     assert state.state == CoverState.OPEN
     # raw percent100ths 4999 -> HA position (100 - floor(4999/100))
     assert state.attributes["current_position"] == 51
+
+
+async def test_closure_cover_duplicate_panel_role(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Two panels sharing the same role: keep the first, warn, ignore the rest.
+
+    HA's cover entity can only ever represent one current_cover_position;
+    silently overwriting the first panel found with the second would be
+    worse than picking one deterministically and saying so in the logs.
+    """
+    # retag endpoint 3 ("Tilt") as a second Lift panel instead; setup runs
+    # here (not via the matter_node fixture) so the warning it logs is
+    # captured - fixture-setup-phase logs aren't visible in caplog.
+    matter_node = await setup_integration_with_node_fixture(
+        hass,
+        "mock_closure_venetian_blinds",
+        matter_client,
+        {"3/29/4": [{"0": None, "1": 69, "2": 0, "3": "ClosurePanel.Lift"}]},
+    )
+    entity_id = hass.states.async_all(Platform.COVER)[0].entity_id
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.attributes["supported_features"] & CoverEntityFeature.SET_POSITION
+    assert not (
+        state.attributes["supported_features"] & CoverEntityFeature.SET_TILT_POSITION
+    )
+    assert "current_tilt_position" not in state.attributes
+    assert (
+        "Node 119 endpoint 1 has multiple ClosurePanel children with the "
+        "POSITION role; only endpoint 2 is used, endpoint 3 is ignored"
+    ) in caplog.text
+
+    # endpoint 2 (the first Lift panel found) is still the one commanded
+    await hass.services.async_call(
+        "cover",
+        "set_cover_position",
+        {"entity_id": entity_id, "position": 30},
+        blocking=True,
+    )
+    assert matter_client.send_device_command.call_args == call(
+        node_id=matter_node.node_id,
+        endpoint_id=2,
+        command=clusters.ClosureDimension.Commands.SetTarget(
+            position=7000, latch=False
+        ),
+        timed_request_timeout_ms=1000,
+    )

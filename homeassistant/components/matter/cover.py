@@ -401,8 +401,27 @@ class MatterClosure(MatterEntity, CoverEntity):
             tag_list = child.get_attribute_value(
                 None, clusters.Descriptor.Attributes.TagList
             )
-            if (role := _get_closure_panel_role(tag_list)) is not None:
-                panels[role] = child
+            role = _get_closure_panel_role(tag_list)
+            if role is None:
+                continue
+            if role in panels:
+                # e.g. two Lift panels disambiguated by a Common Position
+                # (Left/Right) tag we don't look at: current_cover_position
+                # can only ever reflect one of them, so keep the first
+                # found (stable PartsList order) and ignore the rest.
+                # (cached_property: computed once, before entity_id exists,
+                # so identify by node/endpoint rather than self.entity_id.)
+                LOGGER.warning(
+                    "Node %s endpoint %s has multiple ClosurePanel children with "
+                    "the %s role; only endpoint %s is used, endpoint %s is ignored",
+                    self._endpoint.node.node_id,
+                    self._endpoint.endpoint_id,
+                    role.name,
+                    panels[role].endpoint_id,
+                    child_id,
+                )
+                continue
+            panels[role] = child
         return panels
 
     @override
