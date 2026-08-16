@@ -29,7 +29,10 @@ from .helpers import MatterConfigEntry
 from .models import MatterDiscoverySchema
 
 if TYPE_CHECKING:
+    from matter_server.client import MatterClient
     from matter_server.client.models.node import MatterEndpoint
+
+    from .discovery import MatterEntityInfo
 
 # The MASK used for extracting bits 0 to 1 of the byte.
 OPERATIONAL_STATUS_MASK = 0b11
@@ -59,10 +62,20 @@ TYPE_MAP = {
 # kind (window, gate, door, garage door, ...); Namespace-Closure-Covering.xml
 # (id 0x46) narrows down what kind of covering it is when it's one;
 # Namespace-ClosurePanel.xml (id 0x45) describes which axis a ClosurePanel
-# child endpoint controls.
+# child endpoint controls; Namespace-Common-Position.xml (id 0x08) is how a
+# panel disambiguates itself from same-role siblings (e.g. Left vs Right).
 NAMESPACE_CLOSURE = 68
 NAMESPACE_CLOSURE_PANEL = 69
 NAMESPACE_CLOSURE_COVERING = 70
+NAMESPACE_COMMON_POSITION = 8
+
+COMMON_POSITION_TAG_TO_LABEL = {
+    0: "Left",
+    1: "Right",
+    2: "Top",
+    3: "Bottom",
+    4: "Middle",
+}
 
 # Checked first: Closure.Covering + a more specific Covering.* tag always
 # wins over the generic Closure.* tag below (e.g. Covering.Venetian).
@@ -159,6 +172,25 @@ def _get_closure_panel_role(tag_list: Any) -> ClosurePanelRole | None:
         role = CLOSURE_PANEL_TAG_TO_ROLE.get(_extract_struct_field(tag, 2, "tag"))
         if role is not None:
             return role
+    return None
+
+
+def _get_common_position_label(tag_list: Any) -> str | None:
+    """Return a human label from the Common Position semantic tag, if present.
+
+    E.g. "Left"/"Right"/"Row 2" - how a panel disambiguates itself from a
+    same-role sibling (e.g. two Lift panels).
+    """
+    for tag in tag_list or ():
+        if _extract_struct_field(tag, 1, "namespaceID") != NAMESPACE_COMMON_POSITION:
+            continue
+        tag_id = _extract_struct_field(tag, 2, "tag")
+        if (label := COMMON_POSITION_TAG_TO_LABEL.get(tag_id)) is not None:
+            return label
+        if tag_id in (5, 6):  # Row / Column: numeric value in the label field
+            kind = "Row" if tag_id == 5 else "Column"
+            value = _extract_struct_field(tag, 3, "label")
+            return f"{kind} {value}" if value else kind
     return None
 
 
@@ -637,9 +669,8 @@ class MatterClosureSecondaryPanel(MatterEntity, CoverEntity):
     MatterClosure only ever surfaces one panel per role (POSITION/TILT) on
     its own entity (see `_closure_panels`); a device with more than one
     panel of the same role - e.g. two Lift panels on a dual-leaf window,
-    disambiguated only by a Common Position (Left/Right) tag this
-    integration doesn't look at - gets one of these per extra panel instead
-    of the rest being silently unusable.
+    disambiguated by a Common Position (Left/Right) tag - gets one of these
+    per extra panel instead of the rest being silently unusable.
 
     Open/Close/Stop stay solely on the device's MatterClosure entity: a
     parent MoveTo already drives every child panel (confirmed against a real
@@ -648,6 +679,28 @@ class MatterClosureSecondaryPanel(MatterEntity, CoverEntity):
     """
 
     _write_state_debounce_cooldown = STATE_WRITE_DEBOUNCE_COOLDOWN
+
+    def __init__(
+        self,
+        matter_client: MatterClient,
+        endpoint: MatterEndpoint,
+        entity_info: MatterEntityInfo,
+    ) -> None:
+        """Initialize, naming this panel after its own Common Position tag.
+
+        E.g. "Left"/"Right" reads far better under has_entity_name than a
+        bare endpoint-ID postfix - and it's exactly what that tag is for.
+        MatterEntity's own `_name_postfix`/`_get_name_modifier` mechanism
+        only ever shows up when the entity already has a translated name to
+        append it to, which covers never do, so this is set directly here
+        instead.
+        """
+        super().__init__(matter_client, endpoint, entity_info)
+        tag_list = self.get_matter_attribute_value(
+            clusters.Descriptor.Attributes.TagList
+        )
+        if label := _get_common_position_label(tag_list):
+            self._attr_name = label
 
     @override
     async def async_set_cover_position(self, **kwargs: Any) -> None:

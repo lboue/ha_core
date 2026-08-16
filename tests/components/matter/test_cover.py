@@ -958,14 +958,10 @@ async def test_closure_cover_dual_lift_panels(
     cover_states = hass.states.async_all(Platform.COVER)
     assert len(cover_states) == 2
 
-    primary_id = next(
-        state.entity_id
-        for state in cover_states
-        if state.attributes["supported_features"] & CoverEntityFeature.OPEN
-    )
-    secondary_id = next(
-        state.entity_id for state in cover_states if state.entity_id != primary_id
-    )
+    primary_id = "cover.mock_closure_dual_lift"
+    # named after its own Common Position tag ("Right"), not a bare "_2"
+    secondary_id = "cover.mock_closure_dual_lift_right"
+    assert {state.entity_id for state in cover_states} == {primary_id, secondary_id}
 
     primary = hass.states.get(primary_id)
     assert primary
@@ -974,6 +970,7 @@ async def test_closure_cover_dual_lift_panels(
 
     secondary = hass.states.get(secondary_id)
     assert secondary
+    assert secondary.attributes["friendly_name"] == "Mock closure dual lift Right"
     assert secondary.attributes["device_class"] == CoverDeviceClass.WINDOW
     # only SET_POSITION: no Open/Close/Stop/Tilt of its own
     assert secondary.attributes["supported_features"] == CoverEntityFeature.SET_POSITION
