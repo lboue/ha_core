@@ -12,16 +12,22 @@ from .const import (
     ATTR_CREDENTIAL_INDEX,
     ATTR_CREDENTIAL_RULE,
     ATTR_CREDENTIAL_TYPE,
+    ATTR_DAYS,
+    ATTR_END_TIME,
+    ATTR_START_TIME,
     ATTR_USER_INDEX,
     ATTR_USER_NAME,
     ATTR_USER_STATUS,
     ATTR_USER_TYPE,
+    ATTR_WEEK_DAY_INDEX,
     CLEAR_ALL_INDEX,
     CREDENTIAL_RULE_REVERSE_MAP,
     CREDENTIAL_TYPE_REVERSE_MAP,
     DOMAIN,
+    SCHEDULE_CLEAR_ALL_INDEX,
     SERVICE_CREDENTIAL_TYPES,
     USER_TYPE_REVERSE_MAP,
+    WEEKDAY_MAP,
 )
 
 ATTR_DURATION = "duration"
@@ -154,4 +160,60 @@ def async_setup_services(hass: HomeAssistant) -> None:
         },
         func="async_get_lock_credential_status",
         supports_response=SupportsResponse.ONLY,
+    )
+
+    # Lock services - Week day schedule management
+    service.async_register_platform_entity_service(
+        hass,
+        DOMAIN,
+        "set_week_day_schedule",
+        entity_domain=LOCK_DOMAIN,
+        schema={
+            vol.Required(ATTR_WEEK_DAY_INDEX): vol.All(
+                vol.Coerce(int), vol.Range(min=1, max=253)
+            ),
+            vol.Required(ATTR_USER_INDEX): vol.All(
+                vol.Coerce(int), vol.Range(min=1, max=254)
+            ),
+            vol.Required(ATTR_DAYS): vol.All(
+                cv.ensure_list, [vol.In(WEEKDAY_MAP)], vol.Length(min=1)
+            ),
+            vol.Required(ATTR_START_TIME): cv.time,
+            vol.Required(ATTR_END_TIME): cv.time,
+        },
+        func="async_set_week_day_schedule",
+    )
+
+    service.async_register_platform_entity_service(
+        hass,
+        DOMAIN,
+        "get_week_day_schedule",
+        entity_domain=LOCK_DOMAIN,
+        schema={
+            vol.Required(ATTR_WEEK_DAY_INDEX): vol.All(
+                vol.Coerce(int), vol.Range(min=1, max=253)
+            ),
+            vol.Required(ATTR_USER_INDEX): vol.All(
+                vol.Coerce(int), vol.Range(min=1, max=254)
+            ),
+        },
+        func="async_get_week_day_schedule",
+        supports_response=SupportsResponse.ONLY,
+    )
+
+    service.async_register_platform_entity_service(
+        hass,
+        DOMAIN,
+        "clear_week_day_schedule",
+        entity_domain=LOCK_DOMAIN,
+        schema={
+            vol.Required(ATTR_WEEK_DAY_INDEX): vol.All(
+                vol.Coerce(int), vol.Range(min=1, max=SCHEDULE_CLEAR_ALL_INDEX)
+            ),
+            vol.Required(ATTR_USER_INDEX): vol.All(
+                vol.Coerce(int),
+                vol.Any(vol.Range(min=1, max=254), CLEAR_ALL_INDEX),
+            ),
+        },
+        func="async_clear_week_day_schedule",
     )
