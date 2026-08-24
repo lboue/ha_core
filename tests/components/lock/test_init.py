@@ -22,6 +22,8 @@ from homeassistant.helpers.typing import UNDEFINED, UndefinedType
 
 from .conftest import MockLock
 
+from tests.typing import WebSocketGenerator
+
 
 async def help_test_async_lock_service(
     hass: HomeAssistant,
@@ -376,3 +378,120 @@ async def test_lock_with_illegal_default_code(
         == rf"The code for lock.test_lock doesn't match pattern ^\d{{{4}}}$"
     )
     assert exc.value.translation_key == "add_default_code"
+
+
+@pytest.mark.parametrize("supported_features", [LockEntityFeature.USERS])
+async def test_generic_user_services(
+    hass: HomeAssistant, mock_lock_entity: MockLock
+) -> None:
+    """Test the generic set_user/get_users/clear_user services."""
+    await hass.services.async_call(
+        DOMAIN,
+        "set_user",
+        {
+            "entity_id": mock_lock_entity.entity_id,
+            "user_index": 1,
+            "name": "Guest",
+            "code": "1234",
+        },
+        blocking=True,
+    )
+    mock_lock_entity.calls_set_user.assert_called_once_with(
+        user_index=1, name="Guest", code="1234", user_type=None, enabled=None
+    )
+
+    response = await hass.services.async_call(
+        DOMAIN,
+        "get_users",
+        {"entity_id": mock_lock_entity.entity_id},
+        blocking=True,
+        return_response=True,
+    )
+    assert response[mock_lock_entity.entity_id] == [
+        {
+            "user_index": 1,
+            "name": "Guest",
+            "code": "1234",
+            "user_type": None,
+            "enabled": None,
+        }
+    ]
+
+    await hass.services.async_call(
+        DOMAIN,
+        "clear_user",
+        {"entity_id": mock_lock_entity.entity_id, "user_index": 1},
+        blocking=True,
+    )
+    mock_lock_entity.calls_clear_user.assert_called_once_with(user_index=1)
+
+
+async def test_generic_user_services_require_feature(
+    hass: HomeAssistant, mock_lock_entity: MockLock
+) -> None:
+    """Test the generic user services are gated by LockEntityFeature.USERS."""
+    with pytest.raises(ServiceValidationError):
+        await hass.services.async_call(
+            DOMAIN,
+            "set_user",
+            {"entity_id": mock_lock_entity.entity_id, "user_index": 1},
+            blocking=True,
+        )
+
+
+@pytest.mark.parametrize("supported_features", [LockEntityFeature.USERS])
+async def test_ws_get_users(
+    hass: HomeAssistant,
+    hass_ws_client: WebSocketGenerator,
+    mock_lock_entity: MockLock,
+) -> None:
+    """Test the lock/get_users websocket command."""
+    await mock_lock_entity.async_set_user(1, name="Guest", code="1234")
+    client = await hass_ws_client(hass)
+
+    await client.send_json_auto_id(
+        {"type": "lock/get_users", "entity_id": mock_lock_entity.entity_id}
+    )
+    msg = await client.receive_json()
+    assert msg["success"]
+    assert msg["result"]["users"] == [
+        {
+            "user_index": 1,
+            "name": "Guest",
+            "code": "1234",
+            "user_type": None,
+            "enabled": None,
+        }
+    ]
+
+
+async def test_ws_get_users_not_supported(
+    hass: HomeAssistant,
+    hass_ws_client: WebSocketGenerator,
+    mock_lock_entity: MockLock,
+) -> None:
+    """Test the lock/get_users websocket command on an entity without USERS."""
+    client = await hass_ws_client(hass)
+
+    await client.send_json_auto_id(
+        {"type": "lock/get_users", "entity_id": mock_lock_entity.entity_id}
+    )
+    msg = await client.receive_json()
+    assert not msg["success"]
+    assert msg["error"]["code"] == "not_supported"
+
+
+async def test_ws_get_users_unknown_entity(
+    hass: HomeAssistant,
+    hass_ws_client: WebSocketGenerator,
+    mock_lock_entity: MockLock,
+) -> None:
+    """Test the lock/get_users websocket command for an unknown entity."""
+    client = await hass_ws_client(hass)
+
+    await client.send_json_auto_id(
+        {"type": "lock/get_users", "entity_id": "lock.does_not_exist"}
+    )
+    msg = await client.receive_json()
+    assert not msg["success"]
+    assert msg["error"]["code"] == "not_found"

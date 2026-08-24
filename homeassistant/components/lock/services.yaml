@@ -31,3 +31,234 @@ unlock:
       example: 1234
       selector:
         text:
+
+get_users:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.USERS
+
+set_user:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.USERS
+  fields:
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    name:
+      selector:
+        text:
+    code:
+      selector:
+        text:
+    user_type:
+      selector:
+        text:
+    enabled:
+      selector:
+        boolean:
+
+clear_user:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.USERS
+  fields:
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+
+get_week_day_schedules:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.WEEK_DAY_SCHEDULES
+  fields:
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+
+set_week_day_schedule:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.WEEK_DAY_SCHEDULES
+  fields:
+    schedule_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    days:
+      required: true
+      selector:
+        select:
+          multiple: true
+          options:
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            - sunday
+    start_time:
+      required: true
+      selector:
+        time:
+    end_time:
+      required: true
+      selector:
+        time:
+
+clear_week_day_schedule:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.WEEK_DAY_SCHEDULES
+  fields:
+    schedule_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+
+get_year_day_schedules:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.YEAR_DAY_SCHEDULES
+  fields:
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+
+set_year_day_schedule:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.YEAR_DAY_SCHEDULES
+  fields:
+    schedule_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    start_date_time:
+      required: true
+      selector:
+        datetime:
+    end_date_time:
+      required: true
+      selector:
+        datetime:
+
+clear_year_day_schedule:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.YEAR_DAY_SCHEDULES
+  fields:
+    schedule_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    user_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+
+get_holiday_schedules:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.HOLIDAY_SCHEDULES
+
+set_holiday_schedule:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.HOLIDAY_SCHEDULES
+  fields:
+    schedule_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box
+    start_date_time:
+      required: true
+      selector:
+        datetime:
+    end_date_time:
+      required: true
+      selector:
+        datetime:
+    operating_mode:
+      required: true
+      selector:
+        text:
+
+clear_holiday_schedule:
+  target:
+    entity:
+      domain: lock
+      supported_features:
+        - lock.LockEntityFeature.HOLIDAY_SCHEDULES
+  fields:
+    schedule_index:
+      required: true
+      selector:
+        number:
+          min: 0
+          mode: box

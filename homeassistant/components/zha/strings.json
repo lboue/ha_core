@@ -2181,6 +2181,14 @@
       }
     }
   },
+  "exceptions": {
+    "get_users_not_supported": {
+      "message": "This lock does not support listing configured users."
+    },
+    "user_name_type_not_supported": {
+      "message": "This lock only supports a PIN code and enabled state per user; name and user_type are not supported."
+    }
+  },
   "issues": {
     "inconsistent_network_settings": {
       "fix_flow": {

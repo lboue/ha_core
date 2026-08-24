@@ -107,6 +107,82 @@
     }
   },
   "services": {
+    "clear_holiday_schedule": {
+      "description": "Removes a holiday schedule from a lock.",
+      "fields": {
+        "schedule_index": {
+          "description": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::description%]",
+          "name": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::name%]"
+        }
+      },
+      "name": "Clear holiday schedule"
+    },
+    "clear_user": {
+      "description": "Removes a user (code slot) from a lock.",
+      "fields": {
+        "user_index": {
+          "description": "[%key:component::lock::services::set_user::fields::user_index::description%]",
+          "name": "[%key:component::lock::services::set_user::fields::user_index::name%]"
+        }
+      },
+      "name": "Clear user"
+    },
+    "clear_week_day_schedule": {
+      "description": "Removes a week day schedule from a lock user.",
+      "fields": {
+        "schedule_index": {
+          "description": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::description%]",
+          "name": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::name%]"
+        },
+        "user_index": {
+          "description": "[%key:component::lock::services::set_user::fields::user_index::description%]",
+          "name": "[%key:component::lock::services::set_user::fields::user_index::name%]"
+        }
+      },
+      "name": "Clear week day schedule"
+    },
+    "clear_year_day_schedule": {
+      "description": "Removes a year day schedule from a lock user.",
+      "fields": {
+        "schedule_index": {
+          "description": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::description%]",
+          "name": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::name%]"
+        },
+        "user_index": {
+          "description": "[%key:component::lock::services::set_user::fields::user_index::description%]",
+          "name": "[%key:component::lock::services::set_user::fields::user_index::name%]"
+        }
+      },
+      "name": "Clear year day schedule"
+    },
+    "get_holiday_schedules": {
+      "description": "Gets the holiday schedules configured on a lock.",
+      "name": "Get holiday schedules"
+    },
+    "get_users": {
+      "description": "Gets the users configured on a lock.",
+      "name": "Get users"
+    },
+    "get_week_day_schedules": {
+      "description": "Gets the week day schedules configured for a lock user.",
+      "fields": {
+        "user_index": {
+          "description": "[%key:component::lock::services::set_user::fields::user_index::description%]",
+          "name": "[%key:component::lock::services::set_user::fields::user_index::name%]"
+        }
+      },
+      "name": "Get week day schedules"
+    },
+    "get_year_day_schedules": {
+      "description": "Gets the year day schedules configured for a lock user.",
+      "fields": {
+        "user_index": {
+          "description": "[%key:component::lock::services::set_user::fields::user_index::description%]",
+          "name": "[%key:component::lock::services::set_user::fields::user_index::name%]"
+        }
+      },
+      "name": "Get year day schedules"
+    },
     "lock": {
       "description": "Locks a lock.",
       "fields": {
@@ -126,6 +202,102 @@
         }
       },
       "name": "Open lock"
+    },
+    "set_holiday_schedule": {
+      "description": "Creates or updates a date range schedule that overrides normal lock operation.",
+      "fields": {
+        "end_date_time": {
+          "description": "[%key:component::lock::services::set_year_day_schedule::fields::end_date_time::description%]",
+          "name": "[%key:component::lock::services::set_year_day_schedule::fields::end_date_time::name%]"
+        },
+        "operating_mode": {
+          "description": "Operating mode to apply during the schedule.",
+          "name": "Operating mode"
+        },
+        "schedule_index": {
+          "description": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::description%]",
+          "name": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::name%]"
+        },
+        "start_date_time": {
+          "description": "[%key:component::lock::services::set_year_day_schedule::fields::start_date_time::description%]",
+          "name": "[%key:component::lock::services::set_year_day_schedule::fields::start_date_time::name%]"
+        }
+      },
+      "name": "Set holiday schedule"
+    },
+    "set_user": {
+      "description": "Creates or updates a user (code slot) on a lock.",
+      "fields": {
+        "code": {
+          "description": "Code (PIN) assigned to the user.",
+          "name": "Code"
+        },
+        "enabled": {
+          "description": "Whether the user is enabled.",
+          "name": "Enabled"
+        },
+        "name": {
+          "description": "Name for the user.",
+          "name": "Name"
+        },
+        "user_index": {
+          "description": "Index of the user (code slot) to create or update.",
+          "name": "User index"
+        },
+        "user_type": {
+          "description": "Type of the user.",
+          "name": "User type"
+        }
+      },
+      "name": "Set user"
+    },
+    "set_week_day_schedule": {
+      "description": "Creates or updates a recurring weekly access schedule for a lock user.",
+      "fields": {
+        "days": {
+          "description": "Days of the week the schedule applies to.",
+          "name": "Days"
+        },
+        "end_time": {
+          "description": "Time of day the schedule ends.",
+          "name": "End time"
+        },
+        "schedule_index": {
+          "description": "Index of the schedule to create or update.",
+          "name": "Schedule index"
+        },
+        "start_time": {
+          "description": "Time of day the schedule starts.",
+          "name": "Start time"
+        },
+        "user_index": {
+          "description": "[%key:component::lock::services::set_user::fields::user_index::description%]",
+          "name": "[%key:component::lock::services::set_user::fields::user_index::name%]"
+        }
+      },
+      "name": "Set week day schedule"
+    },
+    "set_year_day_schedule": {
+      "description": "Creates or updates a one-off date range access schedule for a lock user.",
+      "fields": {
+        "end_date_time": {
+          "description": "Date and time the schedule ends.",
+          "name": "End date/time"
+        },
+        "schedule_index": {
+          "description": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::description%]",
+          "name": "[%key:component::lock::services::set_week_day_schedule::fields::schedule_index::name%]"
+        },
+        "start_date_time": {
+          "description": "Date and time the schedule starts.",
+          "name": "Start date/time"
+        },
+        "user_index": {
+          "description": "[%key:component::lock::services::set_user::fields::user_index::description%]",
+          "name": "[%key:component::lock::services::set_user::fields::user_index::name%]"
+        }
+      },
+      "name": "Set year day schedule"
     },
     "unlock": {
       "description": "Unlocks a lock.",

@@ -27,11 +27,47 @@
     }
   },
   "services": {
+    "clear_holiday_schedule": {
+      "service": "mdi:calendar-remove"
+    },
+    "clear_user": {
+      "service": "mdi:account-remove"
+    },
+    "clear_week_day_schedule": {
+      "service": "mdi:calendar-remove"
+    },
+    "clear_year_day_schedule": {
+      "service": "mdi:calendar-remove"
+    },
+    "get_holiday_schedules": {
+      "service": "mdi:calendar-star"
+    },
+    "get_users": {
+      "service": "mdi:account-search"
+    },
+    "get_week_day_schedules": {
+      "service": "mdi:calendar-week"
+    },
+    "get_year_day_schedules": {
+      "service": "mdi:calendar-range"
+    },
     "lock": {
       "service": "mdi:lock"
     },
     "open": {
       "service": "mdi:door-open"
+    },
+    "set_holiday_schedule": {
+      "service": "mdi:calendar-star"
+    },
+    "set_user": {
+      "service": "mdi:account-key"
+    },
+    "set_week_day_schedule": {
+      "service": "mdi:calendar-week"
+    },
+    "set_year_day_schedule": {
+      "service": "mdi:calendar-range"
     },
     "unlock": {
       "service": "mdi:lock-open-variant"

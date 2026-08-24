@@ -5,10 +5,11 @@ from typing import Any, override
 
 import voluptuous as vol
 
-from homeassistant.components.lock import LockEntity
+from homeassistant.components.lock import LockEntity, LockEntityFeature, LockUser
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant, State, callback
+from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import (
@@ -88,6 +89,9 @@ class ZhaDoorLock(ZHAEntity, LockEntity):
     """Representation of a ZHA lock."""
 
     _attr_translation_key: str = "door_lock"
+    # The zha library only supports writing/clearing a PIN at a code slot,
+    # not listing configured slots back, so USERS covers set/clear only.
+    _attr_supported_features = LockEntityFeature.USERS
 
     @property
     @override
@@ -134,6 +138,47 @@ class ZhaDoorLock(ZHAEntity, LockEntity):
         """Clear the user_code at index X on the lock."""
         await self.entity_data.entity.async_clear_lock_user_code(code_slot=code_slot)
         self.async_write_ha_state()
+
+    @override
+    async def async_get_users(self) -> list[LockUser]:
+        """Return the users configured on this lock.
+
+        Not supported: the zha library can write PIN codes to a slot but has
+        no ZCL GetPINCode/GetUserStatus wrapper to read them back.
+        """
+        raise HomeAssistantError(
+            translation_domain="zha",
+            translation_key="get_users_not_supported",
+        )
+
+    @override
+    async def async_set_user(
+        self,
+        user_index: int,
+        *,
+        name: str | None = None,
+        code: str | None = None,
+        user_type: str | None = None,
+        enabled: bool | None = None,
+    ) -> LockUser | None:
+        """Set the PIN code and/or enabled state of a code slot."""
+        if name is not None or user_type is not None:
+            raise ServiceValidationError(
+                translation_domain="zha",
+                translation_key="user_name_type_not_supported",
+            )
+        if code is not None:
+            await self.async_set_lock_user_code(code_slot=user_index, user_code=code)
+        if enabled is True:
+            await self.async_enable_lock_user_code(code_slot=user_index)
+        elif enabled is False:
+            await self.async_disable_lock_user_code(code_slot=user_index)
+        return None
+
+    @override
+    async def async_clear_user(self, user_index: int) -> None:
+        """Clear the PIN code at a code slot."""
+        await self.async_clear_lock_user_code(code_slot=user_index)
 
     @callback
     @override

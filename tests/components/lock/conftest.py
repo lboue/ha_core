@@ -6,7 +6,12 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from homeassistant.components.lock import DOMAIN, LockEntity, LockEntityFeature
+from homeassistant.components.lock import (
+    DOMAIN,
+    LockEntity,
+    LockEntityFeature,
+    LockUser,
+)
 from homeassistant.config_entries import ConfigEntry, ConfigFlow
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -42,6 +47,10 @@ class MockLock(LockEntity):
         self._attr_has_entity_name = True
         self._attr_name = "test_lock"
         self._attr_unique_id = "very_unique_lock_id"
+        self.calls_get_users = MagicMock()
+        self.calls_set_user = MagicMock()
+        self.calls_clear_user = MagicMock()
+        self._users: list[LockUser] = []
         super().__init__()
 
     def lock(self, **kwargs: Any) -> None:
@@ -55,6 +64,44 @@ class MockLock(LockEntity):
     def open(self, **kwargs: Any) -> None:
         """Mock lock open calls."""
         self.calls_open(**kwargs)
+
+    async def async_get_users(self) -> list[LockUser]:
+        """Mock returning the configured users."""
+        self.calls_get_users()
+        return self._users
+
+    async def async_set_user(
+        self,
+        user_index: int,
+        *,
+        name: str | None = None,
+        code: str | None = None,
+        user_type: str | None = None,
+        enabled: bool | None = None,
+    ) -> LockUser | None:
+        """Mock creating or updating a user."""
+        self.calls_set_user(
+            user_index=user_index,
+            name=name,
+            code=code,
+            user_type=user_type,
+            enabled=enabled,
+        )
+        user = LockUser(
+            user_index=user_index,
+            name=name,
+            code=code,
+            user_type=user_type,
+            enabled=enabled,
+        )
+        self._users = [u for u in self._users if u["user_index"] != user_index]
+        self._users.append(user)
+        return user
+
+    async def async_clear_user(self, user_index: int) -> None:
+        """Mock clearing a user."""
+        self.calls_clear_user(user_index=user_index)
+        self._users = [u for u in self._users if u["user_index"] != user_index]
 
 
 class MockFlow(ConfigFlow):

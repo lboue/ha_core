@@ -187,7 +187,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
             vol.Required(ATTR_START_TIME): cv.time,
             vol.Required(ATTR_END_TIME): cv.time,
         },
-        func="async_set_week_day_schedule",
+        func="async_set_week_day_schedule_matter",
     )
 
     service.async_register_platform_entity_service(
@@ -221,7 +221,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
                 vol.Any(vol.Range(min=1, max=254), CLEAR_ALL_INDEX),
             ),
         },
-        func="async_clear_week_day_schedule",
+        func="async_clear_week_day_schedule_matter",
     )
 
     # Lock services - Year day schedule management
@@ -240,7 +240,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
             vol.Required(ATTR_START_DATE_TIME): cv.datetime,
             vol.Required(ATTR_END_DATE_TIME): cv.datetime,
         },
-        func="async_set_year_day_schedule",
+        func="async_set_year_day_schedule_matter",
     )
 
     service.async_register_platform_entity_service(
@@ -274,7 +274,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
                 vol.Any(vol.Range(min=1, max=254), CLEAR_ALL_INDEX),
             ),
         },
-        func="async_clear_year_day_schedule",
+        func="async_clear_year_day_schedule_matter",
     )
 
     # Lock services - Holiday schedule management (lock-wide, no user_index)
@@ -293,7 +293,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
                 OPERATING_MODE_REVERSE_MAP.keys()
             ),
         },
-        func="async_set_holiday_schedule",
+        func="async_set_holiday_schedule_matter",
     )
 
     service.async_register_platform_entity_service(
@@ -320,5 +320,5 @@ def async_setup_services(hass: HomeAssistant) -> None:
                 vol.Coerce(int), vol.Range(min=1, max=SCHEDULE_CLEAR_ALL_INDEX)
             ),
         },
-        func="async_clear_holiday_schedule",
+        func="async_clear_holiday_schedule_matter",
     )

@@ -2,6 +2,7 @@
 
 import asyncio
 from dataclasses import dataclass
+from datetime import datetime, time
 from typing import Any, override
 
 from chip.clusters import Objects as clusters
@@ -12,6 +13,10 @@ from homeassistant.components.lock import (
     LockEntity,
     LockEntityDescription,
     LockEntityFeature,
+    LockHolidaySchedule,
+    LockUser,
+    LockWeekDaySchedule,
+    LockYearDaySchedule,
 )
 from homeassistant.const import ATTR_CODE, Platform
 from homeassistant.core import HomeAssistant, callback
@@ -301,7 +306,325 @@ class MatterLock(MatterEntity, LockEntity):
         # determine if lock supports optional open/unbolt feature
         if bool(feature_map & DoorLockFeature.kUnbolt):
             supported_features |= LockEntityFeature.OPEN
+        if bool(feature_map & DoorLockFeature.kUser):
+            supported_features |= LockEntityFeature.USERS
+        if bool(feature_map & DoorLockFeature.kWeekDayAccessSchedules):
+            supported_features |= LockEntityFeature.WEEK_DAY_SCHEDULES
+        if bool(feature_map & DoorLockFeature.kYearDayAccessSchedules):
+            supported_features |= LockEntityFeature.YEAR_DAY_SCHEDULES
+        if bool(feature_map & DoorLockFeature.kHolidaySchedules):
+            supported_features |= LockEntityFeature.HOLIDAY_SCHEDULES
         self._attr_supported_features = supported_features
+
+    # --- Generic lock.* platform methods (homeassistant.components.lock) ---
+    # Implements the cross-integration user/schedule contract so a shared
+    # frontend can manage this lock the same way as e.g. a future ZHA lock,
+    # in addition to the richer matter.* services below for credential-level
+    # control that the generic model doesn't cover.
+
+    @override
+    async def async_get_users(self) -> list[LockUser]:
+        """Return the users configured on this lock."""
+        try:
+            result = await get_lock_users(self.matter_client, self._endpoint.node)
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to get lock users for {self.entity_id}: {err}"
+            ) from err
+        return [
+            LockUser(
+                user_index=user["user_index"],
+                name=user["user_name"],
+                code=None,  # Matter never returns credential values
+                user_type=user["user_type"],
+                enabled=user["user_status"] == "occupied_enabled",
+            )
+            for user in result["users"]
+            if user["user_index"] is not None
+        ]
+
+    @override
+    async def async_set_user(
+        self,
+        user_index: int,
+        *,
+        name: str | None = None,
+        code: str | None = None,
+        user_type: str | None = None,
+        enabled: bool | None = None,
+    ) -> LockUser | None:
+        """Create or update a user (code slot) on this lock."""
+        user_status = (
+            "occupied_enabled"
+            if enabled
+            else "occupied_disabled"
+            if enabled is False
+            else None
+        )
+        try:
+            result = await set_lock_user(
+                self.matter_client,
+                self._endpoint.node,
+                user_index=user_index,
+                user_name=name,
+                user_type=user_type,
+                user_status=user_status,
+            )
+            if code is not None:
+                await set_lock_credential(
+                    self.matter_client,
+                    self._endpoint.node,
+                    credential_type="pin",
+                    credential_data=code,
+                    user_index=result["user_index"],
+                )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to set lock user on {self.entity_id}: {err}"
+            ) from err
+        return LockUser(
+            user_index=result["user_index"],
+            name=name,
+            code=code,
+            user_type=user_type,
+            enabled=enabled,
+        )
+
+    @override
+    async def async_clear_user(self, user_index: int) -> None:
+        """Remove a user (code slot) from this lock."""
+        try:
+            await clear_lock_user(self.matter_client, self._endpoint.node, user_index)
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to clear lock user on {self.entity_id}: {err}"
+            ) from err
+
+    async def _async_max_schedules(self, attr: str) -> int:
+        """Look up a schedule capacity attribute via get_lock_info."""
+        try:
+            info: GetLockInfoResult = await get_lock_info(
+                self.matter_client, self._endpoint.node
+            )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to get lock info for {self.entity_id}: {err}"
+            ) from err
+        return info[attr] or 0  # type: ignore[literal-required]
+
+    @override
+    async def async_get_week_day_schedules(
+        self, user_index: int
+    ) -> list[LockWeekDaySchedule]:
+        """Return the week day schedules configured for a lock user."""
+        max_schedules = await self._async_max_schedules(
+            "max_week_day_schedules_per_user"
+        )
+        schedules: list[LockWeekDaySchedule] = []
+        try:
+            for index in range(1, max_schedules + 1):
+                schedule = await get_week_day_schedule(
+                    self.matter_client,
+                    self._endpoint.node,
+                    week_day_index=index,
+                    user_index=user_index,
+                )
+                if schedule["exists"]:
+                    schedules.append(
+                        LockWeekDaySchedule(
+                            schedule_index=index,
+                            user_index=user_index,
+                            days=schedule["days"],
+                            start_time=schedule["start_time"] or "",
+                            end_time=schedule["end_time"] or "",
+                        )
+                    )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to get week day schedules for {self.entity_id}: {err}"
+            ) from err
+        return schedules
+
+    @override
+    async def async_set_week_day_schedule(
+        self,
+        schedule_index: int,
+        user_index: int,
+        *,
+        days: list[str],
+        start_time: str,
+        end_time: str,
+    ) -> None:
+        """Create or update a week day schedule for a lock user."""
+        try:
+            await set_week_day_schedule(
+                self.matter_client,
+                self._endpoint.node,
+                week_day_index=schedule_index,
+                user_index=user_index,
+                days=days,
+                start_time=time.fromisoformat(start_time),
+                end_time=time.fromisoformat(end_time),
+            )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to set week day schedule on {self.entity_id}: {err}"
+            ) from err
+
+    @override
+    async def async_clear_week_day_schedule(
+        self, schedule_index: int, user_index: int
+    ) -> None:
+        """Remove a week day schedule from a lock user."""
+        try:
+            await clear_week_day_schedule(
+                self.matter_client,
+                self._endpoint.node,
+                week_day_index=schedule_index,
+                user_index=user_index,
+            )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to clear week day schedule on {self.entity_id}: {err}"
+            ) from err
+
+    @override
+    async def async_get_year_day_schedules(
+        self, user_index: int
+    ) -> list[LockYearDaySchedule]:
+        """Return the year day schedules configured for a lock user."""
+        max_schedules = await self._async_max_schedules(
+            "max_year_day_schedules_per_user"
+        )
+        schedules: list[LockYearDaySchedule] = []
+        try:
+            for index in range(1, max_schedules + 1):
+                schedule = await get_year_day_schedule(
+                    self.matter_client,
+                    self._endpoint.node,
+                    year_day_index=index,
+                    user_index=user_index,
+                )
+                if schedule["exists"]:
+                    schedules.append(
+                        LockYearDaySchedule(
+                            schedule_index=index,
+                            user_index=user_index,
+                            start_date_time=schedule["start_date_time"] or "",
+                            end_date_time=schedule["end_date_time"] or "",
+                        )
+                    )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to get year day schedules for {self.entity_id}: {err}"
+            ) from err
+        return schedules
+
+    @override
+    async def async_set_year_day_schedule(
+        self,
+        schedule_index: int,
+        user_index: int,
+        *,
+        start_date_time: str,
+        end_date_time: str,
+    ) -> None:
+        """Create or update a year day schedule for a lock user."""
+        try:
+            await set_year_day_schedule(
+                self.matter_client,
+                self._endpoint.node,
+                year_day_index=schedule_index,
+                user_index=user_index,
+                start_date_time=datetime.fromisoformat(start_date_time),
+                end_date_time=datetime.fromisoformat(end_date_time),
+            )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to set year day schedule on {self.entity_id}: {err}"
+            ) from err
+
+    @override
+    async def async_clear_year_day_schedule(
+        self, schedule_index: int, user_index: int
+    ) -> None:
+        """Remove a year day schedule from a lock user."""
+        try:
+            await clear_year_day_schedule(
+                self.matter_client,
+                self._endpoint.node,
+                year_day_index=schedule_index,
+                user_index=user_index,
+            )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to clear year day schedule on {self.entity_id}: {err}"
+            ) from err
+
+    @override
+    async def async_get_holiday_schedules(self) -> list[LockHolidaySchedule]:
+        """Return the holiday schedules configured on this lock."""
+        max_schedules = await self._async_max_schedules("max_holiday_schedules")
+        schedules: list[LockHolidaySchedule] = []
+        try:
+            for index in range(1, max_schedules + 1):
+                schedule = await get_holiday_schedule(
+                    self.matter_client,
+                    self._endpoint.node,
+                    holiday_index=index,
+                )
+                if schedule["exists"]:
+                    schedules.append(
+                        LockHolidaySchedule(
+                            schedule_index=index,
+                            start_date_time=schedule["start_date_time"] or "",
+                            end_date_time=schedule["end_date_time"] or "",
+                            operating_mode=schedule["operating_mode"] or "",
+                        )
+                    )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to get holiday schedules for {self.entity_id}: {err}"
+            ) from err
+        return schedules
+
+    @override
+    async def async_set_holiday_schedule(
+        self,
+        schedule_index: int,
+        *,
+        start_date_time: str,
+        end_date_time: str,
+        operating_mode: str,
+    ) -> None:
+        """Create or update a holiday schedule on this lock."""
+        try:
+            await set_holiday_schedule(
+                self.matter_client,
+                self._endpoint.node,
+                holiday_index=schedule_index,
+                start_date_time=datetime.fromisoformat(start_date_time),
+                end_date_time=datetime.fromisoformat(end_date_time),
+                operating_mode=operating_mode,
+            )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to set holiday schedule on {self.entity_id}: {err}"
+            ) from err
+
+    @override
+    async def async_clear_holiday_schedule(self, schedule_index: int) -> None:
+        """Remove a holiday schedule from this lock."""
+        try:
+            await clear_holiday_schedule(
+                self.matter_client,
+                self._endpoint.node,
+                holiday_index=schedule_index,
+            )
+        except MatterError as err:
+            raise HomeAssistantError(
+                f"Failed to clear holiday schedule on {self.entity_id}: {err}"
+            ) from err
 
     # --- Entity service methods ---
 
@@ -406,7 +729,7 @@ class MatterLock(MatterEntity, LockEntity):
                 f"Failed to get credential status for {self.entity_id}: {err}"
             ) from err
 
-    async def async_set_week_day_schedule(self, **kwargs: Any) -> None:
+    async def async_set_week_day_schedule_matter(self, **kwargs: Any) -> None:
         """Set a week day schedule for a lock user."""
         try:
             await set_week_day_schedule(
@@ -437,7 +760,7 @@ class MatterLock(MatterEntity, LockEntity):
                 f"Failed to get week day schedule for {self.entity_id}: {err}"
             ) from err
 
-    async def async_clear_week_day_schedule(self, **kwargs: Any) -> None:
+    async def async_clear_week_day_schedule_matter(self, **kwargs: Any) -> None:
         """Clear a week day schedule for a lock user."""
         try:
             await clear_week_day_schedule(
@@ -451,7 +774,7 @@ class MatterLock(MatterEntity, LockEntity):
                 f"Failed to clear week day schedule on {self.entity_id}: {err}"
             ) from err
 
-    async def async_set_year_day_schedule(self, **kwargs: Any) -> None:
+    async def async_set_year_day_schedule_matter(self, **kwargs: Any) -> None:
         """Set a year day schedule for a lock user."""
         try:
             await set_year_day_schedule(
@@ -481,7 +804,7 @@ class MatterLock(MatterEntity, LockEntity):
                 f"Failed to get year day schedule for {self.entity_id}: {err}"
             ) from err
 
-    async def async_clear_year_day_schedule(self, **kwargs: Any) -> None:
+    async def async_clear_year_day_schedule_matter(self, **kwargs: Any) -> None:
         """Clear a year day schedule for a lock user."""
         try:
             await clear_year_day_schedule(
@@ -495,7 +818,7 @@ class MatterLock(MatterEntity, LockEntity):
                 f"Failed to clear year day schedule on {self.entity_id}: {err}"
             ) from err
 
-    async def async_set_holiday_schedule(self, **kwargs: Any) -> None:
+    async def async_set_holiday_schedule_matter(self, **kwargs: Any) -> None:
         """Set a lock-wide holiday schedule."""
         try:
             await set_holiday_schedule(
@@ -524,7 +847,7 @@ class MatterLock(MatterEntity, LockEntity):
                 f"Failed to get holiday schedule for {self.entity_id}: {err}"
             ) from err
 
-    async def async_clear_holiday_schedule(self, **kwargs: Any) -> None:
+    async def async_clear_holiday_schedule_matter(self, **kwargs: Any) -> None:
         """Clear a lock-wide holiday schedule."""
         try:
             await clear_holiday_schedule(
