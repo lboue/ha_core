@@ -61,6 +61,17 @@ class MatterBinarySensor(MatterEntity, BinarySensorEntity):
 
 _PUMP_STATUS = clusters.PumpConfigurationAndControl.Bitmaps.PumpStatusBitmap
 _VALVE_FAULT = clusters.ValveConfigurationAndControl.Bitmaps.ValveFaultBitmap
+_TEMPERATURE_ALARM = clusters.TemperatureAlarm.Bitmaps.AlarmBitmap
+_TEMPERATURE_ALARM_OVER = (
+    _TEMPERATURE_ALARM.kMinorOverTemperatureAlarm
+    | _TEMPERATURE_ALARM.kMajorOverTemperatureAlarm
+    | _TEMPERATURE_ALARM.kCriticalOverTemperatureAlarm
+)
+_TEMPERATURE_ALARM_UNDER = (
+    _TEMPERATURE_ALARM.kMinorUnderTemperatureAlarm
+    | _TEMPERATURE_ALARM.kMajorUnderTemperatureAlarm
+    | _TEMPERATURE_ALARM.kCriticalUnderTemperatureAlarm
+)
 
 # Discovery schema(s) to map Matter Attributes to HA entities
 DISCOVERY_SCHEMAS = [
@@ -600,5 +611,29 @@ DISCOVERY_SCHEMAS = [
         required_attributes=(
             clusters.GeneralDiagnostics.Attributes.ActiveNetworkFaults,
         ),
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.BINARY_SENSOR,
+        entity_description=MatterBinarySensorEntityDescription(
+            key="TemperatureAlarmOverTemperature",
+            translation_key="over_temperature",
+            device_class=BinarySensorDeviceClass.PROBLEM,
+            device_to_ha=lambda value: bool(value & _TEMPERATURE_ALARM_OVER),
+        ),
+        entity_class=MatterBinarySensor,
+        required_attributes=(clusters.TemperatureAlarm.Attributes.State,),
+        allow_multi=True,
+    ),
+    MatterDiscoverySchema(
+        platform=Platform.BINARY_SENSOR,
+        entity_description=MatterBinarySensorEntityDescription(
+            key="TemperatureAlarmUnderTemperature",
+            translation_key="under_temperature",
+            device_class=BinarySensorDeviceClass.PROBLEM,
+            device_to_ha=lambda value: bool(value & _TEMPERATURE_ALARM_UNDER),
+        ),
+        entity_class=MatterBinarySensor,
+        required_attributes=(clusters.TemperatureAlarm.Attributes.State,),
+        allow_multi=True,
     ),
 ]

@@ -776,6 +776,111 @@ async def test_co_detector(
     assert state.state == "off"
 
 
+@pytest.mark.parametrize("node_fixture", ["mock_temperature_alarm"])
+async def test_temperature_alarm(
+    hass: HomeAssistant,
+    matter_client: MagicMock,
+    matter_node: MatterNode,
+) -> None:
+    """Test TemperatureAlarm over/under temperature binary sensors."""
+    state_attribute = clusters.TemperatureAlarm.Attributes.State
+    alarm_bitmap = clusters.TemperatureAlarm.Bitmaps.AlarmBitmap
+
+    over_entity_id = "binary_sensor.mock_temperature_alarm_over_temperature"
+    under_entity_id = "binary_sensor.mock_temperature_alarm_under_temperature"
+
+    # State = 0 (no alarm active)
+    set_node_attribute(
+        matter_node,
+        1,
+        100,
+        state_attribute.attribute_id,
+        0,
+    )
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(over_entity_id)
+    assert state
+    assert state.state == "off"
+
+    state = hass.states.get(under_entity_id)
+    assert state
+    assert state.state == "off"
+
+    # Set MinorOverTemperatureAlarm bit
+    set_node_attribute(
+        matter_node,
+        1,
+        100,
+        state_attribute.attribute_id,
+        alarm_bitmap.kMinorOverTemperatureAlarm,
+    )
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(over_entity_id)
+    assert state
+    assert state.state == "on"
+
+    state = hass.states.get(under_entity_id)
+    assert state
+    assert state.state == "off"
+
+    # Set CriticalUnderTemperatureAlarm bit
+    set_node_attribute(
+        matter_node,
+        1,
+        100,
+        state_attribute.attribute_id,
+        alarm_bitmap.kCriticalUnderTemperatureAlarm,
+    )
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(over_entity_id)
+    assert state
+    assert state.state == "off"
+
+    state = hass.states.get(under_entity_id)
+    assert state
+    assert state.state == "on"
+
+    # Set both an over and an under temperature alarm bit at once
+    set_node_attribute(
+        matter_node,
+        1,
+        100,
+        state_attribute.attribute_id,
+        alarm_bitmap.kMajorOverTemperatureAlarm
+        | alarm_bitmap.kMajorUnderTemperatureAlarm,
+    )
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(over_entity_id)
+    assert state
+    assert state.state == "on"
+
+    state = hass.states.get(under_entity_id)
+    assert state
+    assert state.state == "on"
+
+    # Clear all alarm bits
+    set_node_attribute(
+        matter_node,
+        1,
+        100,
+        state_attribute.attribute_id,
+        0,
+    )
+    await trigger_subscription_callback(hass, matter_client)
+
+    state = hass.states.get(over_entity_id)
+    assert state
+    assert state.state == "off"
+
+    state = hass.states.get(under_entity_id)
+    assert state
+    assert state.state == "off"
+
+
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("node_fixture", ["device_diagnostics"])
 async def test_general_diagnostics_fault_sensors(

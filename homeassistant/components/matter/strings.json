@@ -97,6 +97,9 @@
       "muted": {
         "name": "Muted"
       },
+      "over_temperature": {
+        "name": "Over temperature"
+      },
       "rain": {
         "name": "Rain"
       },
@@ -111,6 +114,9 @@
       },
       "thermostat_remote_sensing_outdoor_temperature": {
         "name": "Outdoor temperature remote sensing"
+      },
+      "under_temperature": {
+        "name": "Under temperature"
       },
       "valve_fault_blocked": {
         "name": "Valve blocked"

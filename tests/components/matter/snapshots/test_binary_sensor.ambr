@@ -1980,6 +1980,108 @@
     'state': 'on',
   })
 # ---
+# name: test_binary_sensors[mock_temperature_alarm][binary_sensor.mock_temperature_alarm_over_temperature-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
+    'device_class': None,
+    'device_id': <ANY>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': None,
+    'entity_id': 'binary_sensor.mock_temperature_alarm_over_temperature',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Over temperature',
+    'options': dict({
+    }),
+    'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
+    'original_icon': None,
+    'original_name': 'Over temperature',
+    'platform': 'matter',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'over_temperature',
+    'unique_id': '00000000000004D2-0000000000000040-MatterNodeDevice-1-TemperatureAlarmOverTemperature-100-2',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_binary_sensors[mock_temperature_alarm][binary_sensor.mock_temperature_alarm_over_temperature-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'problem',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Mock Temperature Alarm Over temperature',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.mock_temperature_alarm_over_temperature',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_binary_sensors[mock_temperature_alarm][binary_sensor.mock_temperature_alarm_under_temperature-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': <ANY>,
+    'device_class': None,
+    'device_id': <ANY>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': None,
+    'entity_id': 'binary_sensor.mock_temperature_alarm_under_temperature',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Under temperature',
+    'options': dict({
+    }),
+    'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
+    'original_icon': None,
+    'original_name': 'Under temperature',
+    'platform': 'matter',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'under_temperature',
+    'unique_id': '00000000000004D2-0000000000000040-MatterNodeDevice-1-TemperatureAlarmUnderTemperature-100-2',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_binary_sensors[mock_temperature_alarm][binary_sensor.mock_temperature_alarm_under_temperature-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'problem',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Mock Temperature Alarm Under temperature',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.mock_temperature_alarm_under_temperature',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
 # name: test_binary_sensors[mock_thermostat][binary_sensor.mock_thermostat_local_temperature_remote_sensing-entry]
   EntityRegistryEntrySnapshot({
     'aliases': list([
