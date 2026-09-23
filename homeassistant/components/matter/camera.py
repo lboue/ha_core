@@ -1,11 +1,13 @@
 """Matter camera platform."""
 
+import base64
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, ClassVar, override
 
 from chip.clusters import Objects as clusters
 from chip.clusters.Objects import NullValue
+from matter_server.client.exceptions import MatterClientException
 from matter_server.common.errors import MatterError
 from matter_server.common.models import EventType
 from webrtc_models import RTCIceCandidateInit
@@ -30,29 +32,8 @@ from .models import MatterDiscoverySchema
 
 PLACEHOLDER = Path(__file__).parent / "placeholder.png"
 
-_STREAM_USAGE = clusters.Globals.Enums.StreamUsageEnum.kLiveView
-# Minimum resolution requested for the video stream; the camera negotiates the
-# actual encoding within this and the (sensor-derived, when available) max bound.
-_MIN_RESOLUTION = clusters.CameraAvStreamManagement.Structs.VideoResolutionStruct(
-    width=640, height=480
-)
-_FALLBACK_MAX_RESOLUTION = (
-    clusters.CameraAvStreamManagement.Structs.VideoResolutionStruct(
-        width=1920, height=1080
-    )
-)
-_FALLBACK_MAX_FRAME_RATE = 120
-_MIN_FRAME_RATE = 30
-_PREFERRED_AUDIO_CODEC = clusters.CameraAvStreamManagement.Enums.AudioCodecEnum.kOpus
-_PREFERRED_SAMPLE_RATE = 48000
-_PREFERRED_BIT_DEPTH = 24
-
-
-def _preferred_or_first[T](preferred: T, supported: list[T]) -> T:
-    """Return preferred if the device supports it, else the first supported value."""
-    if not supported:
-        return preferred
-    return preferred if preferred in supported else supported[0]
+# Server-side stream management (camera_* commands) was added in schema 14.
+_CAMERA_SCHEMA = 14
 
 
 async def async_setup_entry(
@@ -97,13 +78,6 @@ class MatterCamera(MatterEntity, Camera):
         # only while an offer is in flight to bound growth.
         self._buffered_events: list[dict[str, Any]] = []
         self._pending_offers = 0
-        # Video/audio stream allocated for live view, and whether we allocated
-        # it ourselves (and so must free it once no session uses it anymore),
-        # as opposed to reusing a stream already allocated by another party.
-        self._video_stream_id: int | None = None
-        self._video_stream_owned = False
-        self._audio_stream_id: int | None = None
-        self._audio_stream_owned = False
         super().__init__(*args, **kwargs)
         Camera.__init__(self)
 
@@ -143,143 +117,6 @@ class MatterCamera(MatterEntity, Camera):
         )
         self._attr_is_streaming = bool(current_sessions)
 
-    def _stream_id_from_response(self, response: dict[str, Any], key: str) -> int:
-        """Extract e.g. "videoStreamID" from a stream Allocate response.
-
-        Works around a matterjs-server bug where the response uses matter.js's
-        own field-name casing (e.g. "videoStreamId") instead of the chip-clusters
-        convention this integration expects. Remove once fixed upstream:
-        https://github.com/matter-js/matterjs-server/issues/927
-        """
-        if key in response:
-            return int(response[key])
-        return int(response[key[:-2] + "Id"])
-
-    async def _async_ensure_video_stream(self) -> int:
-        """Return a video stream ID for live view, reusing or allocating one."""
-        if self._video_stream_id is not None:
-            return self._video_stream_id
-        allocated_streams = self.get_matter_attribute_value(
-            clusters.CameraAvStreamManagement.Attributes.AllocatedVideoStreams
-        )
-        for stream in allocated_streams or []:
-            if stream.streamUsage == _STREAM_USAGE:
-                self._video_stream_id = stream.videoStreamID
-                self._video_stream_owned = False
-                return self._video_stream_id
-        feature_map = self.get_matter_attribute_value(
-            clusters.CameraAvStreamManagement.Attributes.FeatureMap
-        )
-        # Prefer the camera's own reported sensor bounds (native resolution and
-        # frame rate) over the fallback constants when available.
-        video_sensor_params = self.get_matter_attribute_value(
-            clusters.CameraAvStreamManagement.Attributes.VideoSensorParams
-        )
-        if video_sensor_params is not None:
-            max_resolution = (
-                clusters.CameraAvStreamManagement.Structs.VideoResolutionStruct(
-                    width=video_sensor_params.sensorWidth,
-                    height=video_sensor_params.sensorHeight,
-                )
-            )
-            max_frame_rate = video_sensor_params.maxFps
-        else:
-            max_resolution = _FALLBACK_MAX_RESOLUTION
-            max_frame_rate = _FALLBACK_MAX_FRAME_RATE
-        # MaxEncodedPixelRate reflects what the encoder can actually sustain at a
-        # given resolution, which can be lower than the sensor's absolute max fps.
-        max_encoded_pixel_rate = self.get_matter_attribute_value(
-            clusters.CameraAvStreamManagement.Attributes.MaxEncodedPixelRate
-        )
-        if max_encoded_pixel_rate is not None:
-            pixel_rate_fps = max_encoded_pixel_rate // (
-                max_resolution.width * max_resolution.height
-            )
-            max_frame_rate = min(max_frame_rate, pixel_rate_fps)
-        allocate_kwargs: dict[str, Any] = {
-            "streamUsage": _STREAM_USAGE,
-            "videoCodec": clusters.CameraAvStreamManagement.Enums.VideoCodecEnum.kH264,
-            "minFrameRate": min(_MIN_FRAME_RATE, max_frame_rate),
-            "maxFrameRate": max_frame_rate,
-            "minResolution": _MIN_RESOLUTION,
-            "maxResolution": max_resolution,
-            "minBitRate": 10000,
-            "maxBitRate": 10000,
-            "keyFrameInterval": 4000,
-        }
-        # watermarkEnabled/osdEnabled are mandatory when the corresponding feature
-        # bit is advertised (Matter spec 11.2.1.2.1), optional otherwise.
-        avsm_feature = clusters.CameraAvStreamManagement.Bitmaps.Feature
-        if feature_map & avsm_feature.kWatermark:
-            allocate_kwargs["watermarkEnabled"] = False
-        if feature_map & avsm_feature.kOnScreenDisplay:
-            allocate_kwargs["osdEnabled"] = False
-        response = await self.send_device_command(
-            clusters.CameraAvStreamManagement.Commands.VideoStreamAllocate(
-                **allocate_kwargs
-            )
-        )
-        self._video_stream_id = self._stream_id_from_response(response, "videoStreamID")
-        self._video_stream_owned = True
-        return self._video_stream_id
-
-    async def _async_ensure_audio_stream(self) -> int | None:
-        """Return an audio stream ID for live view, reusing or allocating one.
-
-        Audio is best-effort: not all Matter cameras expose a microphone.
-        """
-        if self._audio_stream_id is not None:
-            return self._audio_stream_id
-        allocated_streams = self.get_matter_attribute_value(
-            clusters.CameraAvStreamManagement.Attributes.AllocatedAudioStreams
-        )
-        for stream in allocated_streams or []:
-            if stream.streamUsage == _STREAM_USAGE:
-                self._audio_stream_id = stream.audioStreamID
-                self._audio_stream_owned = False
-                return self._audio_stream_id
-        # Prefer the camera's own reported codec/sample-rate/bit-depth support
-        # over the preferred defaults, to avoid requesting a combination the
-        # microphone doesn't support.
-        mic_capabilities = self.get_matter_attribute_value(
-            clusters.CameraAvStreamManagement.Attributes.MicrophoneCapabilities
-        )
-        if mic_capabilities is not None:
-            audio_codec = _preferred_or_first(
-                _PREFERRED_AUDIO_CODEC, mic_capabilities.supportedCodecs
-            )
-            sample_rate = _preferred_or_first(
-                _PREFERRED_SAMPLE_RATE, mic_capabilities.supportedSampleRates
-            )
-            bit_depth = _preferred_or_first(
-                _PREFERRED_BIT_DEPTH, mic_capabilities.supportedBitDepths
-            )
-        else:
-            audio_codec = _PREFERRED_AUDIO_CODEC
-            sample_rate = _PREFERRED_SAMPLE_RATE
-            bit_depth = _PREFERRED_BIT_DEPTH
-        try:
-            response = await self.send_device_command(
-                clusters.CameraAvStreamManagement.Commands.AudioStreamAllocate(
-                    streamUsage=_STREAM_USAGE,
-                    audioCodec=audio_codec,
-                    channelCount=1,
-                    sampleRate=sample_rate,
-                    bitRate=20000,
-                    bitDepth=bit_depth,
-                )
-            )
-        except HomeAssistantError:
-            LOGGER.debug(
-                "AudioStreamAllocate failed for %s, continuing video-only",
-                self.entity_id,
-                exc_info=True,
-            )
-            return None
-        self._audio_stream_id = self._stream_id_from_response(response, "audioStreamID")
-        self._audio_stream_owned = True
-        return self._audio_stream_id
-
     @override
     async def async_handle_async_webrtc_offer(
         self, offer_sdp: str, session_id: str, send_message: WebRTCSendMessage
@@ -289,55 +126,33 @@ class MatterCamera(MatterEntity, Camera):
         self._sessions[session_id] = session
         config = self.async_get_webrtc_client_configuration()
         ice_servers = [
-            clusters.WebRtcTransportDefinitions.Structs.ICEServerStruct(
-                urLs=[server.urls] if isinstance(server.urls, str) else server.urls,
-                username=server.username,
-                credential=server.credential,
-            )
+            {
+                "urls": [server.urls] if isinstance(server.urls, str) else server.urls,
+                **({"username": server.username} if server.username else {}),
+                **({"credential": server.credential} if server.credential else {}),
+            }
             for server in config.configuration.ice_servers
         ]
-        try:
-            # A null videoStreamID/audioStreamID in ProvideOffer only asks the
-            # camera to auto-select among streams it has *already* allocated for
-            # this StreamUsage (Matter spec 11.2.1.2.1); with none allocated yet,
-            # the camera has nothing to select and fails the whole offer with
-            # InvalidInState. Ensure a matching stream exists (reusing one if
-            # already allocated) before offering.
-            video_stream_id = await self._async_ensure_video_stream()
-            audio_stream_id = await self._async_ensure_audio_stream()
-        except HomeAssistantError:
-            self._sessions.pop(session_id, None)
-            raise
         self._pending_offers += 1
-        payload: dict[str, Any] = {
-            # null session id requests a new session
-            "webRtcSessionID": None,
-            "sdp": offer_sdp,
-            "streamUsage": clusters.Globals.Enums.StreamUsageEnum.kLiveView,
-            "videoStreamID": video_stream_id,
-            "iceServers": ice_servers,
-        }
-        # Omit rather than send a null audioStreamID: a null id asks the camera
-        # to auto-select an already-allocated audio stream (Matter spec
-        # 11.2.1.2.1), which fails the whole offer with InvalidInState if none
-        # exists at all, instead of the video-only fallback intended when audio
-        # allocation failed or isn't supported.
-        if audio_stream_id is not None:
-            payload["audioStreamID"] = audio_stream_id
         try:
-            response = await self.matter_client.send_webrtc_provider_command(
+            # The server reuses or allocates the video/audio streams the session
+            # needs; audio is left unstated so it falls back to video-only.
+            response = await self.matter_client.send_command(
+                "camera_start_stream",
+                require_schema=_CAMERA_SCHEMA,
                 node_id=self._endpoint.node.node_id,
                 endpoint_id=self._endpoint.endpoint_id,
-                command_name="ProvideOffer",
-                payload=payload,
+                stream_usage="LiveView",
+                sdp=offer_sdp,
+                ice_servers=ice_servers,
             )
-        except MatterError as err:
+        except (MatterError, MatterClientException) as err:
             self._sessions.pop(session_id, None)
             raise HomeAssistantError(str(err) or type(err).__name__) from err
         finally:
             self._pending_offers -= 1
 
-        matter_session_id = response["webRtcSessionId"]
+        matter_session_id = response["webrtc_session_id"]
         session.matter_session_id = matter_session_id
         self._matter_session_ids[matter_session_id] = session_id
 
@@ -436,63 +251,6 @@ class MatterCamera(MatterEntity, Camera):
             )
             self._sessions.pop(session_id, None)
             self._matter_session_ids.pop(matter_session_id, None)
-            self._free_owned_streams_if_unused()
-
-    @callback
-    def _free_owned_streams_if_unused(self) -> None:
-        """Free video/audio streams we allocated once no session uses them.
-
-        Runs synchronously (rather than in the async deallocate task below) so
-        a fast stop+restart can't reuse a stream ID before the device has
-        processed the deallocate, which it would then reject as no longer
-        allocated.
-        """
-        if self._sessions:
-            return
-        owned_video_stream_id = (
-            self._video_stream_id if self._video_stream_owned else None
-        )
-        owned_audio_stream_id = (
-            self._audio_stream_id if self._audio_stream_owned else None
-        )
-        self._video_stream_id = None
-        self._video_stream_owned = False
-        self._audio_stream_id = None
-        self._audio_stream_owned = False
-        if owned_video_stream_id is None and owned_audio_stream_id is None:
-            return
-
-        async def _deallocate() -> None:
-            if owned_video_stream_id is not None:
-                try:
-                    await self.send_device_command(
-                        clusters.CameraAvStreamManagement.Commands.VideoStreamDeallocate(
-                            videoStreamID=owned_video_stream_id
-                        )
-                    )
-                except HomeAssistantError:
-                    LOGGER.debug(
-                        "VideoStreamDeallocate failed for %s",
-                        self.entity_id,
-                        exc_info=True,
-                    )
-            if owned_audio_stream_id is not None:
-                try:
-                    await self.send_device_command(
-                        clusters.CameraAvStreamManagement.Commands.AudioStreamDeallocate(
-                            audioStreamID=owned_audio_stream_id
-                        )
-                    )
-                except HomeAssistantError:
-                    LOGGER.debug(
-                        "AudioStreamDeallocate failed for %s",
-                        self.entity_id,
-                        exc_info=True,
-                    )
-
-        self.hass.async_create_task(
-            _deallocate(), f"matter camera {self.entity_id} deallocate streams"
-        )
 
     @callback
     @override
@@ -504,32 +262,40 @@ class MatterCamera(MatterEntity, Camera):
         if (matter_session_id := session.matter_session_id) is not None:
             self._matter_session_ids.pop(matter_session_id, None)
 
-            async def _end_session() -> None:
+            async def _stop_stream() -> None:
+                # The server ends the session and keeps its streams for reuse.
                 try:
-                    await self.matter_client.send_device_command(
+                    await self.matter_client.send_command(
+                        "camera_stop_stream",
+                        require_schema=_CAMERA_SCHEMA,
                         node_id=self._endpoint.node.node_id,
                         endpoint_id=self._endpoint.endpoint_id,
-                        command=clusters.WebRtcTransportProvider.Commands.EndSession(
-                            webRtcSessionID=matter_session_id,
-                            reason=clusters.WebRtcTransportDefinitions.Enums.WebRTCEndReasonEnum.kUserHangup,
-                        ),
+                        webrtc_session_id=matter_session_id,
                     )
-                except MatterError as err:
+                except (MatterError, MatterClientException) as err:
                     LOGGER.debug(
                         "Error ending WebRTC session %s: %s", matter_session_id, err
                     )
 
-            self.hass.async_create_task(_end_session())
-        self._free_owned_streams_if_unused()
+            self.hass.async_create_task(_stop_stream())
 
     @override
     async def async_camera_image(
         self, width: int | None = None, height: int | None = None
     ) -> bytes | None:
-        """Return a placeholder image.
-
-        Matter WebRTC cameras do not currently support snapshots.
-        """
+        """Return a still image, or a placeholder if the camera provides none."""
+        try:
+            response = await self.matter_client.send_command(
+                "camera_snapshot",
+                require_schema=_CAMERA_SCHEMA,
+                node_id=self._endpoint.node.node_id,
+                endpoint_id=self._endpoint.endpoint_id,
+                codec="JPEG",
+            )
+        except (MatterError, MatterClientException) as err:
+            LOGGER.debug("Snapshot failed for %s: %s", self.entity_id, err)
+        else:
+            return base64.b64decode(response["data"])
         if MatterCamera._placeholder_image is None:
             MatterCamera._placeholder_image = await self.hass.async_add_executor_job(
                 PLACEHOLDER.read_bytes
@@ -551,8 +317,6 @@ DISCOVERY_SCHEMAS = [
         optional_attributes=(
             clusters.CameraAvStreamManagement.Attributes.SoftLivestreamPrivacyModeEnabled,
             clusters.CameraAvStreamManagement.Attributes.HardPrivacyModeOn,
-            clusters.CameraAvStreamManagement.Attributes.AllocatedVideoStreams,
-            clusters.CameraAvStreamManagement.Attributes.AllocatedAudioStreams,
         ),
         allow_none_value=True,
     ),
