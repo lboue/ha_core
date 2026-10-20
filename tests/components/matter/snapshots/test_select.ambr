@@ -103,7 +103,7 @@
 # name: test_selects[aqara_thermostat_w500_presets][select.floor_heating_thermostat_temperature_display_mode_2-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Floor Heating Thermostat Temperature display mode',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Mock closure tilt only Temperature display mode',
       <SelectEntityCapabilityAttribute.OPTIONS: 'options'>: list([
         'Celsius',
         'Fahrenheit',

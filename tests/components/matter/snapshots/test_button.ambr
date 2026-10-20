@@ -958,7 +958,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'identify',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Floor Heating Thermostat Identify (1)',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Mock closure tilt only Identify (1)',
     }),
     'context': <ANY>,
     'entity_id': 'button.floor_heating_thermostat_identify_1_2',
@@ -1009,7 +1009,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'identify',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Floor Heating Thermostat Identify (2)',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Mock closure tilt only Identify (2)',
     }),
     'context': <ANY>,
     'entity_id': 'button.floor_heating_thermostat_identify_2_2',
