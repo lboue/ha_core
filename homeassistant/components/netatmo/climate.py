@@ -34,7 +34,6 @@ from .const import (
     ATTR_SCHEDULE_NAME,
     ATTR_SELECTED_SCHEDULE,
     ATTR_SELECTED_SCHEDULE_ID,
-    ATTR_SETPOINT_END_TIME,
     ATTR_TARGET_TEMPERATURE,
     ATTR_THERM_SETPOINT_MODE,
     ATTR_TIME_PERIOD,
@@ -271,12 +270,6 @@ class NetatmoThermostat(NetatmoRoomEntity, ClimateEntity):
                     ]
                     if self._attr_native_target_temperature == DEFAULT_MAX_TEMP:
                         self._attr_hvac_mode = HVACMode.HEAT
-                if end_time := room.get("therm_setpoint_end_time"):
-                    self._attr_extra_state_attributes[ATTR_SETPOINT_END_TIME] = (
-                        dt_util.utc_from_timestamp(end_time)
-                    )
-                else:
-                    self._attr_extra_state_attributes.pop(ATTR_SETPOINT_END_TIME, None)
                 self._attr_extra_state_attributes[ATTR_THERM_SETPOINT_MODE] = room[
                     "therm_setpoint_mode"
                 ]
@@ -421,13 +414,6 @@ class NetatmoThermostat(NetatmoRoomEntity, ClimateEntity):
         self._attr_extra_state_attributes[ATTR_THERM_SETPOINT_MODE] = (
             therm_setpoint_mode
         )
-
-        if end_time := getattr(self.device, "therm_setpoint_end_time", None):
-            self._attr_extra_state_attributes[ATTR_SETPOINT_END_TIME] = (
-                dt_util.utc_from_timestamp(end_time)
-            )
-        else:
-            self._attr_extra_state_attributes.pop(ATTR_SETPOINT_END_TIME, None)
 
         selected_schedule = self.home.get_selected_schedule()
         self._selected_schedule = getattr(selected_schedule, "name", None)
