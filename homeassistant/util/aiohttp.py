@@ -105,6 +105,10 @@ class MockRequest:
         """Return True if request has HTTP BODY, False otherwise."""
         return bool(self._text)
 
+    async def read(self) -> bytes:
+        """Return the body as bytes."""
+        return self._content
+
     async def json(self, loads: JSONDecoder = json_loads) -> Any:
         """Return the body as JSON."""
         return loads(self._text)

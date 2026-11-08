@@ -43,3 +43,17 @@ class AsyncConfigEntryNetatmoAuth(pyatmo.AbstractAsyncAuth):
         """Return a valid access token for Netatmo API."""
         await self._oauth_session.async_ensure_token_valid()
         return cast(str, self._oauth_session.token["access_token"])
+
+    @property
+    def webhook_signing_secret(self) -> str | None:
+        """Return the app secret used to verify webhook signatures.
+
+        Only a local or application-credentials implementation exposes the
+        underlying app secret; a cloud-linked account does not.
+        """
+        implementation = self._oauth_session.implementation
+        if isinstance(
+            implementation, config_entry_oauth2_flow.LocalOAuth2Implementation
+        ):
+            return implementation.client_secret
+        return None

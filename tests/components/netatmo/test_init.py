@@ -5,7 +5,10 @@ from collections.abc import Callable, Coroutine, Iterator
 from contextlib import contextmanager
 from datetime import timedelta
 from functools import partial
+import hashlib
+import hmac
 from itertools import pairwise
+import json
 import logging
 from time import time
 from typing import Any
@@ -59,6 +62,7 @@ from homeassistant.helpers.config_entry_oauth2_flow import (
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
+from homeassistant.util.aiohttp import MockRequest
 
 from .common import (
     FAKE_WEBHOOK_ACTIVATION,
@@ -67,6 +71,7 @@ from .common import (
     selected_platforms,
     simulate_webhook,
 )
+from .conftest import CLIENT_SECRET
 
 from tests.components.cloud import mock_cloud
 
@@ -240,6 +245,109 @@ async def test_setup_component_with_webhook(
     await hass.async_block_till_done()
     assert len(hass.states.async_all()) == 0
     assert len(hass.config_entries.async_entries(DOMAIN)) == 0
+
+
+async def test_webhook_device_event_scenario_play(
+    hass: HomeAssistant, config_entry, netatmo_auth
+) -> None:
+    """Test a push_type device_event is surfaced with its nested scenario type.
+
+    Covers Netatmo's newer webhook format for Legrand/BTicino scene remotes,
+    which nests the semantic event type under extra_params instead of at
+    the top level.
+    """
+    with selected_platforms([Platform.CLIMATE]):
+        assert await hass.config_entries.async_setup(config_entry.entry_id)
+        await hass.async_block_till_done()
+
+    events = async_capture_events(hass, "netatmo_event")
+
+    await simulate_webhook(
+        hass,
+        config_entry.data[CONF_WEBHOOK_ID],
+        {
+            "push_type": "device_event",
+            "device_id": "00:04:74:22:29:ca",
+            "extra_params": {
+                "type": "scenario_play_event",
+                "source": "zigbee_any",
+                "sequence_id": 34591,
+                "modules": [{"id": "00:04:74:22:29:ca", "scenario": "wake_up"}],
+            },
+        },
+    )
+
+    scenario_events = [
+        event for event in events if event.data["type"] == "scenario_play_event"
+    ]
+    assert len(scenario_events) == 1
+    assert (
+        scenario_events[0].data["data"]["extra_params"]["modules"][0]["scenario"]
+        == "wake_up"
+    )
+
+    for entry in hass.config_entries.async_entries("netatmo"):
+        await hass.config_entries.async_remove(entry.entry_id)
+
+
+async def test_webhook_signature_verification(hass: HomeAssistant) -> None:
+    """Test a webhook payload is discarded when its HMAC signature is wrong."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={
+            "auth_implementation": DOMAIN,
+            "token": {
+                "refresh_token": "mock-refresh-token",
+                "access_token": "mock-access-token",
+                "type": "Bearer",
+                "expires_in": 60,
+                "expires_at": time() + 1000,
+                "scope": ALL_SCOPES,
+            },
+        },
+    )
+    entry.add_to_hass(hass)
+
+    with (
+        patch("pyatmo.AbstractAsyncAuth.async_addwebhook", side_effect=AsyncMock()),
+        patch("pyatmo.AbstractAsyncAuth.async_dropwebhook", side_effect=AsyncMock()),
+        patch(
+            "pyatmo.AbstractAsyncAuth.async_post_api_request",
+            side_effect=partial(fake_post_request, hass),
+        ),
+        patch("homeassistant.components.netatmo.webhook.webhook_generate_url"),
+        patch("homeassistant.components.netatmo.coordinator.PLATFORMS", []),
+    ):
+        assert await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+
+    webhook_id = entry.data[CONF_WEBHOOK_ID]
+    events = async_capture_events(hass, "netatmo_event")
+    payload = json.dumps({"push_type": "webhook_activation"}).encode()
+
+    bad_request = MockRequest(
+        content=payload,
+        mock_source="test",
+        headers={"X-Netatmo-secret": "deadbeef"},
+    )
+    await netatmo.webhook.async_handle_webhook(hass, webhook_id, bad_request)
+    await hass.async_block_till_done()
+    assert events == []
+
+    good_signature = hmac.new(
+        CLIENT_SECRET.encode(), payload, hashlib.sha256
+    ).hexdigest()
+    good_request = MockRequest(
+        content=payload,
+        mock_source="test",
+        headers={"X-Netatmo-secret": good_signature},
+    )
+    await netatmo.webhook.async_handle_webhook(hass, webhook_id, good_request)
+    await hass.async_block_till_done()
+    assert len(events) == 1
+
+    for loaded_entry in hass.config_entries.async_entries("netatmo"):
+        await hass.config_entries.async_remove(loaded_entry.entry_id)
 
 
 async def test_no_deprecation_issue_on_setup(

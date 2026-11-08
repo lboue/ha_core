@@ -1,6 +1,9 @@
 """The Netatmo integration."""
 
 import asyncio
+import hashlib
+import hmac
+import json
 import logging
 import secrets
 from typing import Any
@@ -26,6 +29,7 @@ from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_call_later
 
+from .api import AsyncConfigEntryNetatmoAuth
 from .const import (
     ATTR_EVENT_TYPE,
     ATTR_FACE_URL,
@@ -50,18 +54,19 @@ SUBEVENT_TYPE_MAP = {
     "therm_mode": "",
 }
 
+# Netatmo's newer push_type-based webhook format nests a device_event's
+# semantic type (e.g. "scenario_play_event") under extra_params instead of
+# at the top level. See https://dev.netatmo.com/apidocumentation/webhooks
+WEBHOOK_DEVICE_EVENT = "device_event"
+ATTR_EXTRA_PARAMS = "extra_params"
+WEBHOOK_SIGNATURE_HEADER = "X-Netatmo-secret"
+
 
 async def async_handle_webhook(
     hass: HomeAssistant, webhook_id: str, request: Request
 ) -> None:
     """Handle webhook callback."""
-    try:
-        data = await request.json()
-    except ValueError as err:
-        _LOGGER.error("Error in data: %s", err)
-        return
-
-    _LOGGER.debug("Got webhook data: %s", data)
+    raw_body = await request.read()
 
     entry = next(
         (
@@ -75,6 +80,27 @@ async def async_handle_webhook(
         return
     data_handler = entry.runtime_data
 
+    signature = request.headers.get(WEBHOOK_SIGNATURE_HEADER)
+    auth = data_handler.auth
+    secret = (
+        auth.webhook_signing_secret
+        if isinstance(auth, AsyncConfigEntryNetatmoAuth)
+        else None
+    )
+    if signature is not None and secret is not None:
+        expected = hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(signature, expected):
+            _LOGGER.warning("Netatmo webhook signature mismatch, discarding payload")
+            return
+
+    try:
+        data = json.loads(raw_body)
+    except ValueError as err:
+        _LOGGER.error("Error in data: %s", err)
+        return
+
+    _LOGGER.debug("Got webhook data: %s", data)
+
     event_type = data.get(ATTR_EVENT_TYPE)
 
     if event_type in SUBEVENT_TYPE_MAP:
@@ -87,9 +113,19 @@ async def async_handle_webhook(
         async_evaluate_event(data_handler, data)
 
 
+def _device_event_type(event_data: dict) -> str | None:
+    """Return the nested event type of a device_event webhook payload."""
+    if event_data.get(WEBHOOK_PUSH_TYPE) != WEBHOOK_DEVICE_EVENT:
+        return None
+    extra_params = event_data.get(ATTR_EXTRA_PARAMS) or {}
+    return extra_params.get(ATTR_EVENT_TYPE) or extra_params.get("type")
+
+
 def async_evaluate_event(data_handler: NetatmoDataHandler, event_data: dict) -> None:
     """Evaluate events from webhook."""
-    event_type = event_data.get(ATTR_EVENT_TYPE, "None")
+    event_type = (
+        event_data.get(ATTR_EVENT_TYPE) or _device_event_type(event_data) or "None"
+    )
 
     if event_type == "person":
         for person in event_data.get(ATTR_PERSONS, {}):
@@ -126,6 +162,8 @@ def async_send_event(
 
     if event_type in EVENT_ID_MAP:
         data_device_id = data[EVENT_ID_MAP[event_type]]
+        event_data[ATTR_DEVICE_ID] = data_handler.device_ids.get(data_device_id)
+    elif (data_device_id := data.get(ATTR_DEVICE_ID)) is not None:
         event_data[ATTR_DEVICE_ID] = data_handler.device_ids.get(data_device_id)
 
     hass.bus.async_fire(
